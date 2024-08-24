@@ -1,0 +1,54 @@
+﻿@model IEnumerable<HotelReservation.Models.Todayspecial>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Todayspecialname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Todayspecialimage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Todayspecialprice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Todayspecialcontant)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Todayspecialname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Todayspecialimage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Todayspecialprice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Todayspecialcontant)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Todayspecialid">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Todayspecialid">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Todayspecialid">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -17,7 +17,6 @@ public partial class Customer
     public string? Profileinfo { get; set; }
 
     public string? Profileimage { get; set; }
-
     [NotMapped]
     public virtual IFormFile ImageFile { get; set; }
     public virtual ICollection<Reservationevent> Reservationevents { get; set; } = new List<Reservationevent>();

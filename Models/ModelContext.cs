@@ -43,6 +43,8 @@ public partial class ModelContext : DbContext
 
     public virtual DbSet<Testimonial> Testimonials { get; set; }
 
+    public virtual DbSet<Todayspecial> Todayspecials { get; set; }
+
     public virtual DbSet<Userlogin> Userlogins { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -484,6 +486,33 @@ public partial class ModelContext : DbContext
             entity.HasOne(d => d.Userloginid2Navigation).WithMany(p => p.Testimonials)
                 .HasForeignKey(d => d.Userloginid2)
                 .HasConstraintName("FK_TESTIMONIAL_CUSTOMER2");
+        });
+
+        modelBuilder.Entity<Todayspecial>(entity =>
+        {
+            entity.HasKey(e => e.Todayspecialid).HasName("SYS_C009057");
+
+            entity.ToTable("TODAYSPECIAL");
+
+            entity.Property(e => e.Todayspecialid)
+                .ValueGeneratedOnAdd()
+                .HasColumnType("NUMBER")
+                .HasColumnName("TODAYSPECIALID");
+            entity.Property(e => e.Todayspecialcontant)
+                .HasMaxLength(1000)
+                .IsUnicode(false)
+                .HasColumnName("TODAYSPECIALCONTANT");
+            entity.Property(e => e.Todayspecialimage)
+                .HasMaxLength(1000)
+                .IsUnicode(false)
+                .HasColumnName("TODAYSPECIALIMAGE");
+            entity.Property(e => e.Todayspecialname)
+                .HasMaxLength(1000)
+                .IsUnicode(false)
+                .HasColumnName("TODAYSPECIALNAME");
+            entity.Property(e => e.Todayspecialprice)
+                .HasColumnType("NUMBER")
+                .HasColumnName("TODAYSPECIALPRICE");
         });
 
         modelBuilder.Entity<Userlogin>(entity =>
