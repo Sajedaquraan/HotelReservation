@@ -1,4 +1,4 @@
-﻿@model Tuple<Customer, IEnumerable<Hotel>, Contact,IEnumerable<Testimonial>>
+﻿@model Tuple<Customer, IEnumerable<Hotel>, Contact,IEnumerable<Testimonial>,IEnumerable<Todayspecial>>
 
 @{
     Layout = null;
@@ -213,118 +213,26 @@
                     </div>
                     <div class="special-box">
                         <div id="owl-demo">
+                            @foreach(var item in Model.Item5)
+                            {
                             <div class="item item-type-zoom">
-                                <a href="#" class="item-hover">
+                                    <a href="#" class="item-hover">
                                     <div class="item-info">
                                         <div class="headline">
-                                            SALMON STEAK
+                                            @item.Todayspecialname
+                                            <div class="dit-line">$@item.Todayspecialprice</div>                                           
                                             <div class="line"></div>
-                                            <div class="dit-line">Lorem ipsum dolor sit amet, consectetur adip aliqua. Ut enim ad minim venia.</div>
+                                            <div class="dit-line">@item.Todayspecialcontant</div>
                                         </div>
                                     </div>
                                 </a>
                                 <div class="item-img">
-                                    <img src="~/HomePage/images/special-menu-1.jpg" alt="sp-menu">
-                                </div>
-                            </div>
-                            <div class="item item-type-zoom">
-                                <a href="#" class="item-hover">
-                                    <div class="item-info">
-                                        <div class="headline">
-                                            ITALIAN PIZZA
-                                            <div class="line"></div>
-                                            <div class="dit-line">Lorem ipsum dolor sit amet, consectetur adip aliqua. Ut enim ad minim venia.</div>
-                                        </div>
+                                        <img src="@Url.Content("~/Images/"+item.Todayspecialimage)" asp-append-version="true" class="about-main" alt="About Main Image">
                                     </div>
-                                </a>
-                                <div class="item-img">
-                                    <img src="~/HomePage/images/special-menu-2.jpg" alt="sp-menu">
-                                </div>
                             </div>
-                            <div class="item item-type-zoom">
-                                <a href="#" class="item-hover">
-                                    <div class="item-info">
-                                        <div class="headline">
-                                            VEG. ROLL
-                                            <div class="line"></div>
-                                            <div class="dit-line">Lorem ipsum dolor sit amet, consectetur adip aliqua. Ut enim ad minim venia.</div>
-                                        </div>
-                                    </div>
-                                </a>
-                                <div class="item-img">
-                                    <img src="~/HomePage/images/special-menu-3.jpg" alt="sp-menu">
-                                </div>
-                            </div>
-                            <div class="item item-type-zoom">
-                                <a href="#" class="item-hover">
-                                    <div class="item-info">
-                                        <div class="headline">
-                                            SALMON STEAK
-                                            <div class="line"></div>
-                                            <div class="dit-line">Lorem ipsum dolor sit amet, consectetur adip aliqua. Ut enim ad minim venia.</div>
-                                        </div>
-                                    </div>
-                                </a>
-                                <div class="item-img">
-                                    <img src="~/HomePage/images/special-menu-1.jpg" alt="sp-menu">
-                                </div>
-                            </div>
-                            <div class="item item-type-zoom">
-                                <a href="#" class="item-hover">
-                                    <div class="item-info">
-                                        <div class="headline">
-                                            VEG. ROLL
-                                            <div class="line"></div>
-                                            <div class="dit-line">Lorem ipsum dolor sit amet, consectetur adip aliqua. Ut enim ad minim venia.</div>
-                                        </div>
-                                    </div>
-                                </a>
-                                <div class="item-img">
-                                    <img src="~/HomePage/images/special-menu-2.jpg" alt="sp-menu">
-                                </div>
-                            </div>
-                             <div class="item item-type-zoom">
-                                <a href="#" class="item-hover">
-                                    <div class="item-info">
-                                        <div class="headline">
-                                            VEG. ROLL
-                                            <div class="line"></div>
-                                            <div class="dit-line">Lorem ipsum dolor sit amet, consectetur adip aliqua. Ut enim ad minim venia.</div>
-                                        </div>
-                                    </div>
-                                </a>
-                                <div class="item-img">
-                                    <img src="~/HomePage/images/special-menu-2.jpg" alt="sp-menu">
-                                </div>
-                            </div>
-                             <div class="item item-type-zoom">
-                                <a href="#" class="item-hover">
-                                    <div class="item-info">
-                                        <div class="headline">
-                                            VEG. ROLL
-                                            <div class="line"></div>
-                                            <div class="dit-line">Lorem ipsum dolor sit amet, consectetur adip aliqua. Ut enim ad minim venia.</div>
-                                        </div>
-                                    </div>
-                                </a>
-                                <div class="item-img">
-                                    <img src="~/HomePage/images/special-menu-2.jpg" alt="sp-menu">
-                                </div>
-                            </div>
-                            <div class="item item-type-zoom">
-                                <a href="#" class="item-hover">
-                                    <div class="item-info">
-                                        <div class="headline">
-                                            VEG. ROLL
-                                            <div class="line"></div>
-                                            <div class="dit-line">Lorem ipsum dolor sit amet, consectetur adip aliqua. Ut enim ad minim venia.</div>
-                                        </div>
-                                    </div>
-                                </a>
-                                <div class="item-img">
-                                    <img src="~/HomePage/images/special-menu-2.jpg" alt="sp-menu">
-                                </div>
-                            </div>
+                            }
+
+                           
                         </div>
                     </div>
                     <!-- end special-box -->

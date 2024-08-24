@@ -12,10 +12,12 @@ namespace HotelReservation.Controllers
     public class TodayspecialsController : Controller
     {
         private readonly ModelContext _context;
+        private readonly IWebHostEnvironment _environment;
 
-        public TodayspecialsController(ModelContext context)
+        public TodayspecialsController(ModelContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
+            _environment= webHostEnvironment;
         }
 
         // GET: Todayspecials
@@ -55,10 +57,29 @@ namespace HotelReservation.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Todayspecialid,Todayspecialname,Todayspecialimage,Todayspecialprice,Todayspecialcontant")] Todayspecial todayspecial)
+        public async Task<IActionResult> Create([Bind("Todayspecialid,Todayspecialname,Todayspecialimage,Todayspecialprice,Todayspecialcontant,ImageFile")] Todayspecial todayspecial)
         {
             if (ModelState.IsValid)
             {
+                if (todayspecial.ImageFile != null)
+                {
+                    string wwwRootPath = _environment.WebRootPath;
+                    string fileName = Guid.NewGuid().ToString()
+                                      + "_"
+                                      + todayspecial.ImageFile.FileName;
+
+                    string path = Path.Combine(wwwRootPath + "/Images/", fileName);
+
+
+                    using (var fileStream = new FileStream(path, FileMode.Create))
+                    {
+                        await todayspecial.ImageFile.CopyToAsync(fileStream);
+                    }
+
+                    todayspecial.Todayspecialimage = fileName;
+                }
+
+
                 _context.Add(todayspecial);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -87,7 +108,7 @@ namespace HotelReservation.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(decimal id, [Bind("Todayspecialid,Todayspecialname,Todayspecialimage,Todayspecialprice,Todayspecialcontant")] Todayspecial todayspecial)
+        public async Task<IActionResult> Edit(decimal id, [Bind("Todayspecialid,Todayspecialname,Todayspecialimage,Todayspecialprice,Todayspecialcontant,ImageFile")] Todayspecial todayspecial)
         {
             if (id != todayspecial.Todayspecialid)
             {
@@ -98,6 +119,24 @@ namespace HotelReservation.Controllers
             {
                 try
                 {
+                    if (todayspecial.ImageFile != null)
+                    {
+                        string wwwRootPath = _environment.WebRootPath;
+                        string fileName = Guid.NewGuid().ToString()
+                                          + "_"
+                                          + todayspecial.ImageFile.FileName;
+
+                        string path = Path.Combine(wwwRootPath + "/Images/", fileName);
+
+
+                        using (var fileStream = new FileStream(path, FileMode.Create))
+                        {
+                            await todayspecial.ImageFile.CopyToAsync(fileStream);
+                        }
+
+                        todayspecial.Todayspecialimage = fileName;
+                    }
+
                     _context.Update(todayspecial);
                     await _context.SaveChangesAsync();
                 }

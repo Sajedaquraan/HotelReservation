@@ -91,9 +91,10 @@ namespace HotelReservation.Controllers
             ViewBag.AboutContent = AboutContent;
 
             var Testimonial = _context.Testimonials.ToList();
+            var Todayspecial=_context.Todayspecials.ToList();
 
             var contact = new Contact();
-            var model = Tuple.Create<Customer, IEnumerable<Hotel>,Contact, IEnumerable<Testimonial>>(user, hotels, contact, Testimonial);
+            var model = Tuple.Create<Customer, IEnumerable<Hotel>,Contact, IEnumerable<Testimonial>, IEnumerable<Todayspecial>>(user, hotels, contact, Testimonial, Todayspecial);
 
             return View(model);
         }
@@ -222,7 +223,7 @@ namespace HotelReservation.Controllers
 
 
         [HttpGet]
-        public IActionResult BookRoom(int roomId)
+        public IActionResult BookRoom(int roomId,int Todayspecialid)
         {
             var room = _context.Rooms.FirstOrDefault(r => r.Roomid == roomId);
 
@@ -243,6 +244,7 @@ namespace HotelReservation.Controllers
             ViewBag.RoomId = roomId;
             ViewBag.RoomPrice = room.Price;
 
+            
             return View("Payment");
         }
 
