@@ -1,0 +1,63 @@
+﻿@model VerifyEmailViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Reset Code</title>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="~/RegisterAndLogin/fonts/material-icon/css/material-design-iconic-font.min.css">
+    <!-- Bootstrap CSS for modal -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="~/RegisterAndLogin/css/style.css">
+</head>
+<body>
+
+    <div class="main">
+        <!-- Sign in  Form -->
+        <section class="sign-in">
+            <div class="container">
+                <div class="signin-content">
+                    <div class="signin-form">
+                        <h2>Verify Email</h2>
+                        <form asp-action="VerifyEmail" method="post">
+                            <div class="form-group">
+                                <label asp-for="Email"></label>
+                                <input asp-for="Email" readonly class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="VerificationCode"></label>
+                                <input asp-for="VerificationCode" class="form-control" />
+                            </div>
+                            <button type="submit" class="btn btn-primary">Verify</button>
+                        </form>
+
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="~/RegisterAndLogin/js/main.js"></script>
+
+</body>
+</html>
+
+
+

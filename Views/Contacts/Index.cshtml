@@ -1,0 +1,57 @@
+﻿@model IEnumerable<HotelReservation.Models.Contact>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+<br />
+<br />
+<br />
+<br />
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Contactusname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Contactusemail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Contactusdescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Logintime)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Contactusname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Contactusemail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Contactusdescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Logintime)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Contactusid">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Contactusid">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Contactusid">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

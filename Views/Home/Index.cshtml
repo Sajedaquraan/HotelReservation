@@ -1,0 +1,1174 @@
+﻿@model Tuple<Customer, IEnumerable<Hotel>, Contact,IEnumerable<Testimonial>>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- Basic -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0">
+
+    <!-- Site Metas -->
+    <title>Food Funday Restaurant - One page HTML Responsive</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Site Icons -->
+    <link rel="shortcut icon" href="~/HomePage/images/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="~/HomePage/images/apple-touch-icon.png">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="~/HomePage/css/bootstrap.min.css">
+    <!-- Site CSS -->
+    <link rel="stylesheet" href="~/HomePage/css/style.css">
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" href="~/HomePage/css/responsive.css">
+    <!-- color -->
+    <link id="changeable-colors" rel="stylesheet" href="~/HomePage/css/colors/orange.css" />
+
+    <!-- Modernizer -->
+    <script src="~/HomePage/js/modernizer.js"></script>
+
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+    <div id="loader">
+        <div id="status"></div>
+    </div>
+   
+    @{
+        var userProfileImage = ViewBag.Image as string;
+        var profileImageUrl = Url.Content($"~/images/{userProfileImage}");
+
+        var pageImage = ViewBag.PageImage as string;
+        var pageImageUrl = Url.Content($"~/images/{pageImage}");
+
+        var aboutImage = ViewBag.AboutImage as string;
+        var aboutImageUrl = Url.Content($"~/images/{aboutImage}");
+
+        var defaultImageUrl = Url.Content("~/images/default-profile-image.jpg"); // Ensure this path is correct
+
+        var userName = ViewBag.Name as string;
+        var userEmail = ViewBag.Email as string;
+
+        var isLoggedIn = userName != null;
+
+    }
+
+    <div id="site-header">
+        <header id="header" class="header-block-top">
+            <div class="container">
+                <div class="row">
+                    <div class="main-menu">
+                        <!-- navbar -->
+                        <nav class="navbar navbar-default" id="mainNav">
+                            <div class="navbar-header">
+                                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                                <div class="logo">
+                                    <a class="navbar-brand js-scroll-trigger logo-header" href="#">
+                                        <img src="@pageImageUrl" alt="Page Logo" width="100" height="50">
+                                    </a>
+                                </div>
+                            </div>
+                            <div id="navbar" class="navbar-collapse collapse">
+                                <ul class="nav navbar-nav navbar-right">
+                                    <li class="active"><a href="#banner">Home</a></li>
+                                    <li><a href="#about">About us</a></li>
+                                    <li><a href="#menu">Menu</a></li>
+                                    <li><a href="#our_team">Hotel</a></li>
+                                    <li><a href="#gallery">Gallery</a></li>
+                                    <li><a href="#blog">Testimonial</a></li>
+                                    <li><a href="#pricing">Pricing</a></li>
+                                    <li><a href="#reservation">Contact us</a></li>
+                                    <li><a href="#footer">Contact us</a></li>
+                                    <!-- Profile Image -->
+                                    <li class="profile-icon" style="position: relative;">
+                                        <a href="#" id="profile-icon" style="display: inline-block;">
+                                            <img src="@profileImageUrl" alt="Profile" width="40" height="40" class="img-circle" onerror="this.src='@defaultImageUrl'" style="border-radius: 50%; cursor: pointer;">
+                                        </a>
+
+                                        <!-- Popover box -->
+                                        <div id="profile-popover" style="display: none; position: absolute; top: 50px; right: 0; background-color: white; border: 1px solid #ccc; padding: 10px; border-radius: 5px; box-shadow: 0 2px 10px rgba(0,0,0,0.2); z-index: 1000; width: 200px;">
+                                            @if (isLoggedIn)
+                                            {
+                                                <div style="text-align: left;">
+                                                    <p style="margin: 0; font-weight: bold;">@userName</p>
+                                                    <p style="margin: 0; margin-bottom: 10px;">@userEmail</p>
+                                                    <hr style="margin: 10px 0;">
+                                                    <a href="@Url.Action("Profile")" style="display: block; color: #007bff; text-decoration: none; margin-top: 5px;">View Profile</a>
+                                                    <a href="@Url.Action("Logout", "Home")" style="display: block; color: #007bff; text-decoration: none; margin-top: 5px;">Logout</a>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div style="text-align: center;">
+                                                    <a href="@Url.Action("Login","RegisterAndLogin")" style="display: block; color: #007bff; text-decoration: none; margin-top: 5px;">Login to your profile</a>
+                                                </div>
+                                            }
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- end nav-collapse -->
+                        </nav>
+                        <!-- end navbar -->
+                    </div>
+                </div>
+                <!-- end row -->
+            </div>
+            <!-- end container-fluid -->
+        </header>
+        <!-- end header -->
+    </div>
+
+
+        <!-- end header -->
+    
+    <!-- end site-header -->
+                     <!-- hero image : banner -->
+    <div id="banner" class="banner full-screen-mode parallax">
+        <div class="container pr">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="banner-static">
+                    <div class="banner-text">
+                        <div class="banner-cell">
+                            <h1>Dinner with us  <span class="typer" id="some-id" data-delay="200" data-delim=":" data-words="Friends:Family:Officemates" data-colors="red"></span>
+                                <span class="cursor" data-cursorDisplay="_" data-owner="some-id"></span></h1>
+                            <h2>Accidental appearances </h2>
+                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diem nonummy nibh euismod</p>
+                            <div class="book-btn">
+                                <a href="#reservation" class="table-btn hvr-underline-from-center">Book my Table</a>
+                            </div>
+                            <a href="#about">
+                                <div class="mouse"></div>
+                            </a>
+                        </div>
+                        <!-- end banner-cell -->
+                    </div>
+                    <!-- end banner-text -->
+                </div>
+                <!-- end banner-static -->
+            </div>
+            <!-- end col -->
+        </div>
+        <!-- end container -->
+    </div>
+    <!-- end banner -->
+
+    <div id="about" class="about-main pad-top-100 pad-bottom-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
+                        <h2 class="block-title"> About Us </h2>
+                        <h3>@ViewBag.AboutContent</h3>
+                    </div>
+                </div>
+                <!-- end col -->
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
+                        <div class="about-images">
+                            <img src="@Url.Content("~/Images/"+ViewBag.AboutImage)"  asp-append-version="true" class="about-main" alt="About Main Image">
+                            <img src="@Url.Content("~/Images/"+ViewBag.AboutImage)"  asp-append-version="true" class="about-inset" alt="About Inset Image">
+                        </div>
+                    </div>
+                </div>
+                <!-- end col -->
+            </div>
+            <!-- end row -->
+        </div>
+        <!-- end container -->
+    </div>
+
+    <div class="special-menu pad-top-100 parallax">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
+                        <h2 class="block-title color-white text-center"> Today's Special </h2>
+                        <h5 class="title-caption text-center"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusm incididunt ut labore et dolore magna aliqua. Ut enim ad minim venia,nostrud exercitation ullamco. </h5>
+                    </div>
+                    <div class="special-box">
+                        <div id="owl-demo">
+                            <div class="item item-type-zoom">
+                                <a href="#" class="item-hover">
+                                    <div class="item-info">
+                                        <div class="headline">
+                                            SALMON STEAK
+                                            <div class="line"></div>
+                                            <div class="dit-line">Lorem ipsum dolor sit amet, consectetur adip aliqua. Ut enim ad minim venia.</div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <div class="item-img">
+                                    <img src="~/HomePage/images/special-menu-1.jpg" alt="sp-menu">
+                                </div>
+                            </div>
+                            <div class="item item-type-zoom">
+                                <a href="#" class="item-hover">
+                                    <div class="item-info">
+                                        <div class="headline">
+                                            ITALIAN PIZZA
+                                            <div class="line"></div>
+                                            <div class="dit-line">Lorem ipsum dolor sit amet, consectetur adip aliqua. Ut enim ad minim venia.</div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <div class="item-img">
+                                    <img src="~/HomePage/images/special-menu-2.jpg" alt="sp-menu">
+                                </div>
+                            </div>
+                            <div class="item item-type-zoom">
+                                <a href="#" class="item-hover">
+                                    <div class="item-info">
+                                        <div class="headline">
+                                            VEG. ROLL
+                                            <div class="line"></div>
+                                            <div class="dit-line">Lorem ipsum dolor sit amet, consectetur adip aliqua. Ut enim ad minim venia.</div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <div class="item-img">
+                                    <img src="~/HomePage/images/special-menu-3.jpg" alt="sp-menu">
+                                </div>
+                            </div>
+                            <div class="item item-type-zoom">
+                                <a href="#" class="item-hover">
+                                    <div class="item-info">
+                                        <div class="headline">
+                                            SALMON STEAK
+                                            <div class="line"></div>
+                                            <div class="dit-line">Lorem ipsum dolor sit amet, consectetur adip aliqua. Ut enim ad minim venia.</div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <div class="item-img">
+                                    <img src="~/HomePage/images/special-menu-1.jpg" alt="sp-menu">
+                                </div>
+                            </div>
+                            <div class="item item-type-zoom">
+                                <a href="#" class="item-hover">
+                                    <div class="item-info">
+                                        <div class="headline">
+                                            VEG. ROLL
+                                            <div class="line"></div>
+                                            <div class="dit-line">Lorem ipsum dolor sit amet, consectetur adip aliqua. Ut enim ad minim venia.</div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <div class="item-img">
+                                    <img src="~/HomePage/images/special-menu-2.jpg" alt="sp-menu">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end special-box -->
+                </div>
+                <!-- end col -->
+            </div>
+            <!-- end row -->
+        </div>
+        <!-- end container -->
+    </div>
+    <!-- end special-menu -->
+
+    <div id="menu" class="menu-main pad-top-100 pad-bottom-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
+                        <h2 class="block-title text-center">
+                            Our Menu
+                        </h2>
+                        <p class="title-caption text-center">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. </p>
+                    </div>
+                    <div class="tab-menu">
+                        <div class="slider slider-nav">
+                            <div class="tab-title-menu">
+                                <h2>STARTERS</h2>
+                                <p> <i class="flaticon-canape"></i> </p>
+                            </div>
+                            <div class="tab-title-menu">
+                                <h2>MAIN DISHES</h2>
+                                <p> <i class="flaticon-dinner"></i> </p>
+                            </div>
+                            <div class="tab-title-menu">
+                                <h2>DESERTS</h2>
+                                <p> <i class="flaticon-desert"></i> </p>
+                            </div>
+                            <div class="tab-title-menu">
+                                <h2>DRINKS</h2>
+                                <p> <i class="flaticon-coffee"></i> </p>
+                            </div>
+                        </div>
+                        <div class="slider slider-single">
+                            <div>
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+                                    <div class="offer-item">
+                                        <img src="~/HomePage/images/menu-item-thumbnail-01.jpg" alt="" class="img-responsive">
+                                        <div>
+                                            <h3>GARLIC BREAD</h3>
+                                            <p>
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc mollis eleifend dapibus.
+                                            </p>
+                                        </div>
+                                        <span class="offer-price">$8.5</span>
+                                    </div>
+                                </div>
+                                <!-- end col -->
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+                                    <div class="offer-item">
+                                        <img src="~/HomePage/images/menu-item-thumbnail-02.jpg" alt="" class="img-responsive">
+                                        <div>
+                                            <h3>MIXED SALAD</h3>
+                                            <p>
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc mollis eleifend dapibus.
+                                            </p>
+                                        </div>
+                                        <span class="offer-price">$25</span>
+                                    </div>
+                                </div>
+                                <!-- end col -->
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+                                    <div class="offer-item">
+                                        <img src="~/HomePage/images/menu-item-thumbnail-03.jpg" alt="" class="img-responsive">
+                                        <div>
+                                            <h3>BBQ CHICKEN WINGS</h3>
+                                            <p>
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc mollis eleifend dapibus.
+                                            </p>
+                                        </div>
+                                        <span class="offer-price">$10</span>
+                                    </div>
+                                </div>
+                                <!-- end col -->
+                            </div>
+                            <div>
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+                                    <div class="offer-item">
+                                        <img src="~/HomePage/images/menu-item-thumbnail-04.jpg" alt="" class="img-responsive">
+                                        <div>
+                                            <h3>MEAT FEAST PIZZA</h3>
+                                            <p>
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc mollis eleifend dapibus.
+                                            </p>
+                                        </div>
+                                        <span class="offer-price">$5</span>
+                                    </div>
+                                </div>
+                                <!-- end col -->
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+                                    <div class="offer-item">
+                                        <img src="~/HomePage/images/menu-item-thumbnail-05.jpg" alt="" class="img-responsive">
+                                        <div>
+                                            <h3>CHICKEN TIKKA MASALA</h3>
+                                            <p>
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc mollis eleifend dapibus.
+                                            </p>
+                                        </div>
+                                        <span class="offer-price">$15</span>
+                                    </div>
+                                </div>
+                                <!-- end col -->
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+                                    <div class="offer-item">
+                                        <img src="~/HomePage/images/menu-item-thumbnail-06.jpg" alt="" class="img-responsive">
+                                        <div>
+                                            <h3>SPICY MEATBALLS</h3>
+                                            <p>
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc mollis eleifend dapibus.
+                                            </p>
+                                        </div>
+                                        <span class="offer-price">$6.5</span>
+                                    </div>
+                                </div>
+                                <!-- end col -->
+                            </div>
+                            <div>
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+                                    <div class="offer-item">
+                                        <img src="~/HomePage/images/menu-item-thumbnail-07.jpg" alt="" class="img-responsive">
+                                        <div>
+                                            <h3>CHOCOLATE FUDGECAKE</h3>
+                                            <p>
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc mollis eleifend dapibus.
+                                            </p>
+                                        </div>
+                                        <span class="offer-price">$4.5</span>
+                                    </div>
+                                </div>
+                                <!-- end col -->
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+                                    <div class="offer-item">
+                                        <img src="~/HomePage/images/menu-item-thumbnail-08.jpg" alt="" class="img-responsive">
+                                        <div>
+                                            <h3>CHICKEN TIKKA MASALA</h3>
+                                            <p>
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc mollis eleifend dapibus.
+                                            </p>
+                                        </div>
+                                        <span class="offer-price">$9.5</span>
+                                    </div>
+                                </div>
+                                <!-- end col -->
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+                                    <div class="offer-item">
+                                        <img src="~/HomePage/images/menu-item-thumbnail-09.jpg" alt="" class="img-responsive">
+                                        <div>
+                                            <h3>CHICKEN TIKKA MASALA</h3>
+                                            <p>
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc mollis eleifend dapibus.
+                                            </p>
+                                        </div>
+                                        <span class="offer-price">$10</span>
+                                    </div>
+                                </div>
+                                <!-- end col -->
+                            </div>
+                            <div>
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+                                    <div class="offer-item">
+                                        <img src="~/HomePage/images/menu-item-thumbnail-10.jpg" alt="" class="img-responsive">
+                                        <div>
+                                            <h3>MEAT FEAST PIZZA</h3>
+                                            <p>
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc mollis eleifend dapibus.
+                                            </p>
+                                        </div>
+                                        <span class="offer-price">$12.5</span>
+                                    </div>
+                                </div>
+                                <!-- end col -->
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+                                    <div class="offer-item">
+                                        <img src="~/HomePage/images/menu-item-thumbnail-09.jpg" alt="" class="img-responsive">
+                                        <div>
+                                            <h3>CHICKEN TIKKA MASALA</h3>
+                                            <p>
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc mollis eleifend dapibus.
+                                            </p>
+                                        </div>
+                                        <span class="offer-price">$9.5</span>
+                                    </div>
+                                </div>
+                                <!-- end col -->
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+                                    <div class="offer-item">
+                                        <img src="~/HomePage/images/menu-item-thumbnail-08.jpg" alt="" class="img-responsive">
+                                        <div>
+                                            <h3>CHICKEN TIKKA MASALA</h3>
+                                            <p>
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc mollis eleifend dapibus.
+                                            </p>
+                                        </div>
+                                        <span class="offer-price">$5.5</span>
+                                    </div>
+                                </div>
+                                <!-- end col -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end tab-menu -->
+                </div>
+                <!-- end col -->
+            </div>
+            <!-- end row -->
+        </div>
+        <!-- end container -->
+    </div>
+    <!-- end menu -->
+
+    <div id="our_team" class="team-main pad-top-100 pad-bottom-100 parallax">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
+                        <h2 class="block-title text-center">Our Team</h2>
+                        <p class="title-caption text-center">There are many variations of passages of Lorem Ipsum available...</p>
+                    </div>
+                    <!-- Add the search input field here -->
+                    <div class="text-center">
+                        <input type="text" id="hotelSearch" placeholder="Search for a hotel..." class="form-control" style="max-width: 300px; margin: 20px auto;">
+                    </div>
+                    <div class="team-box">
+                        <div class="row" id="hotelList">
+                            @foreach (var item in Model.Item2)
+                            {
+                                <div class="col-md-4 col-sm-6 hotel-item">
+                                    <div class="sf-team">
+                                        <div class="thumb">
+                                            <img src=@Url.Content("~/Images/"+item.Imagepath) alt="" asp-append-version="true" width="100" height="100">
+                                        </div>
+                                        <div class="text-col">
+                                            <h3 class="hotel-name">@item.Hotelname</h3>
+                                            <p>Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt...</p>
+                                            <a asp-action="GetRoomAndEventById" asp-route-id="@item.Hotelid" class="btn_3">View Hotel</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        <!-- end row -->
+                    </div>
+                    <!-- end team-box -->
+                </div>
+                <!-- end col -->
+            </div>
+            <!-- end row -->
+        </div>
+        <!-- end container -->
+    </div>
+    <!-- end team-main -->
+
+
+
+    <div id="gallery" class="gallery-main pad-top-100 pad-bottom-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
+                        <h2 class="block-title text-center">
+                            Our Gallery
+                        </h2>
+                        <p class="title-caption text-center">There are many variations of passages of Lorem Ipsum available </p>
+                    </div>
+                    <div class="gal-container clearfix">
+                        <div class="col-md-8 col-sm-12 co-xs-12 gal-item">
+                            <div class="box">
+                                <a href="#" data-toggle="modal" data-target="#1">
+                                    <img src="~/HomePage/images/gallery_01.jpg" alt="" />
+                                </a>
+                                <div class="modal fade" id="1" tabindex="-1" role="dialog">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                            <div class="modal-body">
+                                                <img src="~/HomePage/images/gallery_01.jpg" alt="" />
+                                            </div>
+                                            <div class="col-md-12 description">
+                                                <h4>This is the 1 one on my Gallery</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
+                            <div class="box">
+                                <a href="#" data-toggle="modal" data-target="#2">
+                                    <img src="~/HomePage/images/gallery_02.jpg" alt="" />
+                                </a>
+                                <div class="modal fade" id="2" tabindex="-1" role="dialog">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                            <div class="modal-body">
+                                                <img src="~/HomePage/images/gallery_02.jpg" alt="" />
+                                            </div>
+                                            <div class="col-md-12 description">
+                                                <h4>This is the 2 one on my Gallery</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
+                            <div class="box">
+                                <a href="#" data-toggle="modal" data-target="#3">
+                                    <img src="~/HomePage/images/gallery_03.jpg" alt="" />
+                                </a>
+                                <div class="modal fade" id="3" tabindex="-1" role="dialog">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                            <div class="modal-body">
+                                                <img src="~/HomePage/images/gallery_03.jpg" alt="" />
+                                            </div>
+                                            <div class="col-md-12 description">
+                                                <h4>This is the 3 one on my Gallery</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
+                            <div class="box">
+                                <a href="#" data-toggle="modal" data-target="#4">
+                                    <img src="~/HomePage/images/gallery_04.jpg" alt="" />
+                                </a>
+                                <div class="modal fade" id="4" tabindex="-1" role="dialog">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                            <div class="modal-body">
+                                                <img src="~/HomePage/images/gallery_04.jpg" alt="" />
+                                            </div>
+                                            <div class="col-md-12 description">
+                                                <h4>This is the 4 one on my Gallery</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
+                            <div class="box">
+                                <a href="#" data-toggle="modal" data-target="#5">
+                                    <img src="~/HomePage/images/gallery_05.jpg" alt="" />
+                                </a>
+                                <div class="modal fade" id="5" tabindex="-1" role="dialog">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                            <div class="modal-body">
+                                                <img src="~/HomePage/images/gallery_05.jpg" alt="" />
+                                            </div>
+                                            <div class="col-md-12 description">
+                                                <h4>This is the 5 one on my Gallery</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
+                            <div class="box">
+                                <a href="#" data-toggle="modal" data-target="#9">
+                                    <img src="~/HomePage/images/gallery_06.jpg" alt="" />
+                                </a>
+                                <div class="modal fade" id="9" tabindex="-1" role="dialog">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                            <div class="modal-body">
+                                                <img src="~/HomePage/images/gallery_06.jpg" alt="" />
+                                            </div>
+                                            <div class="col-md-12 description">
+                                                <h4>This is the 6 one on my Gallery</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-8 col-sm-12 co-xs-12 gal-item">
+                            <div class="box">
+                                <a href="#" data-toggle="modal" data-target="#10">
+                                    <img src="~/HomePage/images/gallery_07.jpg" alt="" />
+                                </a>
+                                <div class="modal fade" id="10" tabindex="-1" role="dialog">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                            <div class="modal-body">
+                                                <img src="~/HomePage/images/gallery_07.jpg" alt="" />
+                                            </div>
+                                            <div class="col-md-12 description">
+                                                <h4>This is the 7 one on my Gallery</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
+                            <div class="box">
+                                <a href="#" data-toggle="modal" data-target="#11">
+                                    <img src="~/HomePage/images/gallery_08.jpg" alt="" />
+                                </a>
+                                <div class="modal fade" id="11" tabindex="-1" role="dialog">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                            <div class="modal-body">
+                                                <img src="~/HomePage/images/gallery_08.jpg" alt="" />
+                                            </div>
+                                            <div class="col-md-12 description">
+                                                <h4>This is the 8 one on my Gallery</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
+                            <div class="box">
+                                <a href="#" data-toggle="modal" data-target="#12">
+                                    <img src="~/HomePage/images/gallery_09.jpg" alt="" />
+                                </a>
+                                <div class="modal fade" id="12" tabindex="-1" role="dialog">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                            <div class="modal-body">
+                                                <img src="~/HomePage/images/gallery_09.jpg" alt="" />
+                                            </div>
+                                            <div class="col-md-12 description">
+                                                <h4>This is the 9 one on my Gallery</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
+                            <div class="box">
+                                <a href="#" data-toggle="modal" data-target="#13">
+                                    <img src="~/HomePage/images/gallery_10.jpg" alt="" />
+                                </a>
+                                <div class="modal fade" id="13" tabindex="-1" role="dialog">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                            <div class="modal-body">
+                                                <img src="~/HomePage/images/gallery_10.jpg" alt="" />
+                                            </div>
+                                            <div class="col-md-12 description">
+                                                <h4>This is the 10 one on my Gallery</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end gal-container -->
+                </div>
+                <!-- end col -->
+            </div>
+            <!-- end row -->
+        </div>
+        <!-- end container -->
+    </div>
+    <!-- end gallery-main -->
+ 
+        <div id="blog" class="blog-main pad-top-100 pad-bottom-100 parallax">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <h2 class="block-title text-center">
+                           TESTIMONIALS
+                        </h2>
+                        <div class="blog-box clearfix">
+                            <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
+                                 @foreach (var item in Model.Item4.Where(x=>x.State=="accepted"))
+                                 {
+                                <div class="col-md-6 col-sm-6">
+                                    <div class="blog-block">
+                                            <p><span>25 NOVEMBER, 2014</span></p>
+                                            <h2 style="color:black;">@item.Comments</h2>
+                                            <h5>BY John Doggett</h5>
+                                    </div>
+                                </div>
+                                }
+                                <!-- end col -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end blog-box -->
+
+                    <div class="blog-btn-v">
+                        @if (isLoggedIn)
+                        {
+                        <a class="hvr-underline-from-center" href="@Url.Action("Testimonials")" id="add-testimonial-link">Add Your Testimonials</a>
+                    }
+                        else
+                        {
+                            <a id="disabled-blog-link" class="hvr-underline-from-center" href="#" style="cursor: not-allowed; color: gray;">Add Your Testimonials</a>
+                        }
+                    </div>
+                </div>
+                <!-- end col -->
+            </div>
+            <!-- end row -->
+        </div>
+
+
+    
+    <div id="pricing" class="pricing-main pad-top-100 pad-bottom-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <h2 class="block-title text-center">
+                        Pricing
+                    </h2>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut orci varius, elementum lectus nec, aliquam lectus. Duis neque augue, maximus in sapien ut, porta pharetra odio.</p>
+                </div>
+                <div class="panel-pricing-in">
+                    <!-- item -->
+                    <div class="col-md-4 col-sm-4 text-center">
+                        <div class="panel panel-pricing">
+                            <div class="panel-heading">
+                                <div class="pric-icon">
+                                    <img src="~/HomePage/images/store.png" alt="" />
+                                </div>
+                                <h3>Basic</h3>
+                            </div>
+                            <div class="panel-body text-center">
+                                <p><strong>$30/<span>Month</span></strong></p>
+                            </div>
+                            <ul class="list-group text-center">
+                                <li class="list-group-item"><i class="fa fa-check"></i> One Website</li>
+                                <li class="list-group-item"><i class="fa fa-check"></i> One User</li>
+                                <li class="list-group-item"><i class="fa fa-check"></i> 10 GB Bandwidth</li>
+                                <li class="list-group-item"><i class="fa fa-times"></i> 2GB Storage</li>
+                                <li class="list-group-item"><i class="fa fa-times"></i> Offline work</li>
+                                <li class="list-group-item"><i class="fa fa-check"></i> 24x7 Support</li>
+                            </ul>
+                            <div class="panel-footer">
+                                <a class="btn btn-lg btn-block hvr-underline-from-center" href="#">Purchase Now!</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /item -->
+                    <!-- item -->
+                    <div class="col-md-4 col-sm-4 text-center">
+                        <div class="panel panel-pricing">
+                            <div class="panel-heading">
+                                <div class="pric-icon">
+                                    <img src="~/HomePage/images/food.png" alt="" />
+                                </div>
+                                <h3>Pro</h3>
+                            </div>
+                            <div class="panel-body text-center">
+                                <p><strong>$60/<span>Month</span></strong></p>
+                            </div>
+                            <ul class="list-group text-center">
+                                <li class="list-group-item"><i class="fa fa-check"></i> One Website</li>
+                                <li class="list-group-item"><i class="fa fa-check"></i> One User</li>
+                                <li class="list-group-item"><i class="fa fa-check"></i> 50 GB Bandwidth</li>
+                                <li class="list-group-item"><i class="fa fa-check"></i> 2GB Storage</li>
+                                <li class="list-group-item"><i class="fa fa-check"></i> Offline work</li>
+                                <li class="list-group-item"><i class="fa fa-check"></i> 24x7 Support</li>
+                            </ul>
+                            <div class="panel-footer">
+                                <a class="btn btn-lg btn-block hvr-underline-from-center" href="#">Purchase Now!</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /item -->
+                    <!-- item -->
+                    <div class="col-md-4 col-sm-4 text-center">
+                        <div class="panel panel-pricing">
+                            <div class="panel-heading">
+                                <div class="pric-icon">
+                                    <img src="~/HomePage/images/coffee.png" alt="" />
+                                </div>
+                                <h3>Platinum</h3>
+                            </div>
+                            <div class="panel-body text-center">
+                                <p><strong>$90/<span>Month</span></strong></p>
+                            </div>
+                            <ul class="list-group text-center">
+                                <li class="list-group-item"><i class="fa fa-check"></i> One Website</li>
+                                <li class="list-group-item"><i class="fa fa-check"></i> One User</li>
+                                <li class="list-group-item"><i class="fa fa-check"></i> 100 GB Bandwidth</li>
+                                <li class="list-group-item"><i class="fa fa-check"></i> 2GB Storage</li>
+                                <li class="list-group-item"><i class="fa fa-check"></i> Offline work</li>
+                                <li class="list-group-item"><i class="fa fa-check"></i> 24x7 Support</li>
+                            </ul>
+                            <div class="panel-footer">
+                                <a class="btn btn-lg btn-block hvr-underline-from-center" href="#">Purchase Now!</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /item -->
+                </div>
+            </div>
+            <!-- end row -->
+        </div>
+        <!-- end container -->
+    </div>
+    <!-- end pricing-main -->
+
+    <div id="reservation" class="reservations-main pad-top-100 pad-bottom-100">
+        <div class="container">
+            <div class="row">
+                <div class="form-reservations-box">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
+                            <h2 class="block-title text-center">
+                                ContactUS
+                            </h2>
+                        </div>
+                        <h4 class="form-title">CONTACTUS FORM</h4>
+                        <p>PLEASE FILL OUT ALL REQUIRED* FIELDS. THANKS!</p>
+                        <a href="@Url.Action("Contact")">
+                        <form id="contact-form" method="post" asp-action="Index">
+                            @Html.AntiForgeryToken()
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-box">
+                                    <input type="text" asp-for="Item3.Contactusname" placeholder="Name" required="required" />
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-box">
+                                    <input type="email" asp-for="Item3.Contactusemail" placeholder="E-Mail ID" required="required" />
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-box">
+                                    <input type="text" asp-for="Item3.Contactusdescription" placeholder="Contact" required="required" />
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="reserve-book-btn text-center">
+                                    <input type="submit" class="hvr-underline-from-center" value="Send MY Contacts" />
+                                </div>
+                            </div>
+                        </form>
+                        </a>
+
+                        <!-- end form -->
+                    </div>
+                    <!-- end col -->
+                </div>
+                <!-- end reservations-box -->
+            </div>
+            <!-- end row -->
+        </div>
+        <!-- end container -->
+    </div>
+    <!-- end ContactUs-main -->
+
+    <div id="footer" class="footer-main">
+        <div class="footer-news pad-top-100 pad-bottom-70 parallax">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
+                            <h2 class="ft-title color-white text-center"> Newsletter </h2>
+                            <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+                        </div>
+                        <form>
+                            <input type="email" placeholder="Enter your e-mail id">
+                            <a href="#" class="orange-btn"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></a>
+                        </form>
+                    </div>
+                    <!-- end col -->
+                </div>
+                <!-- end row -->
+            </div>
+            <!-- end container -->
+        </div>
+        <!-- end footer-news -->
+        <div class="footer-box pad-top-70">
+            <div class="container">
+                <div class="row">
+                    <div class="footer-in-main">
+                        <div class="footer-logo">
+                            <div class="text-center">
+                                <img src="@Url.Content("~/Images/" + ViewBag.PageImage)" alt="errrrrooor" asp-append-version="true" width="100" height="100">
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="footer-box-a">
+                                <h3>About Us</h3>
+                                <p>@ViewBag.FooterAbout</p>
+                                <ul class="socials-box footer-socials pull-left">
+                                    <li>
+                                        <a href="#">
+                                            <div class="social-circle-border"><i class="fa  fa-facebook"></i></div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="social-circle-border"><i class="fa fa-twitter"></i></div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="social-circle-border"><i class="fa fa-google-plus"></i></div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="social-circle-border"><i class="fa fa-pinterest"></i></div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="social-circle-border"><i class="fa fa-linkedin"></i></div>
+                                        </a>
+                                    </li>
+                                </ul>
+
+                            </div>
+                            <!-- end footer-box-a -->
+                        </div>
+                        <!-- end col -->
+
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="footer-box-c">
+                                <h3>Reservation</h3>                                
+                                <p>
+                                    <i class="fa fa-mobile" aria-hidden="true"></i>
+                                    <span>
+                                        @ViewBag.ReservationPhone
+                                    </span>
+                                </p>
+                                <p>
+                                    <i class="fa fa-envelope" aria-hidden="true"></i>
+                                    <span><a href="#">@ViewBag.ReservationEmail</a></span>
+                                </p>
+                            </div>
+                            <!-- end footer-box-b -->
+                        </div>                        
+                        <!-- end col -->
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="footer-box-c">
+                                <h3>Contact Us</h3>
+                                <p>
+                                    <i class="fa fa-map-signs" aria-hidden="true"></i>
+                                    <span>@ViewBag.ContactLocation</span>
+                                </p>
+                                <p>
+                                    <i class="fa fa-mobile" aria-hidden="true"></i>
+                                    <span>
+                                        @ViewBag.ContactPhone
+                                    </span>
+                                </p>
+                                <p>
+                                    <i class="fa fa-envelope" aria-hidden="true"></i>
+                                    <span><a href="#">@ViewBag.ContactEmail</a></span>
+                                </p>
+                            </div>
+                            <!-- end footer-box-c -->
+                        </div>
+                        <!-- end col -->
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="footer-box-d">
+                                <h3>Opening Hours</h3>
+
+                                <ul>
+                                    <li>
+                                        <p>Monday - Thursday </p>
+                                        <span> 11:00 AM - 9:00 PM</span>
+                                    </li>
+                                    <li>
+                                        <p>Friday - Saturday </p>
+                                        <span>  11:00 AM - 5:00 PM</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- end footer-box-d -->
+                        </div>
+                        <!-- end col -->
+                    </div>
+                    <!-- end footer-in-main -->
+                </div>
+                <!-- end row -->
+            </div>
+            <!-- end container -->
+            <div id="copyright" class="copyright-main">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <h6 class="copy-title"> Copyright &copy; 2018 Food Funday is powered by <a href="https://themewagon.com/" target="_blank">ThemeWagon</a> </h6>
+                        </div>
+                    </div>
+                    <!-- end row -->
+                </div>
+                <!-- end container -->
+            </div>
+            <!-- end copyright-main -->
+        </div>
+        <!-- end footer-box -->
+    </div>
+    <!-- end footer-main -->
+
+    <a href="#" class="scrollup" style="display: none;">Scroll</a>
+
+
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var profileIcon = document.getElementById('profile-icon');
+            var profilePopover = document.getElementById('profile-popover');
+
+            profileIcon.addEventListener('click', function (e) {
+                e.preventDefault();
+                profilePopover.style.display = profilePopover.style.display === 'none' ? 'block' : 'none';
+            });
+
+            document.addEventListener('click', function (e) {
+                if (!profileIcon.contains(e.target) && !profilePopover.contains(e.target)) {
+                    profilePopover.style.display = 'none';
+                }
+            });
+        });
+
+    </script>
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var disabledBlogLink = document.getElementById('disabled-blog-link');
+
+            if (disabledBlogLink) {
+                disabledBlogLink.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    alert("You must log in to your account to view the blog.");
+                });
+            }
+        });
+
+
+    </script>
+
+
+
+
+
+    <script>
+        document.getElementById('hotelSearch').addEventListener('keyup', function () {
+            let filter = this.value.toLowerCase();
+            let hotelItems = document.querySelectorAll('.hotel-item');
+
+            hotelItems.forEach(function (item) {
+                let hotelName = item.querySelector('.hotel-name').textContent.toLowerCase();
+                if (hotelName.includes(filter)) {
+                    item.style.display = '';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    </script>
+
+
+
+
+
+
+
+    <!-- ALL JS FILES -->
+    <script src="~/HomePage/js/all.js"></script>
+    <script src="~/HomePage/js/bootstrap.min.js"></script>
+    <!-- ALL PLUGINS -->
+    <script src="~/HomePage/js/custom.js"></script>
+</body>
+
+</html>

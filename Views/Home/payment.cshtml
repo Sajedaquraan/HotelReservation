@@ -1,0 +1,60 @@
+﻿@model Bank
+
+@{
+
+    ViewData["Title"] = "Payment";
+    Layout = "~/Views/Shared/_HomePage.cshtml";
+}
+<h1 style="background-color:black;">.</h1>
+<h1 style="background-color:black;">.</h1>
+<h1 style="background-color:black;">.</h1>
+
+
+
+<div class="container">
+    <h2 class="text-center">Payment for Room Booking</h2>
+
+    <!-- Display error message if any -->
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger text-center">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Room Booking Details</h5>
+                    <p><strong>Room Price:</strong> $@ViewBag.RoomPrice</p>
+
+                    <form asp-action="ProcessPayment" method="post">
+                        <input type="hidden" name="roomId" value="@ViewBag.RoomId" />
+
+                        <!-- Bank Details Input -->
+                        <div class="form-group">
+                            <label asp-for="Bankid">Bank Id</label>
+                            <input type="text" class="form-control" asp-for="Bankid" required />
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Cardnumber">Card Number</label>
+                            <input type="text" class="form-control" asp-for="Cardnumber" required />
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Cardholdername">Card Holder Name</label>
+                            <input type="text" class="form-control" asp-for="Cardholdername" required />
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Cvv">CVV</label>
+                            <input type="text" class="form-control" asp-for="Cvv" required />
+                        </div>
+
+                        <button type="submit" class="btn btn-dark btn-block">Pay Now</button>
+                        <a href="@Url.Action("GetRoomAndEventById")" class="btn btn-dark btn-block">Back to Hotel Page</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

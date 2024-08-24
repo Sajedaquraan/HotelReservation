@@ -1,0 +1,70 @@
+﻿@model HotelReservation.Models.Room
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Edit</title>
+</head>
+<body>
+
+<h4>Room</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Roomid" />
+            <div class="form-group">
+                <label asp-for="Hotelid" class="control-label"></label>
+                <select asp-for="Hotelid" class="form-control" asp-items="ViewBag.Hotelid"></select>
+                <span asp-validation-for="Hotelid" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Roomtype" class="control-label"></label>
+                <input asp-for="Roomtype" class="form-control" />
+                <span asp-validation-for="Roomtype" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Availabilitystatus" class="control-label"></label>
+                <input asp-for="Availabilitystatus" class="form-control" />
+                <span asp-validation-for="Availabilitystatus" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Imagepath" class="control-label"></label>
+                <input asp-for="Imagepath" class="form-control" />
+                <span asp-validation-for="Imagepath" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Datefrom" class="control-label"></label>
+                <input asp-for="Datefrom" class="form-control" />
+                <span asp-validation-for="Datefrom" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Dateto" class="control-label"></label>
+                <input asp-for="Dateto" class="form-control" />
+                <span asp-validation-for="Dateto" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+</body>
+</html>

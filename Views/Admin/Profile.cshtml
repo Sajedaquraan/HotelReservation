@@ -1,0 +1,24 @@
+﻿@model Customer
+@{
+    ViewData["Title"] = "Profile";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+<br /><br /><br /><br />
+
+<h1>Profile</h1>
+
+<div class="profile-container">
+    <div class="profile-image">
+        <img src="@Url.Content("~/Images/" + ViewBag.Image)" asp-append-version="true" alt="Profile Image" id="profile-pic" width="250" height="250">
+    </div>
+    <br />
+    <div class="profile-details">
+        <h2>Your Information</h2>
+        <p><strong>Name:</strong> <span id="profile-name">@ViewBag.Name</span></p>
+        <p><strong>Email:</strong> <span id="profile-email">@ViewBag.Email</span></p>
+        <p><strong>Password:</strong> <span id="profile-password">*********</span></p>
+
+    </div>
+    <a class="dropdown-item" href="@Url.Action("Logout", "Home")">Logout</a>
+    <a href="@Url.Action("Edit", "Admin", new { id = ViewBag.UserId })" class="btn btn-xs btn-secondary btn-sm">Edit your profile</a>
+</div>

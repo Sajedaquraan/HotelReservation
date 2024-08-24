@@ -1,0 +1,41 @@
+﻿@{
+    var dayLabels = ViewBag.DayLabels as string[];
+    var registrationCounts = ViewBag.RegistrationCounts as List<int>;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registration Chart for Last 5 Days</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div style="width: 50%;">
+        <canvas id="registrationChart"></canvas>
+    </div>
+
+    <script>
+        var ctx = document.getElementById('registrationChart').getContext('2d');
+        var registrationChart = new Chart(ctx, {
+            type: 'bar', // You can change this to 'line', 'pie', etc.
+            data: {
+                labels: @Html.Raw(Json.Serialize(dayLabels)), // Static day labels
+                datasets: [{
+                    label: 'Number of Registrations',
+                    data: @Html.Raw(Json.Serialize(registrationCounts)), // Dynamic registration counts
+                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

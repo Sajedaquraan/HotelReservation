@@ -1,0 +1,25 @@
+﻿@model HotelReservation.Models.Role
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Role</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Rolename)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Rolename)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Roleid">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

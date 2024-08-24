@@ -1,0 +1,45 @@
+﻿@model HotelReservation.Models.Page
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<h1>Edit</h1>
+
+<h4>Page</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Pageid" />
+            <div class="form-group">
+                <label asp-for="Pagename" class="control-label"></label>
+                <input asp-for="Pagename" class="form-control" />
+                <span asp-validation-for="Pagename" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Pagecontent" class="control-label"></label>
+                <input asp-for="Pagecontent" class="form-control" />
+                <span asp-validation-for="Pagecontent" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImageFile" class="control-label"></label>
+                <input asp-for="ImageFile" class="form-control" />
+                <span asp-validation-for="ImageFile" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

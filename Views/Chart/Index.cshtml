@@ -1,0 +1,43 @@
+﻿@{
+    ViewBag.Title = "Registration Chart";
+}
+
+<h2>Daily Registrations</h2>
+
+<canvas id="registrationChart" width="400" height="200"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    var ctx = document.getElementById('registrationChart').getContext('2d');
+    var chart = new Chart(ctx, {
+        type: 'line', // or 'bar' for a bar chart
+        data: {
+            labels: @Html.Raw(Json.Serialize(ViewBag.Dates)),
+            datasets: [{
+                label: 'Number of Registrations',
+                data: @Html.Raw(Json.Serialize(ViewBag.Counts)),
+                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderWidth: 2,
+                fill: true
+            }]
+        },
+        options: {
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Date'
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Number of Registrations'
+                    }
+                }
+            }
+        }
+    });
+</script>

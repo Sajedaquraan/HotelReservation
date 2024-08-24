@@ -1,0 +1,60 @@
+﻿@model Testimonial
+@{
+    Layout = "~/Views/Shared/_HomePage.cshtml";
+}
+<a href="@Url.Action("Index")">Back to Home Page</a>
+
+<div id="about" class="about-main pad-top-100 pad-bottom-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
+                    <h2 class="block-title"> About Us </h2>
+                    <h3>IT STARTED, QUITE SIMPLY, LIKE THIS...</h3>
+                    <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusm incididunt ut labore et dolore magna aliqua. Ut enim ad minim venia, nostrud exercitation ullamco. </p>
+
+                    <p> Aenean commodo ligula eget dolor aenean massa. Cum sociis nat penatibu set magnis dis parturient montes, nascetur ridiculus mus. quam felisorat, ultricies nec, Aenean commodo ligula eget dolor penatibu set magnis is parturient montes, nascetur ridiculus mus. quam felisorat, ultricies nec, pellentesque eu, pretium quis, sem. quat massa quis enim. Donec vitae sapien ut libero venenatis fauci Nullam quis ante. Etiam sit amet rci eget eros. </p>
+
+                    <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusm incididunt ut labore et dolore magna aliqua. Ut enim ad minim venia, nostrud exercitation ullamco. </p>
+                </div>
+            </div>
+            <!-- end col -->
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
+                    <div class="about-images">
+                        <img class="about-main" src="~/HomePage/images/about-main.jpg" alt="About Main Image">
+                        <img class="about-inset" src="~/HomePage/images/about-inset.jpg" alt="About Inset Image">
+                    </div>
+                </div>
+            </div>
+            <!-- end col -->
+        </div>
+        <!-- end row -->
+    </div>
+    <!-- end container -->
+</div>
+
+<div id="footer" class="footer-main">
+    <div class="footer-news pad-top-100 pad-bottom-70 parallax">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
+                        <h2 class="ft-title color-white text-center"> Submit Your Testimonial </h2>
+                        <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+                    </div>
+                    <form method="post">
+                        <label asp-for="Comments" class="ft-title color-white text-center">Testimonial:</label><br />
+                        <textarea asp-for="Comments" rows="5" style="width:75%" required></textarea>
+                        <div class="form-group">
+                            <button type="submit">Submit Testimonial</button>
+                        </div>
+                    </form>
+                </div>
+                <!-- end col -->
+            </div>
+            <!-- end row -->
+        </div>
+        <!-- end container -->
+    </div>
+    <!-- end footer-news -->

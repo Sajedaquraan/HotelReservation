@@ -1,0 +1,58 @@
+﻿@model HotelReservation.Models.Bank
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+<br />
+<br />
+<br />
+<br />
+<h1>Edit</h1>
+
+<h4>Bank</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Bankid" />
+            <div class="form-group">
+                <label asp-for="Bankname" class="control-label"></label>
+                <input asp-for="Bankname" class="form-control" />
+                <span asp-validation-for="Bankname" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cardnumber" class="control-label"></label>
+                <input asp-for="Cardnumber" class="form-control" />
+                <span asp-validation-for="Cardnumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Expirydate" class="control-label"></label>
+                <input asp-for="Expirydate" class="form-control" />
+                <span asp-validation-for="Expirydate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cardholdername" class="control-label"></label>
+                <input asp-for="Cardholdername" class="form-control" />
+                <span asp-validation-for="Cardholdername" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cvv" class="control-label"></label>
+                <input asp-for="Cvv" class="form-control" />
+                <span asp-validation-for="Cvv" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

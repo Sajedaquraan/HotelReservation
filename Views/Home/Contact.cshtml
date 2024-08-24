@@ -1,0 +1,62 @@
+﻿@model Contact
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "~/Views/Shared/_HomePage.cshtml";
+}
+<h1 style="background-color:black;">.</h1>
+<h1 style="background-color:black;">.</h1>
+<h1 style="background-color:black;">.</h1>
+
+
+<div id="reservation" class="reservations-main pad-top-100 pad-bottom-100">
+    <div class="container">
+        <div class="row">
+            <div class="form-reservations-box">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
+                        <h2 class="block-title text-center">
+                            ContactUS
+                        </h2>
+                    </div>
+                    <h4 class="form-title">CONTACTUS FORM</h4>
+                    <p>PLEASE FILL OUT ALL REQUIRED* FIELDS. THANKS!</p>
+                    <form id="contact-form" method="post" asp-action="Contact">
+                        @Html.AntiForgeryToken()
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <div class="form-box">
+                                <input type="text" asp-for="Contactusname" placeholder="Name" required="required" />
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <div class="form-box">
+                                <input type="email" asp-for="Contactusemail" placeholder="E-Mail ID" required="required" />
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <div class="form-box">
+                                <input type="text" asp-for="Contactusdescription" placeholder="Contact" required="required" />
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="reserve-book-btn text-center">
+                                <input type="submit" class="hvr-underline-from-center" value="Send MY Contacts" />
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="reserve-book-btn text-center">
+                                <a href="@Url.Action("Index")" class="hvr-underline-from-center">Back to Home Page</a>
+                            </div>
+                        </div>
+                    </form>                   
+                    <!-- end form -->
+                </div>
+                <!-- end col -->
+            </div>
+            <!-- end reservations-box -->
+        </div>
+        <!-- end row -->
+    </div>
+    <!-- end container -->
+</div>
