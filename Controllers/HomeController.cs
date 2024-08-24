@@ -144,7 +144,7 @@ namespace HotelReservation.Controllers
             var message = new MimeMessage();
             message.From.Add(new MailboxAddress("Hotel", "hotel@example.com"));
             message.To.Add(new MailboxAddress("", recipientEmail));
-            message.Subject = "Payment Confirmation";
+            message.Subject = "Contact Us";
 
             var bodyBuilder = new BodyBuilder
             {

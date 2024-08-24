@@ -3,60 +3,116 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-    Layout = "~/Views/Shared/_HomePage.cshtml";
+    Layout = null;
 }
-<h1 style="background-color:black;">.</h1>
-<h1 style="background-color:black;">.</h1>
-<h1 style="background-color:black;">.</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Contact Us</title>
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="~/RegisterAndLogin/fonts/material-icon/css/material-design-iconic-font.min.css">
+    <!-- Bootstrap CSS for modal -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Main css -->
+    <link rel="stylesheet" href="~/RegisterAndLogin/css/style.css">
 
+    <!-- Additional Custom CSS -->
+    <style>
+        .container {
+            max-width: 380px;
+            margin: auto;
+        }
 
-<div id="reservation" class="reservations-main pad-top-100 pad-bottom-100">
-    <div class="container">
-        <div class="row">
-            <div class="form-reservations-box">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
-                        <h2 class="block-title text-center">
-                            ContactUS
-                        </h2>
+        input[type="text"], input[type="email"], textarea {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            margin-bottom: 15px;
+        }
+
+        textarea {
+            height: 120px;
+            resize: vertical; 
+        }
+
+        .form-title {
+            margin-bottom: 20px;
+        }
+
+        .form-reservations-box {
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .reserve-book-btn input, .reserve-book-btn a {
+            display: block;
+            width: 100%;
+            text-align: center;
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            transition: background-color 0.3s;
+        }
+
+            .reserve-book-btn input:hover, .reserve-book-btn a:hover {
+                background-color: #0056b3;
+                text-decoration: none;
+            }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <section class="sign-in">
+            <div class="container">
+                <div class="signin-content">
+                    <div class="row justify-content-center">
+                        <div class="form-reservations-box col-lg-10 col-md-10 col-sm-12 col-xs-12">
+                            <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
+                                <h2 class="block-title text-center">
+                                    Contact Us
+                                </h2>
+                            </div>
+                            <p>Please fill out all required* fields. Thanks!</p>
+                            <form id="contact-form" method="post" asp-action="Contact">
+                                @Html.AntiForgeryToken()
+                                <div class="form-box">
+                                    <input type="text" asp-for="Contactusname" placeholder="Name" required="required" />
+                                </div>
+                                <div class="form-box">
+                                    <input type="email" asp-for="Contactusemail" placeholder="E-Mail ID" required="required" />
+                                </div>
+                                <div class="form-box">
+                                    <textarea asp-for="Contactusdescription" placeholder="Your Message" required="required"></textarea>
+                                </div>
+                                <div class="reserve-book-btn text-center">
+                                    <input type="submit" class="hvr-underline-from-center" value="Send My Contacts" />
+                                </div>
+                                <div class="reserve-book-btn text-center">
+                                    <a href="@Url.Action("Index")" class="hvr-underline-from-center">Back to Home Page</a>
+                                </div>
+                            </form>
+                            <!-- end form -->
+                        </div>
+                        <!-- end col -->
                     </div>
-                    <h4 class="form-title">CONTACTUS FORM</h4>
-                    <p>PLEASE FILL OUT ALL REQUIRED* FIELDS. THANKS!</p>
-                    <form id="contact-form" method="post" asp-action="Contact">
-                        @Html.AntiForgeryToken()
-                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                            <div class="form-box">
-                                <input type="text" asp-for="Contactusname" placeholder="Name" required="required" />
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                            <div class="form-box">
-                                <input type="email" asp-for="Contactusemail" placeholder="E-Mail ID" required="required" />
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                            <div class="form-box">
-                                <input type="text" asp-for="Contactusdescription" placeholder="Contact" required="required" />
-                            </div>
-                        </div>
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="reserve-book-btn text-center">
-                                <input type="submit" class="hvr-underline-from-center" value="Send MY Contacts" />
-                            </div>
-                        </div>
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="reserve-book-btn text-center">
-                                <a href="@Url.Action("Index")" class="hvr-underline-from-center">Back to Home Page</a>
-                            </div>
-                        </div>
-                    </form>                   
-                    <!-- end form -->
+                    <!-- end row -->
                 </div>
-                <!-- end col -->
+                <!-- end container -->
             </div>
-            <!-- end reservations-box -->
-        </div>
-        <!-- end row -->
+        </section>
     </div>
-    <!-- end container -->
-</div>
+    <!-- JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="~/RegisterAndLogin/js/main.js"></script>
+</body>
+</html>
