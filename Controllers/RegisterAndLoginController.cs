@@ -132,15 +132,19 @@ namespace HotelReservation.Controllers
 
 
 
-        public IActionResult Login()
+        public IActionResult Login(string returnUrl = null)
         {
+            ViewBag.ReturnUrl = returnUrl;
             return View();
         }
+
         [HttpPost]
-        public IActionResult Login([Bind("Email,Password")] Userlogin userlogin)
+        public IActionResult Login([Bind("Email,Password")] Userlogin userlogin, string returnUrl = null)
         {
-            var auth = _context.Userlogins.Where
-                (x => x.Email == userlogin.Email && x.Password == userlogin.Password).SingleOrDefault();
+            var auth = _context.Userlogins
+                .Where(x => x.Email == userlogin.Email && x.Password == userlogin.Password)
+                .SingleOrDefault();
+
             if (auth != null)
             {
                 switch (auth.Roleid)
@@ -149,14 +153,29 @@ namespace HotelReservation.Controllers
                         HttpContext.Session.SetInt32("AdminID", (int)auth.Customerid);
                         HttpContext.Session.SetString("AdminName", auth.Email);
                         return RedirectToAction("Index", "Admin");
+                        break;
 
                     case 2:
                         HttpContext.Session.SetInt32("CustomerID", (int)auth.Customerid);
-                        return RedirectToAction("Index", "Home");
+                        //return Redirect(returnUrl);
+                        //return RedirectToAction("Index", "Home");
+                        break;
+                }
+
+                // Redirect to the return URL if it exists, or to a default page
+                if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                {
+                    return Redirect(returnUrl);
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Home");
                 }
             }
+
             return View();
         }
+
 
         [HttpGet]
         public IActionResult ForgotPassword()

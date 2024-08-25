@@ -223,8 +223,9 @@ namespace HotelReservation.Controllers
 
 
         [HttpGet]
-        public IActionResult BookRoom(int roomId,int Todayspecialid)
+        public IActionResult payment(int roomId,int Todayspecialid)
         {
+            
             var room = _context.Rooms.FirstOrDefault(r => r.Roomid == roomId);
 
             if (room == null)
@@ -245,7 +246,7 @@ namespace HotelReservation.Controllers
             ViewBag.RoomPrice = room.Price;
 
             
-            return View("Payment");
+            return View("payment");
         }
 
         [HttpPost]
@@ -253,8 +254,7 @@ namespace HotelReservation.Controllers
         {
             // Step 1: Check if the card details exist in the bank
             var bank = _context.Banks
-                .FirstOrDefault(b => b.Bankid == Bankid
-                                     && b.Cardnumber == Cardnumber
+                .FirstOrDefault(b => b.Cardnumber == Cardnumber
                                      && b.Cardholdername == Cardholdername
                                      && b.Cvv == Cvv);
 
@@ -262,7 +262,7 @@ namespace HotelReservation.Controllers
             {
                 // If the card information is not found, return an error message
                 TempData["ErrorMessage"] = "The information of the card is not true. Please check your details and try again.";
-                return RedirectToAction("BookRoom", new { roomId = roomId });
+                return RedirectToAction("payment", new { roomId = roomId });
             }
 
             // Step 2: Retrieve the logged-in user's CustomerID, name, and email from the session
@@ -278,9 +278,8 @@ namespace HotelReservation.Controllers
             {
                 // If the customer is not logged in, redirect to the login page
                 TempData["ErrorMessage"] = "Please log in to complete the booking.";
-                return RedirectToAction("Login");
+                return RedirectToAction("payment", new { roomId = roomId });
             }
-
             // Step 3: Check if the room exists
             var room = _context.Rooms.FirstOrDefault(r => r.Roomid == roomId);
             if (room == null)
@@ -293,7 +292,7 @@ namespace HotelReservation.Controllers
             {
                 // If the balance is less than the room price, show an error message
                 TempData["ErrorMessage"] = "You do not have enough money to pay for this room.";
-                return RedirectToAction("BookRoom", new { roomId = roomId });
+                return RedirectToAction("payment", new { roomId = roomId });
             }
 
             // Step 5: Deduct the room price from the bank balance
@@ -342,30 +341,67 @@ namespace HotelReservation.Controllers
         }
 
 
+
+
+
         public void SendEmailWithPdf(string recipientEmail, byte[] pdfBytes, string fileName)
-    {
-        var message = new MimeMessage();
-        message.From.Add(new MailboxAddress("Hotel", "hotel@example.com"));
-        message.To.Add(new MailboxAddress("", recipientEmail));
-        message.Subject = "Payment Confirmation";
-
-        var bodyBuilder = new BodyBuilder
         {
-            TextBody = "Thank you for your payment. Please find your payment receipt attached."
-        };
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress("Hotel", "hotel@example.com")); // Change to your email
+            message.To.Add(new MailboxAddress("", recipientEmail));
+            message.Subject = "Payment Receipt";
 
-        // Attach the PDF
-        bodyBuilder.Attachments.Add(fileName, pdfBytes, new ContentType("application", "pdf"));
-        message.Body = bodyBuilder.ToMessageBody();
+            var bodyBuilder = new BodyBuilder
+            {
+                TextBody = "Thank you for your payment. Attached is your payment receipt."
+            };
 
-        using (var client = new SmtpClient())
-        {
-            client.Connect("smtp.gmail.com", 587, false);
-            client.Authenticate("sajedaAlquraan1@gmail.com", "izdw sras niqv jnnh");
-            client.Send(message);
-            client.Disconnect(true);
+            // Attach the PDF
+            bodyBuilder.Attachments.Add(fileName, pdfBytes, ContentType.Parse("application/pdf"));
+            message.Body = bodyBuilder.ToMessageBody();
+
+            using (var client = new SmtpClient())
+            {
+                client.Connect("smtp.gmail.com", 587, false); // Use the appropriate SMTP server and port
+                client.Authenticate("sajedaAlquraan1@gmail.com", "izdw sras niqv jnnh"); // Use your email and app password
+                client.Send(message);
+                client.Disconnect(true);
+            }
         }
-    }
+
+
+
+
+
+
+
+
+
+
+    //    public void SendEmailWithPdf(string recipientEmail, byte[] pdfBytes, string fileName)
+    //{
+    //    var message = new MimeMessage();
+    //    message.From.Add(new MailboxAddress("Hotel", "hotel@example.com"));
+    //    message.To.Add(new MailboxAddress("", recipientEmail));
+    //    message.Subject = "Payment Confirmation";
+
+    //    var bodyBuilder = new BodyBuilder
+    //    {
+    //        TextBody = "Thank you for your payment. Please find your payment receipt attached."
+    //    };
+
+    //    // Attach the PDF
+    //    bodyBuilder.Attachments.Add(fileName, pdfBytes, new ContentType("application", "pdf"));
+    //    message.Body = bodyBuilder.ToMessageBody();
+
+    //    using (var client = new SmtpClient())
+    //    {
+    //        client.Connect("smtp.gmail.com", 587, false);
+    //        client.Authenticate("sajedaAlquraan1@gmail.com", "izdw sras niqv jnnh");
+    //        client.Send(message);
+    //        client.Disconnect(true);
+    //    }
+    //}
 
 
 

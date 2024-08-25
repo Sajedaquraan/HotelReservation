@@ -91,6 +91,7 @@
                     <div class="signin-form">
                         <h2 class="form-title">Sign in</h2>
                         <form method="POST" class="register-form" id="login-form">
+                            <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
                             <div class="form-group">
                                 <label for="Email"><i class="zmdi zmdi-account material-icons-name"></i></label>
                                 <input type="text" name="Email" id="Email" placeholder="Your Email" />

@@ -115,7 +115,7 @@
                                             else
                                             {
                                                 <div style="text-align: center;">
-                                                    <a href="@Url.Action("Login","RegisterAndLogin")" style="display: block; color: #007bff; text-decoration: none; margin-top: 5px;">Login to your profile</a>
+                                                    <a href="@Url.Action("Login", "RegisterAndLogin", new { returnUrl = Context.Request.Path })" style="display: block; color: #007bff; text-decoration: none; margin-top: 5px;">Login to your profile</a>
                                                 </div>
                                             }
                                         </div>

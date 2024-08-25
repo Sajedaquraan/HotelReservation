@@ -5,6 +5,25 @@
     ViewData["Title"] = "Payment";
     Layout = "~/Views/Shared/_HomePage.cshtml";
 }
+@{
+    var userProfileImage = ViewBag.Image as string;
+    var profileImageUrl = Url.Content($"~/images/{userProfileImage}");
+
+    var pageImage = ViewBag.PageImage as string;
+    var pageImageUrl = Url.Content($"~/images/{pageImage}");
+
+    var aboutImage = ViewBag.AboutImage as string;
+    var aboutImageUrl = Url.Content($"~/images/{aboutImage}");
+
+    var defaultImageUrl = Url.Content("~/images/default-profile-image.jpg"); // Ensure this path is correct
+
+    var userName = ViewBag.Name as string;
+    var userEmail = ViewBag.Email as string;
+
+    var isLoggedIn = userName != null;
+
+}
+
 <h1 style="background-color:black;">.</h1>
 <h1 style="background-color:black;">.</h1>
 <h1 style="background-color:black;">.</h1>
@@ -34,10 +53,6 @@
 
                         <!-- Bank Details Input -->
                         <div class="form-group">
-                            <label asp-for="Bankid">Bank Id</label>
-                            <input type="text" class="form-control" asp-for="Bankid" required />
-                        </div>
-                        <div class="form-group">
                             <label asp-for="Cardnumber">Card Number</label>
                             <input type="text" class="form-control" asp-for="Cardnumber" required />
                         </div>
@@ -49,8 +64,15 @@
                             <label asp-for="Cvv">CVV</label>
                             <input type="text" class="form-control" asp-for="Cvv" required />
                         </div>
+                        @if (isLoggedIn)
+                        {
+                            <button type="submit" class="btn btn-dark btn-block">Pay Now</button>
+                        }
+                        else
+                        {
+                            <button type="submit" id="disabled-blog-link" class="btn btn-dark btn-block" style="cursor: not-allowed; color: gray;">Pay Now</button>
 
-                        <button type="submit" class="btn btn-dark btn-block">Pay Now</button>
+                        }
                         <a href="@Url.Action("GetRoomAndEventById")" class="btn btn-dark btn-block">Back to Hotel Page</a>
                     </form>
                 </div>
@@ -58,3 +80,29 @@
         </div>
     </div>
 </div>
+
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var disabledBlogLink = document.getElementById('disabled-blog-link');
+
+        if (disabledBlogLink) {
+            disabledBlogLink.addEventListener('click', function (e) {
+                e.preventDefault();
+                alert("You must log in to your account to view the blog.");
+            });
+        }
+    });
+
+
+</script>
+
+@* @if (isLoggedIn)
+{
+    <a class="hvr-underline-from-center" href="@Url.Action("Testimonials")" id="add-testimonial-link">Add Your Testimonials</a>
+}
+else
+{
+    <a id="disabled-blog-link" class="hvr-underline-from-center" href="#" style="cursor: not-allowed; color: gray;">Add Your Testimonials</a>
+} *@
