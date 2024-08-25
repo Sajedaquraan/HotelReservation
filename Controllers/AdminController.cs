@@ -77,6 +77,11 @@ namespace HotelReservation.Controllers
         public IActionResult Edit(int id)
         {
             var user = _context.Customers.SingleOrDefault(x => x.Customerid == id);
+            var id1 = HttpContext.Session.GetInt32("AdminID");
+            var users = _context.Customers.Where(x => x.Customerid == id1).SingleOrDefault();
+            ViewBag.name = users.Customername;
+            ViewBag.image = users.Profileimage;
+            ViewBag.email = users.Email;
             if (user == null)
             {
                 return NotFound();
