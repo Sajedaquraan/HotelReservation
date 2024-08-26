@@ -3,7 +3,7 @@
 @{
 
     ViewData["Title"] = "Payment";
-    Layout = "~/Views/Shared/_HomePage.cshtml";
+    Layout = null;
 }
 @{
     var userProfileImage = ViewBag.Image as string;
@@ -23,14 +23,20 @@
     var isLoggedIn = userName != null;
 
 }
+<link rel="stylesheet" href="~/RegisterAndLogin/fonts/material-icon/css/material-design-iconic-font.min.css">
+<!-- Bootstrap CSS for modal -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-<h1 style="background-color:black;">.</h1>
-<h1 style="background-color:black;">.</h1>
-<h1 style="background-color:black;">.</h1>
+<!-- Main css -->
+<link rel="stylesheet" href="~/RegisterAndLogin/css/style.css">
 
 
+<br>
+<br />
+<br />
 
 <div class="container">
+  
     <h2 class="text-center">Payment for Room Booking</h2>
 
     <!-- Display error message if any -->
@@ -46,23 +52,20 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Room Booking Details</h5>
-                    <p><strong>Room Price:</strong> $@ViewBag.RoomPrice</p>
+                    <p><strong>Room Price:</strong> JOD @ViewBag.RoomPrice</p>
 
                     <form asp-action="ProcessPayment" method="post">
                         <input type="hidden" name="roomId" value="@ViewBag.RoomId" />
 
                         <!-- Bank Details Input -->
                         <div class="form-group">
-                            <label asp-for="Cardnumber">Card Number</label>
-                            <input type="text" class="form-control" asp-for="Cardnumber" required />
+                            <input type="text" class="form-control" asp-for="Cardnumber" placeholder="Card Number" required />
                         </div>
                         <div class="form-group">
-                            <label asp-for="Cardholdername">Card Holder Name</label>
-                            <input type="text" class="form-control" asp-for="Cardholdername" required />
+                            <input type="text" class="form-control" asp-for="Cardholdername" placeholder="Card Holder Name" required />
                         </div>
                         <div class="form-group">
-                            <label asp-for="Cvv">CVV</label>
-                            <input type="text" class="form-control" asp-for="Cvv" required />
+                            <input type="text" class="form-control" asp-for="Cvv" placeholder="CVV<" required />
                         </div>
                         @if (isLoggedIn)
                         {
@@ -98,11 +101,3 @@
 
 </script>
 
-@* @if (isLoggedIn)
-{
-    <a class="hvr-underline-from-center" href="@Url.Action("Testimonials")" id="add-testimonial-link">Add Your Testimonials</a>
-}
-else
-{
-    <a id="disabled-blog-link" class="hvr-underline-from-center" href="#" style="cursor: not-allowed; color: gray;">Add Your Testimonials</a>
-} *@

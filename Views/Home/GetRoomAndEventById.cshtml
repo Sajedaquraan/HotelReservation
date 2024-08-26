@@ -1,4 +1,4 @@
-﻿@model Tuple<IEnumerable<Room>,Customer>
+﻿@model Tuple<IEnumerable<Room>,Customer,Page, Page, Page>
 
 @{
     ViewData["Title"] = "Rooms";
@@ -50,8 +50,9 @@
 
 <body>
 
-
-
+    @{
+        var id = ViewBag.Id; // Get the ID value from ViewBag
+    }
 
 
     <div id="loader">
@@ -118,10 +119,44 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
-                        <h2 class="block-title text-center">
+                            
+                            @if (id == 1)
+                            {
+                            <h1 class="block-title text-center">Welcome in @ViewBag.Hotelname1</h1>
+                            }
+                            else if (id == 2)
+                            {
+                            <h1 class="block-title text-center">Welcome in @ViewBag.Hotelname2</h1>
+                            }
+                            else if (id == 3)
+                            {
+                            <h1 class="block-title text-center">Welcome in @ViewBag.Hotelname3</h1>
+                            }
+                            else
+                            {
+                                <p>No data available for the given ID.</p>
+                            }
+                        
+                        <br />
+                        <h3 class="block-title text-center">
                             Rooms & Suites
-                        </h2>
-                        <p class="wow fadeIn text-center">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. </p>
+                        </h3>
+                            @if (id == 1)
+                            {
+                                <p class="wow fadeIn text-center">@ViewBag.Hotelcontant1</p>
+                            }
+                            else if (id == 2)
+                            {
+                            <p class="wow fadeIn text-center">@ViewBag.Hotelcontant2</p>
+                            }
+                            else if (id == 3)
+                            {
+                            <p class="wow fadeIn text-center">@ViewBag.Hotelcontant3</p>
+                            }
+                            else
+                            {
+                            <p>No data available for the given ID.</p>
+                            }
                     </div>
                     <div class="team-box">
                         <div class="row">

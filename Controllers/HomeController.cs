@@ -167,77 +167,81 @@ namespace HotelReservation.Controllers
 
 
         [HttpGet]
-        public IActionResult GetRoomAndEventById(int id, string hotelName1)
-        {
-            var rooms = _context.Rooms
-                .Where(x => x.Hotelid == id && x.Availabilitystatus.Trim().ToLower() == "available")
-                .ToList();
-
-            var id1 = HttpContext.Session.GetInt32("CustomerID");
-            var user = _context.Customers
-                .Where(x => x.Customerid == id1)
-                .SingleOrDefault();
-
-            // Set default profile image
-            var defaultProfileImage = "default-profile-image.jpg"; // Adjust the path as necessary
-            ViewBag.Name = user?.Customername;
-            ViewBag.Image = user?.Profileimage ?? defaultProfileImage; // Use default image if profile image is null
-            ViewBag.Email = user?.Email;
-
-            
-
-           
-
-
-
-            var model = Tuple.Create<IEnumerable<Room>, Customer>(rooms, user);
-            return View(model);  // Ensure this matches the view's model type
-        }
-
-
-
-
-
-
-        [HttpPost]
         public IActionResult GetRoomAndEventById(int id, DateTime? startDate, DateTime? endDate)
         {
             var rooms = _context.Rooms.Where(x => x.Hotelid == id && x.Availabilitystatus.Trim().ToLower() == "available").ToList();
+
+            if (startDate != null && endDate != null)
+            {
+                rooms = rooms.Where(x => x.Dateto.Value.Date >= startDate && x.Datefrom.Value.Date <= endDate).ToList();
+            }
+
+            var id1 = HttpContext.Session.GetInt32("CustomerID");
+            var user = _context.Customers.Where(x => x.Customerid == id1).SingleOrDefault();
+
+            // Set default profile image
+            var defaultProfileImage = "default-profile-image.jpg";
+            ViewBag.Name = user?.Customername;
+            ViewBag.Image = user?.Profileimage ?? defaultProfileImage;
+            ViewBag.Email = user?.Email;
+
+            ViewBag.Id = id;
+            
+
+            var hotel1 = _context.Pages.SingleOrDefault(x => x.Pageid == 61);
+            var hotel2 = _context.Pages.SingleOrDefault(x => x.Pageid == 62);
+            var hotel3 = _context.Pages.SingleOrDefault(x => x.Pageid == 63);
+
+            var model = Tuple.Create<IEnumerable<Room>, Customer, Page, Page, Page>(rooms, user, hotel1, hotel2, hotel3);
+
+            return View(model);
+        }
+
+
+        [HttpPost]
+        public IActionResult GetRoomAndEventById(int id, DateTime? startDate, DateTime? endDate, string hotelName1)
+        {
+            var rooms = _context.Rooms.Where(x => x.Hotelid == id && x.Availabilitystatus.Trim().ToLower() == "available").ToList();
+            
             var customers = _context.Customers.Where(c => c.Customerid == id).ToList(); // Adjust this as needed
+
+            var test = _context.Pages.Where(x => x.Pageid == 61).SingleOrDefault();
+
+
 
             if (startDate == null && endDate == null)
             {
-                var model = Tuple.Create<IEnumerable<Room>, IEnumerable<Customer>>(rooms, customers);
+                var model = Tuple.Create<IEnumerable<Room>, IEnumerable<Customer>, Page>(rooms, customers, test);
                 return View(model);
             }
             else if (startDate != null && endDate == null)
             {
                 rooms = rooms.Where(x => x.Dateto.Value.Date >= startDate && x.Availabilitystatus.Trim().ToLower() == "available").ToList();
-                var model = Tuple.Create<IEnumerable<Room>, IEnumerable<Customer>>(rooms, customers);
+                var model = Tuple.Create<IEnumerable<Room>, IEnumerable<Customer>, Page>(rooms, customers, test);
                 return View(model);
             }
             else if (startDate == null && endDate != null)
             {
                 rooms = rooms.Where(x => x.Datefrom.Value.Date <= endDate && x.Availabilitystatus.Trim().ToLower() == "available").ToList();
-                var model = Tuple.Create<IEnumerable<Room>, IEnumerable<Customer>>(rooms, customers);
+                var model = Tuple.Create<IEnumerable<Room>, IEnumerable<Customer>, Page>(rooms, customers, test);
                 return View(model);
             }
             else
             {
                 rooms = rooms.Where(x => x.Dateto.Value.Date >= startDate && x.Datefrom.Value.Date <= endDate && x.Availabilitystatus.Trim().ToLower() == "available").ToList();
-                var model = Tuple.Create<IEnumerable<Room>, IEnumerable<Customer>>(rooms, customers);
+                var model = Tuple.Create<IEnumerable<Room>, IEnumerable<Customer>, Page>(rooms, customers, test);
                 return View(model);
             }
-        }
 
- 
+            
 
+        
+    }
 
 
         [HttpGet]
-        public IActionResult payment(int roomId,int Todayspecialid)
+        public IActionResult payment(int roomId,  DateTime? startDate, DateTime? endDate)
         {
-            
             var room = _context.Rooms.FirstOrDefault(r => r.Roomid == roomId);
 
             if (room == null)
@@ -257,7 +261,7 @@ namespace HotelReservation.Controllers
             ViewBag.RoomId = roomId;
             ViewBag.RoomPrice = room.Price;
 
-            
+          
             return View("payment");
         }
 
@@ -348,12 +352,12 @@ namespace HotelReservation.Controllers
             // Save all changes to the database
             _context.SaveChanges();
 
+
+
+
             // Redirect to a confirmation page or the homepage
-            return RedirectToAction("GetRoomAndEventById");
+            return RedirectToAction("GetRoomAndEventById", new { id = room.Hotelid });
         }
-
-
-
 
 
         public void SendEmailWithPdf(string recipientEmail, byte[] pdfBytes, string fileName)
@@ -380,41 +384,6 @@ namespace HotelReservation.Controllers
                 client.Disconnect(true);
             }
         }
-
-
-
-
-
-
-
-
-
-
-    //    public void SendEmailWithPdf(string recipientEmail, byte[] pdfBytes, string fileName)
-    //{
-    //    var message = new MimeMessage();
-    //    message.From.Add(new MailboxAddress("Hotel", "hotel@example.com"));
-    //    message.To.Add(new MailboxAddress("", recipientEmail));
-    //    message.Subject = "Payment Confirmation";
-
-    //    var bodyBuilder = new BodyBuilder
-    //    {
-    //        TextBody = "Thank you for your payment. Please find your payment receipt attached."
-    //    };
-
-    //    // Attach the PDF
-    //    bodyBuilder.Attachments.Add(fileName, pdfBytes, new ContentType("application", "pdf"));
-    //    message.Body = bodyBuilder.ToMessageBody();
-
-    //    using (var client = new SmtpClient())
-    //    {
-    //        client.Connect("smtp.gmail.com", 587, false);
-    //        client.Authenticate("sajedaAlquraan1@gmail.com", "izdw sras niqv jnnh");
-    //        client.Send(message);
-    //        client.Disconnect(true);
-    //    }
-    //}
-
 
 
     public byte[] GeneratePaymentPdf(string customerName, decimal amountPaid, DateTime paymentDate, string roomDetails)

@@ -158,13 +158,13 @@
                                 <ul class="nav navbar-nav navbar-right">
                                     <li class="active"><a href="#banner">Home</a></li>
                                     <li><a href="#about">About us</a></li>
+                                    <li><a href="#TodaySpecial">Today Special</a></li>
                                     <li><a href="#menu">Menu</a></li>
-                                    <li><a href="#our_team">Hotel</a></li>
+                                    <li><a href="#Hotel">Hotel</a></li>
                                     <li><a href="#gallery">Gallery</a></li>
-                                    <li><a href="#blog">Testimonial</a></li>
+                                    <li><a href="#Testimonial">Testimonial</a></li>
                                     <li><a href="#pricing">Pricing</a></li>
-                                    <li><a href="#reservation">Contact us</a></li>
-                                    <li><a href="#footer">Contact us</a></li>
+                                    <li><a href="#ContactUS">Contact us</a></li>
                                     <!-- Profile Image -->
                                     <li class="profile-icon" style="position: relative;">
                                         <a href="#" id="profile-icon" style="display: inline-block;">
@@ -266,7 +266,7 @@
         <!-- end container -->
     </div>
 
-    <div id="gallery" class="gallery-main pad-top-100 pad-bottom-100">
+    <div id="TodaySpecial" class="gallery-main pad-top-100 pad-bottom-100">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -514,7 +514,7 @@
     </div>
     <!-- end menu -->
 
-    <div id="gallery" class="gallery-main pad-top-100 pad-bottom-100">
+    <div id="Hotel" class="gallery-main pad-top-100 pad-bottom-100">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -780,8 +780,10 @@
         <!-- end container -->
     </div>
     <!-- end gallery-main -->
- 
-        <div id="blog" class="blog-main pad-top-100 pad-bottom-100 parallax">
+
+
+
+    <div id="Testimonial" class="blog-main pad-top-100 pad-bottom-100 parallax">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -794,9 +796,7 @@
                                  {
                                 <div class="col-md-6 col-sm-6">
                                     <div class="blog-block">
-                                            <p><span>25 NOVEMBER, 2014</span></p>
-                                            <h2 style="color:black;">@item.Comments</h2>
-                                            <h5>BY John Doggett</h5>
+                                        <h2 class="block-title color-white text-center" style="color:black; font-size:20px;">@item.Comments</h2>
                                     </div>
                                 </div>
                                 }
@@ -920,44 +920,28 @@
     </div>
     <!-- end pricing-main -->
 
-    <div id="reservation" class="reservations-main pad-top-100 pad-bottom-100">
+    <div id="ContactUS" class="reservations-main pad-top-100 pad-bottom-100">
         <div class="container">
             <div class="row">
                 <div class="form-reservations-box">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
                             <h2 class="block-title text-center">
-                                ContactUS
+                                Contact Us
                             </h2>
                         </div>
-                        <h4 class="form-title">CONTACTUS FORM</h4>
-                        <p>PLEASE FILL OUT ALL REQUIRED* FIELDS. THANKS!</p>
+                        <h4 class="form-title text-center">CONTACT US FORM</h4>
+                        <p class="text-center">PLEASE FILL OUT ALL REQUIRED* FIELDS. THANKS!</p>
                         <a href="@Url.Action("Contact")">
-                        <form id="contact-form" method="post" asp-action="Index">
-                            @Html.AntiForgeryToken()
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                <div class="form-box">
-                                    <input type="text" asp-for="Item3.Contactusname" placeholder="Name" required="required" />
+                            <form id="contact-form" method="post" asp-action="Index">
+                                @Html.AntiForgeryToken()
+                                <div class="d-flex justify-content-center">
+                                    <div class="form-box">
+                                        <input type="text" asp-for="Item3.Contactusdescription" class="form-control text-center" placeholder="Contact Us" required="required" />
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                <div class="form-box">
-                                    <input type="email" asp-for="Item3.Contactusemail" placeholder="E-Mail ID" required="required" />
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                <div class="form-box">
-                                    <input type="text" asp-for="Item3.Contactusdescription" placeholder="Contact" required="required" />
-                                </div>
-                            </div>
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <div class="reserve-book-btn text-center">
-                                    <input type="submit" class="hvr-underline-from-center" value="Send MY Contacts" />
-                                </div>
-                            </div>
-                        </form>
+                            </form>
                         </a>
-
                         <!-- end form -->
                     </div>
                     <!-- end col -->
@@ -969,6 +953,7 @@
         <!-- end container -->
     </div>
     <!-- end ContactUs-main -->
+
 
     <div id="footer" class="footer-main">
         <div class="footer-news pad-top-100 pad-bottom-70 parallax">

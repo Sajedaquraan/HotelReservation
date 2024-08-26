@@ -48,12 +48,19 @@ namespace HotelReservation.Controllers
         public IActionResult Create()
         {
             ViewData["Userloginid2"] = new SelectList(_context.Userlogins, "Userloginid", "Userloginid");
+
+            ViewBag.StateList = new SelectList(new List<SelectListItem>
+            {
+                new SelectListItem { Value = "building", Text = "Building" },
+                new SelectListItem { Value = "accepted", Text = "Accepted" },
+                new SelectListItem { Value = "rejected", Text = "Rejected" }
+            }, "Value", "Text");
+
+
             return View();
         }
 
         // POST: Testimonials/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Testimonialid,Userloginid2,Comments,State")] Testimonial testimonial)
@@ -65,6 +72,14 @@ namespace HotelReservation.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["Userloginid2"] = new SelectList(_context.Userlogins, "Userloginid", "Userloginid", testimonial.Userloginid2);
+
+            ViewBag["StateList"] = new SelectList(new List<SelectListItem>
+            {
+                new SelectListItem { Value = "building", Text = "Building" },
+                new SelectListItem { Value = "accepted", Text = "Accepted" },
+                new SelectListItem { Value = "rejected", Text = "Rejected" }
+            }, "Value", "Text", testimonial.State);
+
             return View(testimonial);
         }
 
@@ -81,13 +96,20 @@ namespace HotelReservation.Controllers
             {
                 return NotFound();
             }
+
             ViewData["Userloginid2"] = new SelectList(_context.Userlogins, "Userloginid", "Userloginid", testimonial.Userloginid2);
+
+            ViewBag.StateList = new SelectList(new List<SelectListItem>
+            {
+                new SelectListItem { Value = "building", Text = "Building" },
+                new SelectListItem { Value = "accepted", Text = "Accepted" },
+                new SelectListItem { Value = "rejected", Text = "Rejected" }
+            }, "Value", "Text", testimonial.State);
+
             return View(testimonial);
         }
 
         // POST: Testimonials/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(decimal id, [Bind("Testimonialid,Userloginid2,Comments,State")] Testimonial testimonial)
@@ -118,6 +140,14 @@ namespace HotelReservation.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["Userloginid2"] = new SelectList(_context.Userlogins, "Userloginid", "Userloginid", testimonial.Userloginid2);
+
+            ViewBag.StateList = new SelectList(new List<SelectListItem>
+            {
+                new SelectListItem { Value = "building", Text = "Building" },
+                new SelectListItem { Value = "accepted", Text = "Accepted" },
+                new SelectListItem { Value = "rejected", Text = "Rejected" }
+            }, "Value", "Text", testimonial.State);
+
             return View(testimonial);
         }
 
@@ -154,14 +184,14 @@ namespace HotelReservation.Controllers
             {
                 _context.Testimonials.Remove(testimonial);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool TestimonialExists(decimal id)
         {
-          return (_context.Testimonials?.Any(e => e.Testimonialid == id)).GetValueOrDefault();
+            return (_context.Testimonials?.Any(e => e.Testimonialid == id)).GetValueOrDefault();
         }
     }
 }

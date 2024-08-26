@@ -4,7 +4,9 @@
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Admin.cshtml";
 }
-
+<br />
+<br />
+<br />
 <h1>Edit</h1>
 
 <h4>Testimonial</h4>
@@ -26,7 +28,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="State" class="control-label"></label>
-                <input asp-for="State" class="form-control" />
+                <select asp-for="State" class="form-control" asp-items="ViewBag.StateList"></select>
                 <span asp-validation-for="State" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -39,4 +41,3 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
-
