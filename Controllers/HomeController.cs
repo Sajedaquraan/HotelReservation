@@ -12,6 +12,7 @@ using MimeKit;
 using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
+using System.Linq;
 //using System.Web.Mvc;
 //using System.Web.Security; // For FormsAuthentication
 
@@ -166,13 +167,16 @@ namespace HotelReservation.Controllers
 
 
         [HttpGet]
-        public IActionResult GetRoomAndEventById(int id)
+        public IActionResult GetRoomAndEventById(int id, string hotelName1)
         {
-            var rooms = _context.Rooms.Where(x => x.Hotelid == id && x.Availabilitystatus.Trim().ToLower() == "available").ToList();                  
-
+            var rooms = _context.Rooms
+                .Where(x => x.Hotelid == id && x.Availabilitystatus.Trim().ToLower() == "available")
+                .ToList();
 
             var id1 = HttpContext.Session.GetInt32("CustomerID");
-            var user = _context.Customers.Where(x => x.Customerid == id1).SingleOrDefault();
+            var user = _context.Customers
+                .Where(x => x.Customerid == id1)
+                .SingleOrDefault();
 
             // Set default profile image
             var defaultProfileImage = "default-profile-image.jpg"; // Adjust the path as necessary
@@ -180,12 +184,20 @@ namespace HotelReservation.Controllers
             ViewBag.Image = user?.Profileimage ?? defaultProfileImage; // Use default image if profile image is null
             ViewBag.Email = user?.Email;
 
+            
+
+           
 
 
 
             var model = Tuple.Create<IEnumerable<Room>, Customer>(rooms, user);
             return View(model);  // Ensure this matches the view's model type
         }
+
+
+
+
+
 
         [HttpPost]
         public IActionResult GetRoomAndEventById(int id, DateTime? startDate, DateTime? endDate)
@@ -218,7 +230,7 @@ namespace HotelReservation.Controllers
             }
         }
 
-
+ 
 
 
 

@@ -184,6 +184,7 @@ public partial class ModelContext : DbContext
 
             entity.HasOne(d => d.Hotel).WithMany(p => p.Events)
                 .HasForeignKey(d => d.Hotelid)
+                .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK_EVENT_HOTEL");
         });
 
@@ -287,10 +288,12 @@ public partial class ModelContext : DbContext
 
             entity.HasOne(d => d.Bank).WithMany(p => p.Paymentevents)
                 .HasForeignKey(d => d.Bankid)
+                .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK_PAYMENT_BANK");
 
             entity.HasOne(d => d.Reservation).WithMany(p => p.Paymentevents)
                 .HasForeignKey(d => d.Reservationid)
+                .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK_PAYMENT_RESERVATION2");
         });
 
@@ -320,10 +323,12 @@ public partial class ModelContext : DbContext
 
             entity.HasOne(d => d.Bank).WithMany(p => p.Paymentrooms)
                 .HasForeignKey(d => d.Bankid)
+                .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK_PAYMENT_BANK2");
 
             entity.HasOne(d => d.Reservation).WithMany(p => p.Paymentrooms)
                 .HasForeignKey(d => d.Reservationid)
+                .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK_PAYMENT_RESERVATION");
         });
 
@@ -359,10 +364,12 @@ public partial class ModelContext : DbContext
 
             entity.HasOne(d => d.Customer).WithMany(p => p.Reservationevents)
                 .HasForeignKey(d => d.Customerid)
+                .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK_RESERVATION_CUSTOMER2");
 
             entity.HasOne(d => d.Event).WithMany(p => p.Reservationevents)
                 .HasForeignKey(d => d.Eventid)
+                .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK_RESERVATION_EVENT2");
         });
 
@@ -398,10 +405,12 @@ public partial class ModelContext : DbContext
 
             entity.HasOne(d => d.Customer).WithMany(p => p.Reservationrooms)
                 .HasForeignKey(d => d.Customerid)
+                .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK_RESERVATION_CUSTOMER");
 
             entity.HasOne(d => d.Room).WithMany(p => p.Reservationrooms)
                 .HasForeignKey(d => d.Roomid)
+                .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK_RESERVATION_ROOM");
         });
 
@@ -458,6 +467,7 @@ public partial class ModelContext : DbContext
 
             entity.HasOne(d => d.Hotel).WithMany(p => p.Rooms)
                 .HasForeignKey(d => d.Hotelid)
+                .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK_ROOM_HOTEL");
         });
 
@@ -485,6 +495,7 @@ public partial class ModelContext : DbContext
 
             entity.HasOne(d => d.Userloginid2Navigation).WithMany(p => p.Testimonials)
                 .HasForeignKey(d => d.Userloginid2)
+                .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK_TESTIMONIAL_CUSTOMER2");
         });
 
@@ -542,6 +553,7 @@ public partial class ModelContext : DbContext
 
             entity.HasOne(d => d.Customer).WithMany(p => p.Userlogins)
                 .HasForeignKey(d => d.Customerid)
+                .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK_TESTIMONIAL_USERLOGIN");
 
             entity.HasOne(d => d.Role).WithMany(p => p.Userlogins)
