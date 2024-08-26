@@ -19,7 +19,7 @@
 
     <style>
         .signup-content {
-            position: relative; /* Ensure the container is positioned relative */
+            position: relative;
         }
 
         .close-button {
@@ -43,12 +43,50 @@
                 background: #f0f0f0;
                 border-color: #333;
             }
+
+        .password-requirements,
+        #password-match {
+            display: none;
+        }
+
+        .valid {
+            color: green;
+        }
+
+        .invalid {
+            color: red;
+        }
+
+        .email-status {
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+            .email-status.valid {
+                color: green;
+            }
+
+            .email-status.invalid {
+                color: red;
+            }
+
+        .alert.alert-danger.custom-alert {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        .form-button .form-submit:disabled {
+            background-color: #ddd;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 <body>
-
     <div class="main">
-
         <!-- Sign up form -->
         <section class="signup">
             <div class="container">
@@ -62,37 +100,62 @@
                         <form method="POST" class="register-form" id="register-form" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label asp-for="Customername"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                                <input type="text" asp-for="Customername" placeholder="Your Name" />
+                                <input type="text" asp-for="Customername" placeholder="Your Name" required />
                             </div>
                             <div class="form-group">
-                                <label asp-for="Email"><i class="zmdi zmdi-email"></i></label>
-                                <input type="email" asp-for="Email" placeholder="Your Email" />
+                                <label asp-for="Email" id="email"><i class="zmdi zmdi-email"></i></label>
+                                <input type="email" asp-for="Email" class="email-status" id="email" placeholder="Your Email" required />
                             </div>
+                            @if (TempData["ErrorMessage"] != null)
+                            {
+                                <div class="alert alert-danger custom-alert" role="alert">
+                                    @TempData["ErrorMessage"]
+                                </div>
+                            }
+
                             <div class="form-group">
                                 <label asp-for="Profileinfo"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                                <input type="text" asp-for="Profileinfo" placeholder="Profile Information" />
+                                <input type="text" asp-for="Profileinfo" placeholder="Profile Information" required />
                             </div>
                             <div class="form-group">
                                 <label asp-for="ImageFile"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                                <input asp-for="ImageFile" />
+                                <input type="file" asp-for="ImageFile" required />
                             </div>
                             <div class="form-group">
                                 <label asp-for="Password"><i class="zmdi zmdi-lock"></i></label>
-                                <input type="password" asp-for="Password" placeholder="Password" />
+                                <input type="password" id="password" asp-for="Password" placeholder="Password" required />
                             </div>
+
+                            <div class="password-requirements" id="password-requirements">
+                                <p>Password must meet the following requirements:</p>
+                                <ul>
+                                    <li id="length" class="invalid">At least 8 characters long</li>
+                                    <li id="uppercase" class="invalid">Contains an uppercase letter</li>
+                                    <li id="lowercase" class="invalid">Contains a lowercase letter</li>
+                                    <li id="number" class="invalid">Contains a number</li>
+                                    <li id="special" class="invalid">Contains a special character (e.g., #, $)</li>
+                                </ul>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="ConfirmPassword"><i class="zmdi zmdi-lock"></i></label>
+                                <input type="password" id="confirm-password" placeholder="Confirm Password" required />
+                            </div>
+
+                            <div id="password-match" class="invalid">Passwords do not match</div>
 
                             <div class="form-group">
                                 <input type="checkbox" name="agree-term" id="agree-term" class="agree-term" />
                                 <label for="agree-term" class="label-agree-term"><span><span></span></span>I agree all statements in <a href="#" class="term-service">Terms of service</a></label>
                             </div>
                             <div class="form-group form-button">
-                                <input type="submit" name="signup" id="signup" class="form-submit" value="Register" />
+                                <input type="submit" name="signup" id="signup" class="form-submit" value="Register" disabled />
                             </div>
                         </form>
                     </div>
                     <div class="signup-image">
-                        <figure><img src="~/Images/7475e196bba7ffba17ac97ae181698b2.jpg" alt="sing up image"></figure>
-                        <a href="@Url.Action("Login")" class="signup-image-link">I have account</a>
+                        <figure><img src="~/Images/7475e196bba7ffba17ac97ae181698b2.jpg" alt="sign up image"></figure>
+                        <a href="@Url.Action("Login")" class="signup-image-link">I have an account</a>
                     </div>
                 </div>
             </div>
@@ -103,7 +166,7 @@
     <script src="~/RegisterAndLogin/vendor/jquery/jquery.min.js"></script>
     <script src="~/RegisterAndLogin/js/main.js"></script>
 </body>
-<!-- This templates was made by Colorlib (https://colorlib.com) -->
+<!-- This template was made by Colorlib (https://colorlib.com) -->
 </html>
 
 @section Scripts {
@@ -111,3 +174,54 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const passwordInput = document.getElementById("password");
+        const confirmPasswordInput = document.getElementById("confirm-password");
+        const passwordRequirements = document.getElementById("password-requirements");
+        const passwordMatchMessage = document.getElementById("password-match");
+        const registerButton = document.getElementById("signup");
+
+        function validatePassword() {
+            passwordRequirements.style.display = "block";
+
+            const length = document.getElementById("length");
+            const uppercase = document.getElementById("uppercase");
+            const lowercase = document.getElementById("lowercase");
+            const number = document.getElementById("number");
+            const special = document.getElementById("special");
+
+            const value = passwordInput.value;
+            length.className = value.length >= 8 ? "valid" : "invalid";
+            uppercase.className = /[A-Z]/.test(value) ? "valid" : "invalid";
+            lowercase.className = /[a-z]/.test(value) ? "valid" : "invalid";
+            number.className = /\d/.test(value) ? "valid" : "invalid";
+            special.className = /[!#$%^&*(),.?":{}|<>]/.test(value) ? "valid" : "invalid";
+
+            checkButtonState();
+        }
+
+        function validatePasswordMatch() {
+            passwordMatchMessage.style.display = "block";
+            if (confirmPasswordInput.value === passwordInput.value) {
+                passwordMatchMessage.className = "valid";
+                passwordMatchMessage.textContent = "Passwords match";
+            } else {
+                passwordMatchMessage.className = "invalid";
+                passwordMatchMessage.textContent = "Passwords do not match";
+            }
+
+            checkButtonState();
+        }
+
+        function checkButtonState() {
+            const isPasswordValid = document.querySelectorAll("#password-requirements .valid").length === 5;
+            const isPasswordMatch = confirmPasswordInput.value === passwordInput.value;
+            registerButton.disabled = !(isPasswordValid && isPasswordMatch);
+        }
+
+        passwordInput.addEventListener("input", validatePassword);
+        confirmPasswordInput.addEventListener("input", validatePasswordMatch);
+    });
+</script>

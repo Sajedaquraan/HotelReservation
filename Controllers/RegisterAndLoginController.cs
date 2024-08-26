@@ -4,7 +4,9 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Net;
 using System.Net.Mail;
-namespace HotelReservation.Controllers
+using Microsoft.EntityFrameworkCore;
+
+namespace HotelReservation.Controllers   
 {
     public class RegisterAndLoginController : Controller
     {
@@ -32,6 +34,15 @@ namespace HotelReservation.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Check if the email already exists
+                var emailExists = await _context.Customers.AnyAsync(u => u.Email == Email);
+                if (emailExists)
+                {
+                    TempData["ErrorMessage"] = "Email is already registered. ";
+                    ModelState.AddModelError("Email", "Email is already registered.");
+                    return View(customer);
+                }
+
                 if (customer.ImageFile != null)
                 {
                     string wwwRootPath = _environment.WebRootPath;
@@ -70,6 +81,12 @@ namespace HotelReservation.Controllers
             return View(customer);
         }
 
+        [HttpPost]
+        public async Task<JsonResult> CheckEmail(string email)
+        {
+            var emailExists = await _context.Customers.AnyAsync(u => u.Email == email);
+            return Json(emailExists);
+        }
 
 
         private void SendVerificationEmail(string email, string verificationCode)
@@ -161,6 +178,7 @@ namespace HotelReservation.Controllers
                         //return RedirectToAction("Index", "Home");
                         break;
                 }
+           
 
                 // Redirect to the return URL if it exists, or to a default page
                 if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
@@ -171,6 +189,10 @@ namespace HotelReservation.Controllers
                 {
                     return RedirectToAction("Index", "Home");
                 }
+            }
+            else 
+            {
+                TempData["ErrorMessage"] = "Email or password not correct!";
             }
 
             return View();
