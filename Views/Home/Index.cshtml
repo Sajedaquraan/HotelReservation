@@ -42,6 +42,12 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <!-- Slick CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick-theme.css" />
+
+    <!-- Slick JS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.min.js"></script>
 
 
     <style>
@@ -155,6 +161,36 @@
             align-items: center;
             text-align: center; /* Center-align images and content */
         }
+
+        
+        .testimonial-navigation {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 50px; /* زودت المسافة بين البوكس والأسهم */
+        }
+
+        .slick-prev,
+        .slick-next {
+            background: none;
+            border: none;
+            font-size: 40px; /* زيادة حجم الأسهم */
+            color: black;
+            cursor: pointer;
+            margin: 0 20px;
+        }
+
+            .slick-prev:hover,
+            .slick-next:hover {
+                color: #007bff; /* تغيير لون الأسهم عند التمرير */
+            }
+
+            .slick-prev:focus,
+            .slick-next:focus {
+                outline: none; /* إزالة الخط الخارجي عند التحديد */
+            }
+
+
 
 
     </style>
@@ -836,47 +872,28 @@
     <!-- end gallery-main -->
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     <div id="Testimonial" class="about-main pad-top-100 pad-bottom-100" style="width:100%; max-width:100%;">
-        @*     <div id="Testimonial" class="blog-main pad-top-100 pad-bottom-100 parallax">
- *@            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <h2 class="block-title text-center">
-                           TESTIMONIALS
-                        </h2>
-                        <div class="blog-box clearfix">
-                            <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
-                            @foreach (var item in Model.Testimonials.Where(x => x.State == "accepted"))
-                                 {
-                                <div class="col-md-6 col-sm-6">
-                                    <div class="blog-block">
-                                        <h2 class=" color-white text-center" style="color:black; font-size:20px;">@item.Comments</h2>
-                                    </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <h2 class="block-title text-center">TESTIMONIALS</h2>
+                    <p class="color-white text-center" style="color:black; font-size:20px;">What do customers say about us?</p>
+                    <div class="testimonial-slider">
+                        @foreach (var item in Model.Testimonials.Where(x => x.State == "accepted"))
+                        {
+                            <div class="testimonial-item">
+                                <div class="blog-block">
+                                    <h2 class="color-white text-center" style="color:black; font-size:20px;">@item.Comments</h2>
                                 </div>
-                                }
-                                <!-- end col -->
                             </div>
-                        </div>
+                        }
                     </div>
-                    <!-- end blog-box -->
-
+                    <br /><br /><br />
+                    <!-- Custom Arrows Positioned Below -->
+                    <div class="testimonial-navigation text-center">
+                        <button type="button" class="slick-prev" style="text-align:center; margin-left:530px;"></button>
+                        <button type="button" class="slick-next" style="text-align:center; margin-right:530px;"></button>
+                    </div>
                     <div class="blog-btn-v">
                         @if (isLoggedIn)
                         {
@@ -888,10 +905,9 @@
                         }
                     </div>
                 </div>
-                <!-- end col -->
             </div>
-            <!-- end row -->
         </div>
+    </div>
 
 
     
@@ -1154,8 +1170,34 @@
     <!-- end footer-main -->
 
     <a href="#" class="scrollup" style="display: none;">Scroll</a>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('.testimonial-slider').slick({
+                infinite: true,
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                arrows: false, 
+                autoplay: true,
+                autoplaySpeed: 1500,
+                fade: true,
+                cssEase: 'linear'
+            });
+
+            
+            $('.slick-prev').on('click', function () {
+                $('.testimonial-slider').slick('slickPrev');
+            });
+
+            $('.slick-next').on('click', function () {
+                $('.testimonial-slider').slick('slickNext');
+            });
+        });
 
 
+
+    </script>
 
     <script>
 
