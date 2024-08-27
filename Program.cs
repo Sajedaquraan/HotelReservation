@@ -10,10 +10,18 @@ namespace HotelReservation
         {
             var builder = WebApplication.CreateBuilder(args);
 
+
             builder.Services.AddDbContext<ModelContext>(options => options.UseOracle(builder.Configuration.GetConnectionString("DefaultConnection")));
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-            builder.Services.AddSession(options => {options.IdleTimeout = TimeSpan.FromMinutes(60);});
+            builder.Services.AddSession(options => 
+                                        {
+                                            options.IdleTimeout = TimeSpan.FromMinutes(60);
+                                            //options.Cookie.HttpOnly = true;
+                                            //options.Cookie.IsEssential = true;
+                                            //options.Cookie.Name = "MyCustomSessionCookie";
+                                            //options.Cookie.Path = "/"; // Ensure this covers all paths
+                                        });
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                     .AddCookie(options =>
                     {

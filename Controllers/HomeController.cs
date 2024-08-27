@@ -440,8 +440,10 @@ namespace HotelReservation.Controllers
         }
     }
 
-        public IActionResult Testimonials()
+        public IActionResult Testimonials(int id)
         {
+            var id1 = HttpContext.Session.GetInt32("CustomerID");
+            var user = _context.Customers.Where(x => x.Customerid == id).SingleOrDefault();
             return View();
         }
 
@@ -453,11 +455,19 @@ namespace HotelReservation.Controllers
             if (ModelState.IsValid)
             {
                 var id = HttpContext.Session.GetInt32("CustomerID");
-                var user = await _context.Customers
-                                          .Where(x => x.Customerid == id)
-                                          .SingleOrDefaultAsync();
+                if (id == null)
+                {
+                    ModelState.AddModelError("", "User is not logged in.");
+                    return View(testimonial);
+                }
 
-                //testimonial.Testimonialid = (int)id; // Casting the nullable int to int
+                var userExists = _context.Customers.Any(x => x.Customerid == id);
+                if (!userExists)
+                {
+                    ModelState.AddModelError("", "Invalid customer ID.");
+                    return View(testimonial);
+                }
+
                 testimonial.State = "building";
                 testimonial.Userloginid2 = (int)id;
                 _context.Add(testimonial);
