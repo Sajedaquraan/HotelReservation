@@ -23,7 +23,14 @@ namespace HotelReservation.Controllers
         // GET: Todayspecials
         public async Task<IActionResult> Index()
         {
-              return _context.Todayspecials != null ? 
+            var customers = _context.Customers.ToList();
+            ViewBag.Customers = customers;
+            var id = HttpContext.Session.GetInt32("AdminID");
+            var users = _context.Customers.Where(x => x.Customerid == id).SingleOrDefault();
+            ViewBag.name = users.Customername;
+            ViewBag.image = users.Profileimage;
+            ViewBag.email = users.Email;
+            return _context.Todayspecials != null ? 
                           View(await _context.Todayspecials.ToListAsync()) :
                           Problem("Entity set 'ModelContext.Todayspecials'  is null.");
         }

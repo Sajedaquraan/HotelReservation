@@ -23,7 +23,14 @@ namespace HotelReservation.Controllers
         // GET: Pages
         public async Task<IActionResult> Index()
         {
-              return _context.Pages != null ? 
+            var customers = _context.Customers.ToList();
+            ViewBag.Customers = customers;
+            var id = HttpContext.Session.GetInt32("AdminID");
+            var users = _context.Customers.Where(x => x.Customerid == id).SingleOrDefault();
+            ViewBag.name = users.Customername;
+            ViewBag.image = users.Profileimage;
+            ViewBag.email = users.Email;
+            return _context.Pages != null ? 
                           View(await _context.Pages.ToListAsync()) :
                           Problem("Entity set 'ModelContext.Pages'  is null.");
         }

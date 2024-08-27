@@ -24,6 +24,13 @@ namespace HotelReservation.Controllers
         // GET: Rooms11
         public async Task<IActionResult> Index()
         {
+            var customers = _context.Customers.ToList();
+            ViewBag.Customers = customers;
+            var id = HttpContext.Session.GetInt32("AdminID");
+            var users = _context.Customers.Where(x => x.Customerid == id).SingleOrDefault();
+            ViewBag.name = users.Customername;
+            ViewBag.image = users.Profileimage;
+            ViewBag.email = users.Email;
             var modelContext = _context.Rooms.Include(r => r.Hotel);
             return View(await modelContext.ToListAsync());
         }

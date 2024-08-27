@@ -21,6 +21,7 @@ namespace HotelReservation.Controllers
         // GET: Banks
         public async Task<IActionResult> Index()
         {
+
               return _context.Banks != null ? 
                           View(await _context.Banks.ToListAsync()) :
                           Problem("Entity set 'ModelContext.Banks'  is null.");

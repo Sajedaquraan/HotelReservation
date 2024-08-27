@@ -21,6 +21,13 @@ namespace HotelReservation.Controllers
         // GET: Userlogins
         public async Task<IActionResult> Index()
         {
+            var customers = _context.Customers.ToList();
+            ViewBag.Customers = customers;
+            var id = HttpContext.Session.GetInt32("AdminID");
+            var users = _context.Customers.Where(x => x.Customerid == id).SingleOrDefault();
+            ViewBag.name = users.Customername;
+            ViewBag.image = users.Profileimage;
+            ViewBag.email = users.Email;
             var modelContext = _context.Userlogins.Include(u => u.Customer).Include(u => u.Role);
             return View(await modelContext.ToListAsync());
         }
@@ -41,6 +48,7 @@ namespace HotelReservation.Controllers
             {
                 return NotFound();
             }
+
 
             return View(userlogin);
         }

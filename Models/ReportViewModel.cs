@@ -9,6 +9,7 @@ namespace HotelReservation.Models
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
 
+        public IEnumerable<Customer> customers { get; set; }
 
     }
 }

@@ -107,6 +107,17 @@
             transition: transform 0.3s ease-in-out;
         }
 
+       .special-img {
+    width: 100%;
+    height: 150px; /* Fixed height for all images */
+    object-fit: cover; /* Ensures image covers the entire area, cropping if necessary */
+    object-position: center; /* Centers the image within the container */
+    border-radius: 10px; /* Optional: for rounded corners */
+    display: block;
+}
+
+
+
     </style>
 </head>
 
@@ -266,47 +277,47 @@
         <!-- end container -->
     </div>
 
-    <div id="TodaySpecial" class="gallery-main pad-top-100 pad-bottom-100">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
-                        <h2 class="block-title color-white text-center"> Today's Special </h2>
-                        <h5 class="title-caption text-center">"Celebrate your special days with us, where unforgettable moments meet exceptional comfort and luxury." </h5>
-                        <h1 class="title-caption text-center">CHOOSE ONE TO BOOKED IT</h1>
-
-                    </div>
-                    <div class="special-box">
-                        <div id="owl-demo">
-                            @foreach(var item in Model.Item5)
-                            {
-                            <div class="item item-type-zoom">
-                                    <a href="#" class="item-hover">
-                                    <div class="item-info">
-                                        <div class="headline">
-                                            @item.Todayspecialname
-                                            <div class="dit-line">$@item.Todayspecialprice</div>                                           
-                                            <div class="line"></div>
-                                            <div class="dit-line">@item.Todayspecialcontant</div>
-                                        </div>
-                                    </div>
-                                </a>
-                                <div class="item-img">
-                                        <img src="@Url.Content("~/Images/"+item.Todayspecialimage)" asp-append-version="true" class="about-main" alt="About Main Image">
-                                    </div>
-                            </div>
-                            }                          
-                        </div>
-                    </div>
-                    <!-- end special-box -->
+<div id="TodaySpecial" class="gallery-main pad-top-100 pad-bottom-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
+                    <h2 class="block-title color-white text-center"> Today's Special </h2>
+                    <h5 class="title-caption text-center">"Celebrate your special days with us, where unforgettable moments meet exceptional comfort and luxury." </h5>
+                    <h1 class="title-caption text-center">CHOOSE ONE TO BOOK IT</h1>
                 </div>
-                <!-- end col -->
+                <div class="special-box">
+                    <div id="owl-demo">
+                            @foreach (var item in Model.Item5)
+                            {
+                                <div class="item item-type-zoom">
+                                    <a href="#" class="item-hover">
+                                        <div class="item-info">
+                                            <div class="headline">
+                                                @item.Todayspecialname
+                                                <div class="dit-line">JOD @item.Todayspecialprice</div>
+                                                <div class="line"></div>
+                                                <div class="dit-line">@item.Todayspecialcontant</div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <div class="item-img">
+                                        <img src="@Url.Content("~/Images/"+item.Todayspecialimage)" asp-append-version="true" class="special-img" alt="Today's Special">
+                                    </div>
+                                </div>
+                            }
+                    </div>
+                </div>
+                <!-- end special-box -->
             </div>
-            <!-- end row -->
+            <!-- end col -->
         </div>
-        <!-- end container -->
+        <!-- end row -->
     </div>
-    <!-- end special-menu -->
+    <!-- end container -->
+</div>
+<!-- end special-menu -->
+
 
     <div id="menu" class="menu-main pad-top-100 pad-bottom-100">
         <div class="container">

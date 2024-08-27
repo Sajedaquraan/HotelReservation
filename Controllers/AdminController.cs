@@ -137,7 +137,14 @@ namespace HotelReservation.Controllers
         [HttpGet, HttpPost]
         public IActionResult Report(DateTime? startDate, DateTime? endDate)
         {
-            
+            var customers = _context.Customers.ToList();
+            ViewBag.Customers = customers;
+            var id = HttpContext.Session.GetInt32("AdminID");
+            var users = _context.Customers.Where(x => x.Customerid == id).SingleOrDefault();
+            ViewBag.name = users.Customername;
+            ViewBag.image = users.Profileimage;
+            ViewBag.email = users.Email;
+
             var Hotel = _context.Hotels.ToList();
             var Room = _context.Rooms.ToList();
             var ReservationRoom = _context.Reservationrooms.ToList();
@@ -198,7 +205,8 @@ namespace HotelReservation.Controllers
                             ReportData = result.ToList(),
                             TestimonialChart = testimonialChart,
                             StartDate = startDate,
-                            EndDate = endDate
+                            EndDate = endDate,
+                            customers = customers,
                         };
             return View(viewModel);
             
@@ -206,12 +214,26 @@ namespace HotelReservation.Controllers
 
         public IActionResult Monthly()
         {
+            var customers = _context.Customers.ToList();
+            ViewBag.Customers = customers;
+            var id = HttpContext.Session.GetInt32("AdminID");
+            var users = _context.Customers.Where(x => x.Customerid == id).SingleOrDefault();
+            ViewBag.name = users.Customername;
+            ViewBag.image = users.Profileimage;
+            ViewBag.email = users.Email;
             var model = _reportService.GetMonthlyReport();
             return View(model);
         }
 
         public IActionResult Annual()
         {
+            var customers = _context.Customers.ToList();
+            ViewBag.Customers = customers;
+            var id = HttpContext.Session.GetInt32("AdminID");
+            var users = _context.Customers.Where(x => x.Customerid == id).SingleOrDefault();
+            ViewBag.name = users.Customername;
+            ViewBag.image = users.Profileimage;
+            ViewBag.email = users.Email;
             var model = _reportService.GetAnnualReport();
             return View(model);
         }

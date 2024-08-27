@@ -24,7 +24,13 @@ namespace HotelReservation.Controllers
         // GET: Hotels
         public async Task<IActionResult> Index()
         {
-            
+            var customers = _context.Customers.ToList();
+            ViewBag.Customers = customers;
+            var id = HttpContext.Session.GetInt32("AdminID");
+            var users = _context.Customers.Where(x => x.Customerid == id).SingleOrDefault();
+            ViewBag.name = users.Customername;
+            ViewBag.image = users.Profileimage;
+            ViewBag.email = users.Email;
             return _context.Hotels != null ? 
                           View(await _context.Hotels.ToListAsync()) :
                           Problem("Entity set 'ModelContext.Hotels'  is null.");
