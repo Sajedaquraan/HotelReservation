@@ -168,7 +168,7 @@
                                     <br /><br />
                                     @foreach (var item in Model.Item1)
                                     {
-                                        <div class="col-md-4 col-sm-6">
+                                        <div class="col-md-4 col-sm-6" style="margin-bottom: 25px;">
                                             <div class="sf-team">
                                                 <div class="thumb">
                                                     <img class="card-img-top" src="@Url.Content("~/Images/" + item.Imagepath)"
@@ -177,10 +177,6 @@
                                                 <div class="text-col">
                                                     <h5 class="card-title">@item.Roomtype</h5>
                                                     <p class="card-text"><strong>Price:</strong> @item.Price</p>
-                                                   <!-- 
-                                                    <p class="card-text"><strong>Date From:</strong> @item.Datefrom?.ToShortDateString()</p>
-                                                    <p class="card-text"><strong>Date To:</strong> @item.Dateto?.ToShortDateString()</p>
-                                                     -->
                                                     @if (isLoggedIn)
                                                     {
                                                         <a href="@Url.Action("payment", "Home", new { roomId = item.Roomid })" class="btn btn-dark">Book it</a>
@@ -192,7 +188,9 @@
                                                 </div>
                                             </div>
                                         </div>
+
                                     }
+
                                 </div>
                             </div>
                         </div>

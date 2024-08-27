@@ -95,8 +95,28 @@ namespace HotelReservation.Controllers
             var Todayspecial=_context.Todayspecials.ToList();
 
             var contact = new Contact();
-            var model = Tuple.Create<Customer, IEnumerable<Hotel>,Contact, IEnumerable<Testimonial>, IEnumerable<Todayspecial>>(user, hotels, contact, Testimonial, Todayspecial);
 
+            var model = new HomeViewModel
+            {
+                User = user,
+                Hotels = hotels,
+                Contact = contact,
+                Testimonials = _context.Testimonials.ToList(),
+                Todayspecials = _context.Todayspecials.ToList(),
+                Gallery1 = _context.Pages.Where(x => x.Pagename == "Gallery1").Select(x => x.Pageimage).FirstOrDefault(),
+                Gallery2 = _context.Pages.Where(x => x.Pagename == "Gallery2").Select(x => x.Pageimage).FirstOrDefault(),
+                Gallery3 = _context.Pages.Where(x => x.Pagename == "Gallery3").Select(x => x.Pageimage).FirstOrDefault(),
+                Gallery4 = _context.Pages.Where(x => x.Pagename == "Gallery4").Select(x => x.Pageimage).FirstOrDefault(),
+                Gallery5 = _context.Pages.Where(x => x.Pagename == "Gallery5").Select(x => x.Pageimage).FirstOrDefault(),
+                Gallery6 = _context.Pages.Where(x => x.Pagename == "Gallery6").Select(x => x.Pageimage).FirstOrDefault(),
+                Gallery7 = _context.Pages.Where(x => x.Pagename == "Gallery7").Select(x => x.Pageimage).FirstOrDefault(),
+                Gallery8 = _context.Pages.Where(x => x.Pagename == "Gallery8").Select(x => x.Pageimage).FirstOrDefault(),
+                Gallery9 = _context.Pages.Where(x => x.Pagename == "Gallery9").Select(x => x.Pageimage).FirstOrDefault(),
+                Gallery10 = _context.Pages.Where(x => x.Pagename == "Gallery10").Select(x => x.Pageimage).FirstOrDefault()
+            };
+
+
+            
             return View(model);
         }
 
@@ -189,8 +209,17 @@ namespace HotelReservation.Controllers
             
 
             var hotel1 = _context.Pages.SingleOrDefault(x => x.Pageid == 61);
+            ViewBag.Hotelname1 = hotel1.Pagename;
+            ViewBag.Hotelcontant1 = hotel1.Pagecontent;
+
             var hotel2 = _context.Pages.SingleOrDefault(x => x.Pageid == 62);
+            ViewBag.Hotelname2 = hotel2.Pagename;
+            ViewBag.Hotelcontant2 = hotel2.Pagecontent;
+
             var hotel3 = _context.Pages.SingleOrDefault(x => x.Pageid == 63);
+            ViewBag.Hotelname3 = hotel3.Pagename;
+            ViewBag.Hotelcontant3 = hotel3.Pagecontent;
+
 
             var model = Tuple.Create<IEnumerable<Room>, Customer, Page, Page, Page>(rooms, user, hotel1, hotel2, hotel3);
 

@@ -1,4 +1,4 @@
-﻿@model Tuple<Customer, IEnumerable<Hotel>, Contact,IEnumerable<Testimonial>,IEnumerable<Todayspecial>>
+﻿@model HomeViewModel
 
 @{
     Layout = null;
@@ -17,7 +17,7 @@
     <meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0">
 
     <!-- Site Metas -->
-    <title>Food Funday Restaurant - One page HTML Responsive</title>
+    <title>Hotel Reservations</title>
     <meta name="keywords" content="">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -52,7 +52,6 @@
             height: 250px;
             object-fit: cover;
             border-radius: 10px;
-            margin-bottom: 15px; /* Add space between the image and the text */
         }
 
         /* Ensure the text elements are aligned properly */
@@ -107,14 +106,16 @@
             transition: transform 0.3s ease-in-out;
         }
 
-       .special-img {
-    width: 100%;
-    height: 150px; /* Fixed height for all images */
-    object-fit: cover; /* Ensures image covers the entire area, cropping if necessary */
-    object-position: center; /* Centers the image within the container */
-    border-radius: 10px; /* Optional: for rounded corners */
-    display: block;
-}
+       .special-img 
+       {
+            width: 100%;
+            height: 400px;  /* Fixed height for all images */
+            max-height:400px;
+            object-fit: cover; /* Ensures image covers the entire area, cropping if necessary */
+            object-position: center; /* Centers the image within the container */
+            border-radius: 10px; /* Optional: for rounded corners */
+            display: block;
+        }
 
 
 
@@ -288,7 +289,7 @@
                 </div>
                 <div class="special-box">
                     <div id="owl-demo">
-                            @foreach (var item in Model.Item5)
+                            @foreach (var item in Model.Todayspecials)
                             {
                                 <div class="item item-type-zoom">
                                     <a href="#" class="item-hover">
@@ -539,7 +540,7 @@
                     </div>
                     <div class="team-box">
                         <div class="row" id="hotelList">
-                            @foreach (var item in Model.Item2)
+                            @foreach (var item in Model.Hotels)
                             {
                                 <div class="col-md-4 col-sm-6 hotel-item">
                                     <div class="sf-team">
@@ -584,14 +585,14 @@
                         <div class="col-md-8 col-sm-12 co-xs-12 gal-item">
                             <div class="box">
                                 <a href="#" data-toggle="modal" data-target="#1">
-                                    <img src="~/HomePage/images/gallery_01.jpg" alt="" />
+                                    <img src="@Url.Content("~/Images/"+Model.Gallery1)" alt="" asp-append-version="true">
                                 </a>
                                 <div class="modal fade" id="1" tabindex="-1" role="dialog">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                                             <div class="modal-body">
-                                                <img src="~/HomePage/images/gallery_01.jpg" alt="" />
+                                                <img src="@Url.Content("~/Images/"+Model.Gallery1)" alt="" asp-append-version="true">
                                             </div>
                                             <div class="col-md-12 description">
                                                 <h4>This is the 1 one on my Gallery</h4>
@@ -604,14 +605,14 @@
                         <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
                             <div class="box">
                                 <a href="#" data-toggle="modal" data-target="#2">
-                                    <img src="~/HomePage/images/gallery_02.jpg" alt="" />
+                                    <img src="@Url.Content("~/Images/"+Model.Gallery2)" alt="" asp-append-version="true">
                                 </a>
                                 <div class="modal fade" id="2" tabindex="-1" role="dialog">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                                             <div class="modal-body">
-                                                <img src="~/HomePage/images/gallery_02.jpg" alt="" />
+                                                <img src="@Url.Content("~/Images/"+Model.Gallery2)" alt="" asp-append-version="true">
                                             </div>
                                             <div class="col-md-12 description">
                                                 <h4>This is the 2 one on my Gallery</h4>
@@ -624,14 +625,14 @@
                         <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
                             <div class="box">
                                 <a href="#" data-toggle="modal" data-target="#3">
-                                    <img src="~/HomePage/images/gallery_03.jpg" alt="" />
+                                    <img src="@Url.Content("~/Images/"+Model.Gallery3)" alt="" asp-append-version="true">
                                 </a>
                                 <div class="modal fade" id="3" tabindex="-1" role="dialog">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                                             <div class="modal-body">
-                                                <img src="~/HomePage/images/gallery_03.jpg" alt="" />
+                                                <img src="@Url.Content("~/Images/"+Model.Gallery3)" alt="" asp-append-version="true">
                                             </div>
                                             <div class="col-md-12 description">
                                                 <h4>This is the 3 one on my Gallery</h4>
@@ -644,14 +645,14 @@
                         <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
                             <div class="box">
                                 <a href="#" data-toggle="modal" data-target="#4">
-                                    <img src="~/HomePage/images/gallery_04.jpg" alt="" />
+                                    <img src="@Url.Content("~/Images/"+Model.Gallery4)" alt="" asp-append-version="true">
                                 </a>
                                 <div class="modal fade" id="4" tabindex="-1" role="dialog">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                                             <div class="modal-body">
-                                                <img src="~/HomePage/images/gallery_04.jpg" alt="" />
+                                                <img src="@Url.Content("~/Images/"+Model.Gallery4)" alt="" asp-append-version="true">
                                             </div>
                                             <div class="col-md-12 description">
                                                 <h4>This is the 4 one on my Gallery</h4>
@@ -664,14 +665,14 @@
                         <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
                             <div class="box">
                                 <a href="#" data-toggle="modal" data-target="#5">
-                                    <img src="~/HomePage/images/gallery_05.jpg" alt="" />
+                                    <img src="@Url.Content("~/Images/"+Model.Gallery5)" alt="" asp-append-version="true">
                                 </a>
                                 <div class="modal fade" id="5" tabindex="-1" role="dialog">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                                             <div class="modal-body">
-                                                <img src="~/HomePage/images/gallery_05.jpg" alt="" />
+                                                <img src="@Url.Content("~/Images/"+Model.Gallery5)" alt="" asp-append-version="true">
                                             </div>
                                             <div class="col-md-12 description">
                                                 <h4>This is the 5 one on my Gallery</h4>
@@ -684,14 +685,14 @@
                         <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
                             <div class="box">
                                 <a href="#" data-toggle="modal" data-target="#9">
-                                    <img src="~/HomePage/images/gallery_06.jpg" alt="" />
+                                    <img src="@Url.Content("~/Images/"+Model.Gallery6)" alt="" asp-append-version="true">
                                 </a>
                                 <div class="modal fade" id="9" tabindex="-1" role="dialog">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                                             <div class="modal-body">
-                                                <img src="~/HomePage/images/gallery_06.jpg" alt="" />
+                                                <img src="@Url.Content("~/Images/"+Model.Gallery6)" alt="" asp-append-version="true">
                                             </div>
                                             <div class="col-md-12 description">
                                                 <h4>This is the 6 one on my Gallery</h4>
@@ -704,14 +705,14 @@
                         <div class="col-md-8 col-sm-12 co-xs-12 gal-item">
                             <div class="box">
                                 <a href="#" data-toggle="modal" data-target="#10">
-                                    <img src="~/HomePage/images/gallery_07.jpg" alt="" />
+                                    <img src="@Url.Content("~/Images/"+Model.Gallery7)" alt="" asp-append-version="true">
                                 </a>
                                 <div class="modal fade" id="10" tabindex="-1" role="dialog">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                                             <div class="modal-body">
-                                                <img src="~/HomePage/images/gallery_07.jpg" alt="" />
+                                                <img src="@Url.Content("~/Images/"+Model.Gallery7)" alt="" asp-append-version="true">
                                             </div>
                                             <div class="col-md-12 description">
                                                 <h4>This is the 7 one on my Gallery</h4>
@@ -724,14 +725,14 @@
                         <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
                             <div class="box">
                                 <a href="#" data-toggle="modal" data-target="#11">
-                                    <img src="~/HomePage/images/gallery_08.jpg" alt="" />
+                                    <img src="@Url.Content("~/Images/"+Model.Gallery8)" alt="" asp-append-version="true">
                                 </a>
                                 <div class="modal fade" id="11" tabindex="-1" role="dialog">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                                             <div class="modal-body">
-                                                <img src="~/HomePage/images/gallery_08.jpg" alt="" />
+                                                <img src="@Url.Content("~/Images/"+Model.Gallery8)" alt="" asp-append-version="true">
                                             </div>
                                             <div class="col-md-12 description">
                                                 <h4>This is the 8 one on my Gallery</h4>
@@ -744,14 +745,14 @@
                         <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
                             <div class="box">
                                 <a href="#" data-toggle="modal" data-target="#12">
-                                    <img src="~/HomePage/images/gallery_09.jpg" alt="" />
+                                    <img src="@Url.Content("~/Images/"+Model.Gallery9)" alt="" asp-append-version="true">
                                 </a>
                                 <div class="modal fade" id="12" tabindex="-1" role="dialog">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                                             <div class="modal-body">
-                                                <img src="~/HomePage/images/gallery_09.jpg" alt="" />
+                                                <img src="@Url.Content("~/Images/"+Model.Gallery9)" alt="" asp-append-version="true">
                                             </div>
                                             <div class="col-md-12 description">
                                                 <h4>This is the 9 one on my Gallery</h4>
@@ -764,14 +765,14 @@
                         <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
                             <div class="box">
                                 <a href="#" data-toggle="modal" data-target="#13">
-                                    <img src="~/HomePage/images/gallery_10.jpg" alt="" />
+                                    <img src="@Url.Content("~/Images/"+Model.Gallery10)" alt="" asp-append-version="true">
                                 </a>
                                 <div class="modal fade" id="13" tabindex="-1" role="dialog">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                                             <div class="modal-body">
-                                                <img src="~/HomePage/images/gallery_10.jpg" alt="" />
+                                                <img src="@Url.Content("~/Images/"+Model.Gallery10)" alt="" asp-append-version="true">
                                             </div>
                                             <div class="col-md-12 description">
                                                 <h4>This is the 10 one on my Gallery</h4>
@@ -803,7 +804,7 @@
                         </h2>
                         <div class="blog-box clearfix">
                             <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
-                                 @foreach (var item in Model.Item4.Where(x=>x.State=="accepted"))
+                            @foreach (var item in Model.Testimonials.Where(x => x.State == "accepted"))
                                  {
                                 <div class="col-md-6 col-sm-6">
                                     <div class="blog-block">
@@ -948,7 +949,7 @@
                                 @Html.AntiForgeryToken()
                                 <div class="d-flex justify-content-center">
                                     <div class="form-box">
-                                        <input type="text" asp-for="Item3.Contactusdescription" class="form-control text-center" placeholder="Contact Us" required="required" />
+                                        <input type="text" asp-for="Contact.Contactusdescription" class="form-control text-center" placeholder="Contact Us" required="required" />
                                     </div>
                                 </div>
                             </form>
@@ -967,26 +968,7 @@
 
 
     <div id="footer" class="footer-main">
-        <div class="footer-news pad-top-100 pad-bottom-70 parallax">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
-                            <h2 class="ft-title color-white text-center"> Newsletter </h2>
-                            <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
-                        </div>
-                        <form>
-                            <input type="email" placeholder="Enter your e-mail id">
-                            <a href="#" class="orange-btn"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></a>
-                        </form>
-                    </div>
-                    <!-- end col -->
-                </div>
-                <!-- end row -->
-            </div>
-            <!-- end container -->
-        </div>
-        <!-- end footer-news -->
+        
         <div class="footer-box pad-top-70">
             <div class="container">
                 <div class="row">
