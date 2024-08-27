@@ -86,6 +86,11 @@ namespace HotelReservation.Controllers
                 .Select(p => p.Pageimage).FirstOrDefault();
             ViewBag.AboutImage = AboutImage;
 
+            var AboutImage2 = _context.Pages
+                .Where(p => p.Pagename == "About2")
+                .Select(p => p.Pageimage).FirstOrDefault();
+            ViewBag.AboutImage2 = AboutImage2;
+
             var AboutContent = _context.Pages
                 .Where(p => p.Pagename == "About")
                 .Select(p => p.Pagecontent).FirstOrDefault();
