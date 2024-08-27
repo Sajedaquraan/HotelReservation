@@ -47,7 +47,10 @@ namespace HotelReservation.Controllers
             var Payment = _context.Paymentrooms.ToList();
             ViewBag.Payment = Payment;
 
-            var result=Tuple.Create<IEnumerable<Customer>, IEnumerable<Paymentroom>>(customers,Payment);
+            var contact = _context.Contacts.ToList().Take(10);
+            ViewBag.Contact = contact;
+
+            var result=Tuple.Create<IEnumerable<Customer>, IEnumerable<Paymentroom>, IEnumerable<Contact>>(customers,Payment,contact);
             return View(result);
         }
 

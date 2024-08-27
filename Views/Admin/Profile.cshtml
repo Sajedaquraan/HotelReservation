@@ -4,10 +4,10 @@
     Layout = "~/Views/Shared/_Admin.cshtml";
 }
 <br /><br /><br /><br />
-
+<div class="content">
 <h1>Profile</h1>
 
-<div class="profile-container">
+<div class="profile-container ">
     <div class="profile-image">
         <img src="@Url.Content("~/Images/" + ViewBag.Image)" asp-append-version="true" alt="Profile Image" id="profile-pic" width="250" height="250">
     </div>
@@ -21,4 +21,5 @@
     </div>
     <a class="dropdown-item" href="@Url.Action("Logout", "Home")">Logout</a>
     <a href="@Url.Action("Edit", "Admin", new { id = ViewBag.UserId })" class="btn btn-xs btn-secondary btn-sm">Edit your profile</a>
+</div>
 </div>

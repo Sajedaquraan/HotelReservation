@@ -5,10 +5,9 @@
 <html>
 <head>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>Kaiadmin - Bootstrap 5 Admin Dashboard</title>
+        <title>Admin Dashboard</title>
         <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport" />
-        <link rel="icon" href="~/Admin/assets/img/kaiadmin/favicon.ico" type="image/x-icon" />
-
+       @*  <link rel="icon" href="~/Admin/assets/img/kaiadmin/favicon.ico" type="image/x-icon" /> *@
         <!-- Fonts and icons -->
     <script src="~/Admin/assets/js/plugin/webfont/webfont.min.js"></script>
         <script>
@@ -81,6 +80,11 @@
                             <div class="collapse" id="dashboard">
                                 <ul class="nav nav-collapse">
                                     <li>
+                                        <a href="@Url.Action("Index","Admin")">
+                                            <span class="sub-item">Home</span>
+                                        </a>
+                                    </li>
+                                    <li>
                                         <a href="@Url.Action("Profile","Admin")">
                                             <span class="sub-item">My Profile</span>
                                         </a>
@@ -112,11 +116,11 @@
                                             <span class="sub-item">Contacts</span>
                                         </a>
                                     </li>
-                                    <li>
+                                    @* <li>
                                         <a href="@Url.Action("Index", "Events")">
                                             <span class="sub-item">Events</span>
                                         </a>
-                                    </li>
+                                    </li> *@
                                     <li>
                                         <a href="@Url.Action("Index", "Hotels")">
                                             <span class="sub-item">Hotels</span>
@@ -153,10 +157,15 @@
                                         </a>
                                     </li>
                                     <li>
+                                        <a href="@Url.Action("Index", "Expenseamount")">
+                                            <span class="sub-item">Expense Amount</span>
+                                        </a>
+                                    </li>
+@*                                     <li>
                                         <a href="@Url.Action("Index", "Report")">
                                             <span class="sub-item">Report</span>
                                         </a>
-                                    </li>
+                                    </li> *@
                                 </ul>
                             </div>
                         </li>
@@ -186,7 +195,7 @@
                                 </ul>
                             </div>
                         </li>
-                        <li class="nav-item">
+                       @*  <li class="nav-item">
                             <a data-bs-toggle="collapse" href="#forms">
                                 <i class="fas fa-pen-square"></i>
                                 <p>Forms</p>
@@ -329,7 +338,7 @@
                                     </li>
                                 </ul>
                             </div>
-                        </li>
+                        </li> *@
                     </ul>
                 </div>
             </div>
@@ -621,7 +630,7 @@
                             </li>
                             -->
                             <li style="padding-right:35px;">
-                                <a href="@Url.Action("Index","Home")">View Home Page</a>
+                                <a href="@Url.Action("Profile","Admin")">View Home Page</a>
                             </li>
                             <li class="nav-item topbar-user dropdown hidden-caret">
                                 <a class="dropdown-toggle profile-pic"

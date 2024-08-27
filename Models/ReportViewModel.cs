@@ -1,4 +1,6 @@
-﻿namespace HotelReservation.Models
+﻿using HotelReservation.Models;
+
+namespace HotelReservation.Models
 {
     public class ReportViewModel
     {
@@ -6,5 +8,7 @@
         public TestimonialChartViewModel TestimonialChart { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
+
+
     }
 }
