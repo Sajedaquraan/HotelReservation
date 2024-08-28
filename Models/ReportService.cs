@@ -25,7 +25,7 @@
                     Month = g.Key.Month,
                     TotalRevenue = g.Sum(e => e.Amountpaid)
                 })
-                .ToList(); // Fetch data to memory
+                .ToList();
 
             var expensesData = _context.Expenseamounts
                 .Where(e => e.Expensedate.HasValue)
@@ -40,7 +40,7 @@
                     Month = g.Key.Month,
                     TotalExpenses = g.Sum(e => e.Amount)
                 })
-                .ToList(); // Fetch data to memory
+                .ToList();
 
             var report = from m in monthlyData
                          join e in expensesData on new { m.Year, m.Month } equals new { e.Year, e.Month } into expensesGroup
@@ -53,7 +53,15 @@
                              ProfitOrLoss = m.TotalRevenue - (e?.TotalExpenses ?? 0)
                          };
 
-            return report.OrderBy(r => r.Period);
+            var cumulativeReport = report.OrderBy(r => r.Period).ToList();
+            decimal cumulativeProfitOrLoss = 0;
+            foreach (var item in cumulativeReport)
+            {
+                cumulativeProfitOrLoss += item.ProfitOrLoss;
+                item.CumulativeProfitOrLoss = cumulativeProfitOrLoss;
+            }
+
+            return cumulativeReport;
         }
 
 
@@ -61,22 +69,24 @@
         public IEnumerable<ProfitLossReport> GetAnnualReport()
         {
             var annualData = _context.Paymentrooms
-                .GroupBy(p => p.Paymentdate.HasValue ? p.Paymentdate.Value.Year : 0)
+                .Where(p => p.Paymentdate.HasValue)
+                .GroupBy(p => p.Paymentdate.Value.Year)
                 .Select(g => new
                 {
                     Year = g.Key,
                     TotalRevenue = g.Sum(e => e.Amountpaid)
                 })
-                .ToList(); // Fetch data to memory
+                .ToList();
 
             var expensesData = _context.Expenseamounts
-                .GroupBy(e => e.Expensedate.HasValue ? e.Expensedate.Value.Year : 0)
+                .Where(e => e.Expensedate.HasValue)
+                .GroupBy(e => e.Expensedate.Value.Year)
                 .Select(g => new
                 {
                     Year = g.Key,
                     TotalExpenses = g.Sum(e => e.Amount)
                 })
-                .ToList(); // Fetch data to memory
+                .ToList();
 
             var report = from a in annualData
                          join e in expensesData on a.Year equals e.Year into expensesGroup
@@ -89,7 +99,17 @@
                              ProfitOrLoss = a.TotalRevenue - (e?.TotalExpenses ?? 0)
                          };
 
-            return report.OrderBy(r => r.Period);
+            var cumulativeReport = report.OrderBy(r => r.Period).ToList();
+            decimal cumulativeProfitOrLoss = 0;
+            foreach (var item in cumulativeReport)
+            {
+                cumulativeProfitOrLoss += item.ProfitOrLoss;
+                item.CumulativeProfitOrLoss = cumulativeProfitOrLoss;
+            }
+
+            return cumulativeReport;
         }
+
+
     }
 }

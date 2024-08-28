@@ -9,7 +9,6 @@
 
 <link href="https://cdn.datatables.net/1.11.1/css/jquery.dataTables.min.css" rel="stylesheet" />
 <link href="https://cdn.datatables.net/buttons/2.0.0/css/buttons.dataTables.min.css" rel="stylesheet" />
-
 <h2>Monthly Profit or Loss Report</h2>
 
 <table class="table" id="MonthlyReport">
@@ -26,13 +25,20 @@
         {
             <tr>
                 <td>@item.Period</td>
-                <td>@item.TotalRevenue:C</td>
-                <td>@item.TotalExpenses:C</td>
-                <td>@item.ProfitOrLoss:C</td>
+                <td>@item.TotalRevenue</td>
+                <td>@item.TotalExpenses</td>
+                <td>@item.ProfitOrLoss</td>
             </tr>
         }
     </tbody>
+
+    <tfoot>
+        <tr>
+            <td>Total Cumulative Profit Or Loss : @ViewBag.TotalCumulativeProfitOrLoss</td>
+        </tr>
+    </tfoot>
 </table>
+
 
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js" defer></script>

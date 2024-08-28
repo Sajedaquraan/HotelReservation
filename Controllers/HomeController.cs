@@ -201,7 +201,7 @@ namespace HotelReservation.Controllers
 
             var bodyBuilder = new BodyBuilder
             {
-                TextBody = "Thank you for contacting us. We will get back to you as soon as possible.\n\nBest regards,\nYour Website Team"
+                TextBody = "Thank you for contacting us. We will get back to you as soon as possible.\n\nBest regards,\nLUXReservations"
             };
 
             // Attach the PDF

@@ -221,9 +221,14 @@ namespace HotelReservation.Controllers
             ViewBag.name = users.Customername;
             ViewBag.image = users.Profileimage;
             ViewBag.email = users.Email;
-            var model = _reportService.GetMonthlyReport();
-            return View(model);
+
+            var report = _reportService.GetMonthlyReport();
+            decimal totalCumulativeProfitOrLoss = report.Last().CumulativeProfitOrLoss;
+            ViewBag.TotalCumulativeProfitOrLoss = totalCumulativeProfitOrLoss;
+
+            return View(report);
         }
+
 
         public IActionResult Annual()
         {
@@ -234,8 +239,13 @@ namespace HotelReservation.Controllers
             ViewBag.name = users.Customername;
             ViewBag.image = users.Profileimage;
             ViewBag.email = users.Email;
-            var model = _reportService.GetAnnualReport();
-            return View(model);
+
+            var report = _reportService.GetAnnualReport();
+            decimal totalCumulativeProfitOrLoss = report.Last().CumulativeProfitOrLoss;
+            ViewBag.TotalCumulativeProfitOrLoss = totalCumulativeProfitOrLoss;
+
+            return View(report);
         }
+
     }
 }
