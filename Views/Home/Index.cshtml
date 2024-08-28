@@ -239,7 +239,7 @@
                                 </button>
                                 <div class="logo">
                                     <a class="navbar-brand js-scroll-trigger logo-header" href="#">
-                                        <img src="@pageImageUrl" alt="Page Logo" width="100" height="50">
+                                        <img src="@pageImageUrl" alt="Page Logo" width="230" height="80" style="padding-left:0px;">
                                     </a>
                                 </div>
                             </div>
@@ -309,8 +309,8 @@
                                 Enjoy a Stay with us <span class="typer" id="some-id" data-delay="200" data-delim=":" data-words="Friends:Family:Officemates" data-colors="red"></span>
                                 <span class="cursor" data-cursorDisplay="_" data-owner="some-id"></span>
                             </h1>
-                            <h2>Accidental appearances </h2>
-                            <p>Experience the greatest for you holidays.</p>
+                            <h2>@ViewBag.SecondName</h2>
+                            <p>@ViewBag.headerText</p>
                             <div class="book-btn">
                                 <a href="#reservation" class="table-btn hvr-underline-from-center">Book my Table</a>
                             </div>
@@ -850,7 +850,7 @@
                     <div class="footer-in-main">
                         <div class="footer-logo">
                             <div class="text-center">
-                                <img src="@Url.Content("~/Images/" + ViewBag.PageImage)" alt="errrrrooor" asp-append-version="true" width="100" height="100">
+                                <img src="@Url.Content("~/Images/" + ViewBag.PageImage)" alt="errrrrooor" asp-append-version="true" width="300" height="100">
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">

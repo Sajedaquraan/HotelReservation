@@ -33,7 +33,21 @@ namespace HotelReservation.Controllers
 
         public IActionResult Index()
         {
-            var id = HttpContext.Session.GetInt32("CustomerID");
+            int? id;
+
+            if (HttpContext.Session.GetInt32("CustomerID") != null)
+            {
+                id = HttpContext.Session.GetInt32("CustomerID");
+            }
+            else if (HttpContext.Session.GetInt32("AdminID") != null)
+            {
+                id = HttpContext.Session.GetInt32("AdminID");
+            }
+            else
+            {
+                // Handle cases where neither ID is found
+                id = null;
+            }
             var user = _context.Customers.Where(x => x.Customerid == id).SingleOrDefault();
 
             // Set default profile image
@@ -95,6 +109,18 @@ namespace HotelReservation.Controllers
                 .Where(p => p.Pagename == "About")
                 .Select(p => p.Pagecontent).FirstOrDefault();
             ViewBag.AboutContent = AboutContent;
+
+
+            var SecondName = _context.Pages
+                .Where(p => p.Pagename == "SecondName")
+                .Select(p => p.Pagecontent).FirstOrDefault();
+            ViewBag.SecondName = SecondName;
+
+
+            var headerText = _context.Pages
+                .Where(p => p.Pagename == "headerText")
+                .Select(p => p.Pagecontent).FirstOrDefault();
+            ViewBag.headerText = headerText;
 
             var Testimonial = _context.Testimonials.ToList();
             var Todayspecial=_context.Todayspecials.ToList();
@@ -440,10 +466,24 @@ namespace HotelReservation.Controllers
         }
     }
 
-        public IActionResult Testimonials(int id)
+        public IActionResult Testimonials()
         {
-            var id1 = HttpContext.Session.GetInt32("CustomerID");
-            var user = _context.Customers.Where(x => x.Customerid == id).SingleOrDefault();
+            int? id;
+
+            if (HttpContext.Session.GetInt32("CustomerID") != null)
+            {
+                id = HttpContext.Session.GetInt32("CustomerID");
+            }
+            else if (HttpContext.Session.GetInt32("AdminID") != null)
+            {
+                id = HttpContext.Session.GetInt32("AdminID");
+            }
+            else
+            {
+                // Handle cases where neither ID is found
+                id = null;
+            }
+            var user = _context.Userlogins.Where(x => x.Userloginid == id).SingleOrDefault();
             return View();
         }
 
@@ -454,30 +494,24 @@ namespace HotelReservation.Controllers
         {
             if (ModelState.IsValid)
             {
-                var id = HttpContext.Session.GetInt32("CustomerID");
-                if (id == null)
+
+                var user = _context.Userlogins
+                     .Where(x => x.Customerid == HttpContext.Session.GetInt32("CustomerID"))
+                     .Select(x => x.Userloginid) 
+                     .SingleOrDefault();
+
+                if (user != null)
                 {
-                    ModelState.AddModelError("", "User is not logged in.");
-                    return View(testimonial);
+                    testimonial.State = "building";
+                    testimonial.Userloginid2 = (int)user; 
+                    _context.Add(testimonial);
+                    await _context.SaveChangesAsync();
+
+                
+                    return RedirectToAction("Index");
                 }
-
-                var userExists = _context.Customers.Any(x => x.Customerid == id);
-                if (!userExists)
-                {
-                    ModelState.AddModelError("", "Invalid customer ID.");
-                    return View(testimonial);
-                }
-
-                testimonial.State = "building";
-                testimonial.Userloginid2 = (int)id;
-                _context.Add(testimonial);
-                await _context.SaveChangesAsync();
-
-                // Redirect to a confirmation page or back to the form
-                return RedirectToAction("Index");
-            }
-
-            // If we got this far, something failed; redisplay form
+               
+            }           
             return View(testimonial);
         }
 

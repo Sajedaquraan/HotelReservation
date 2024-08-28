@@ -175,7 +175,7 @@ namespace HotelReservation.Controllers
                     case 2:
                         HttpContext.Session.SetInt32("CustomerID", (int)auth.Customerid);
                         //return Redirect(returnUrl);
-                        //return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Index", "Home");
                         break;
                 }
            
