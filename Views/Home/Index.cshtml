@@ -115,35 +115,36 @@
        .special-img 
        {
             width: 100%;
-            height: 400px;  /* Fixed height for all images */
+            height: 400px;  
             max-height:400px;
-            object-fit: cover; /* Ensures image covers the entire area, cropping if necessary */
-            object-position: center; /* Centers the image within the container */
-            border-radius: 10px; /* Optional: for rounded corners */
+            object-fit: cover; 
+            object-position: center; 
+            border-radius: 10px; 
             display: block;
         }
-
+/* 
         .banner {
             width: 100%;
-            height: 100vh; /* Full viewport height */
+            height: 100vh; 
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden; /* Ensures no overflow if the image is larger */
+            overflow: hidden; 
         }
 
         .banner-image {
             width: 100%;
             height: 100%;
-            object-fit: contain; /* Ensures the entire image is visible while maintaining aspect ratio */
-        }
+            object-fit: contain; 
+        } 
+*/
 
         .about-main {
-            width: 80%; /* Ensure the main image takes up the full width of its container */
-            height: auto; /* Maintain the aspect ratio */
+            width: 80%; 
+            height: auto; 
             display: block;
-            margin-bottom: 20px; /* Space between the main and inset image */
-            object-fit: cover; /* Cover the container while keeping the aspect ratio */
+            margin-bottom: 20px; 
+            object-fit: cover; 
         }
 
         .about-inset {
@@ -298,36 +299,34 @@
     
     <!-- end site-header -->
                      <!-- hero image : banner -->
-    <div id="banner" class="banner full-screen-mode parallax">
-                
-        <div class="container pr">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <div class="banner-static">
-                    <div class="banner-text">
-                        <div class="banner-cell">
-                            <h1>
-                                Enjoy a Stay with us <span class="typer" id="some-id" data-delay="200" data-delim=":" data-words="Friends:Family:Officemates" data-colors="red"></span>
-                                <span class="cursor" data-cursorDisplay="_" data-owner="some-id"></span>
-                            </h1>
-                            <h2>@ViewBag.SecondName</h2>
-                            <p>@ViewBag.headerText</p>
-                            <div class="book-btn">
-                                <a href="#reservation" class="table-btn hvr-underline-from-center">Book my Table</a>
-                            </div>
-                            <a href="#about">
-                                <div class="mouse"></div>
-                            </a>
-                        </div>
-                        <!-- end banner-cell -->
+    <div id="banner">
+        <div class="banner-image" style="position: relative;">
+            <img src="~/HomePage/images/banner.jpg" alt="Banner Image" style="width: 100%; height: 100vh; object-fit: cover;">
+
+            <div class="banner-text" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; color: white;">
+                <div class="banner-cell">
+                    <h1>
+                        Enjoy a Stay with us
+                        <span class="typer" id="some-id" data-delay="200" data-delim=":" data-words="Friends:Family:Officemates" data-colors="red"></span>
+                        <span class="cursor" data-cursorDisplay="_" data-owner="some-id"></span>
+                    </h1>
+                    <h2>@ViewBag.SecondName</h2>
+                    <p>@ViewBag.headerText</p>
+                    <div class="book-btn">
+                        <a href="#reservation" class="table-btn hvr-underline-from-center">Book my Table</a>
                     </div>
-                    <!-- end banner-text -->
+                    <a href="#about">
+                        <div class="mouse"></div>
+                    </a>
                 </div>
-                <!-- end banner-static -->
+                <!-- end banner-cell -->
             </div>
-            <!-- end col -->
+            <!-- end banner-text -->
         </div>
-        <!-- end container -->
+        <!-- end banner-image -->
     </div>
+
+    
     <!-- end banner -->
 
     <div id="about" class="about-main pad-top-100 pad-bottom-100" style="width:100%; max-width:100%;">

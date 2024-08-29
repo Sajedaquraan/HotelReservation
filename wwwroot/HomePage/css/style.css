@@ -382,14 +382,14 @@ html, body{ height: 100%; }
     BANNER AREA
 -------------------------------------------------------------------*/
 
-/*.banner {
+.banner {
     background: url(../images/banner.jpg) no-repeat center center;
     background-attachment: fixed;
     background-size: cover;
     height: 100vh;
     min-height: 100%;
     object-fit: cover;
-}*/
+}
 
 
 .banner .container, .banner .banner-static, .banner .col-lg-12 {
