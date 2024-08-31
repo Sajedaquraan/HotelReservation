@@ -47,10 +47,10 @@ namespace HotelReservation.Controllers
 
             var user = _context.Customers.Where(x => x.Customerid == id).SingleOrDefault();
 
-            // Set default profile image
-            var defaultProfileImage = "default-profile-image.jpg"; // Adjust the path as necessary
+            
+            var defaultProfileImage = "default-profile-image.jpg"; 
             ViewBag.Name = user?.Customername;
-            ViewBag.Image = user?.Profileimage ?? defaultProfileImage; // Use default image if profile image is null
+            ViewBag.Image = user?.Profileimage ?? defaultProfileImage; 
             ViewBag.Email = user?.Email;
 
             var hotels = _context.Hotels.ToList();
@@ -175,7 +175,7 @@ namespace HotelReservation.Controllers
                 TextBody = "Thank you for contacting us. We will get back to you as soon as possible.\n\nBest regards,\nLUXReservations"
             };
 
-            // Attach the PDF
+            
             message.Body = bodyBuilder.ToMessageBody();
 
             using (var client = new SmtpClient())
@@ -201,7 +201,7 @@ namespace HotelReservation.Controllers
             var id1 = HttpContext.Session.GetInt32("CustomerID");
             var user = _context.Customers.Where(x => x.Customerid == id1).SingleOrDefault();
 
-            // Set default profile image
+            
             var defaultProfileImage = "default-profile-image.jpg";
             ViewBag.Name = user?.Customername;
             ViewBag.Image = user?.Profileimage ?? defaultProfileImage;
@@ -234,7 +234,7 @@ namespace HotelReservation.Controllers
         {
             var rooms = _context.Rooms.Where(x => x.Hotelid == id && x.Availabilitystatus.Trim().ToLower() == "available").ToList();
             
-            var customers = _context.Customers.Where(c => c.Customerid == id).ToList(); // Adjust this as needed
+            var customers = _context.Customers.Where(c => c.Customerid == id).ToList(); 
 
             var test = _context.Pages.Where(x => x.Pageid == 61).SingleOrDefault();
 
@@ -264,11 +264,7 @@ namespace HotelReservation.Controllers
                 return View(model);
             }
 
-            
-
-        
     }
-
 
         [HttpGet]
         public IActionResult payment(int roomId,  DateTime? startDate, DateTime? endDate)
@@ -283,10 +279,10 @@ namespace HotelReservation.Controllers
             var id1 = HttpContext.Session.GetInt32("CustomerID");
             var user = _context.Customers.Where(x => x.Customerid == id1).SingleOrDefault();
 
-            // Set default profile image
-            var defaultProfileImage = "default-profile-image.jpg"; // Adjust the path as necessary
+         
+            var defaultProfileImage = "default-profile-image.jpg";
             ViewBag.Name = user?.Customername;
-            ViewBag.Image = user?.Profileimage ?? defaultProfileImage; // Use default image if profile image is null
+            ViewBag.Image = user?.Profileimage ?? defaultProfileImage;
             ViewBag.Email = user?.Email;
 
             ViewBag.RoomId = roomId;
@@ -299,7 +295,7 @@ namespace HotelReservation.Controllers
         [HttpPost]
         public IActionResult ProcessPayment(int roomId, int Bankid, string Cardnumber, string Cardholdername, string Cvv)
         {
-            // Step 1: Check if the card details exist in the bank
+           
             var bank = _context.Banks
                 .FirstOrDefault(b => b.Cardnumber == Cardnumber
                                      && b.Cardholdername == Cardholdername
@@ -307,12 +303,11 @@ namespace HotelReservation.Controllers
 
             if (bank == null)
             {
-                // If the card information is not found, return an error message
+                
                 TempData["ErrorMessage"] = "The information of the card is not true. Please check your details and try again.";
                 return RedirectToAction("payment", new { roomId = roomId });
             }
 
-            // Step 2: Retrieve the logged-in user's CustomerID, name, and email from the session
 
             var id = HttpContext.Session.GetInt32("CustomerID");
             var user = _context.Customers.Where(x => x.Customerid == id).SingleOrDefault();
@@ -323,70 +318,62 @@ namespace HotelReservation.Controllers
 
             if (id == null || ViewBag.Name == null || ViewBag.Email == null)
             {
-                // If the customer is not logged in, redirect to the login page
+               
                 TempData["ErrorMessage"] = "Please log in to complete the booking.";
                 return RedirectToAction("payment", new { roomId = roomId });
             }
-            // Step 3: Check if the room exists
+           
             var room = _context.Rooms.FirstOrDefault(r => r.Roomid == roomId);
             if (room == null)
             {
                 return NotFound();
             }
 
-            // Step 4: Check if the bank balance is sufficient to pay for the room
+          
             if (bank.Balance < room.Price)
             {
-                // If the balance is less than the room price, show an error message
+               
                 TempData["ErrorMessage"] = "You do not have enough money to pay for this room.";
                 return RedirectToAction("payment", new { roomId = roomId });
             }
 
-            // Step 5: Deduct the room price from the bank balance
+            
             bank.Balance -= room.Price;
             _context.Banks.Update(bank);
 
-            // Step 6: Create and save a reservation record
+           
             var reservation = new Reservationroom
             {
                 Roomid = roomId,
                 Reservationdate = DateTime.Now,
                 Paymentstatus = "Paid",
-                Customerid = id.Value // Assign the logged-in customer's ID
+                Customerid = id.Value 
             };
             _context.Reservationrooms.Add(reservation);
 
-            // Save the reservation first to ensure the Reservationid is generated
+           
             _context.SaveChanges();
 
-            // Step 7: Create a payment record linked to the saved reservation
+            
             var payment = new Paymentroom
             {
-                Reservationid = reservation.Reservationid, // The generated Reservationid is used here
+                Reservationid = reservation.Reservationid,
                 Amountpaid = room.Price,
                 Paymentdate = DateTime.Now,
-                Bankid = bank.Bankid // Link the payment to the valid bank record
+                Bankid = bank.Bankid 
             };
             _context.Paymentrooms.Add(payment);
 
-            // Step 8: Generate the payment PDF using the customer's dynamic data
-            string roomDetails = $"Room ID: {room.Roomid}, Price: ${room.Price}";
-            var pdfBytes = GeneratePaymentPdf(ViewBag.Name, room.Price, DateTime.Now, roomDetails);
+            var pdfBytes = GeneratePaymentPdf(ViewBag.Name, room.Price, DateTime.Now);
 
-            // Step 9: Send the email with the PDF
             SendEmailWithPdf(ViewBag.Email, pdfBytes, "PaymentReceipt.pdf");
 
-            // Step 10: Update room availability status
             room.Availabilitystatus = "Unavailable";
             _context.Rooms.Update(room);
-
-            // Save all changes to the database
+            
             _context.SaveChanges();
 
-
-
-
-            // Redirect to a confirmation page or the homepage
+           
             return RedirectToAction("GetRoomAndEventById", new { id = room.Hotelid });
         }
 
@@ -394,7 +381,7 @@ namespace HotelReservation.Controllers
         public void SendEmailWithPdf(string recipientEmail, byte[] pdfBytes, string fileName)
         {
             var message = new MimeMessage();
-            message.From.Add(new MailboxAddress("Hotel", "hotel@example.com")); // Change to your email
+            message.From.Add(new MailboxAddress("Hotel", "hotel@example.com")); 
             message.To.Add(new MailboxAddress("", recipientEmail));
             message.Subject = "Payment Receipt";
 
@@ -409,61 +396,49 @@ namespace HotelReservation.Controllers
 
             using (var client = new SmtpClient())
             {
-                client.Connect("smtp.gmail.com", 587, false); // Use the appropriate SMTP server and port
-                client.Authenticate("sajedaAlquraan1@gmail.com", "izdw sras niqv jnnh"); // Use your email and app password
+                client.Connect("smtp.gmail.com", 587, false); 
+                client.Authenticate("sajedaAlquraan1@gmail.com", "izdw sras niqv jnnh"); 
                 client.Send(message);
                 client.Disconnect(true);
             }
         }
 
 
-    public byte[] GeneratePaymentPdf(string customerName, decimal amountPaid, DateTime paymentDate, string roomDetails)
+    public byte[] GeneratePaymentPdf(string customerName, decimal amountPaid, DateTime paymentDate)
     {
             using (var memoryStream = new MemoryStream())
             {
-                // Create a new document
+                
                 Document document = new Document();
                 PdfWriter.GetInstance(document, memoryStream);
                 document.Open();
 
-                // Define a font (e.g., Bold, 16pt size)
+               
                 Font titleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 16);
                 Font regularFont = FontFactory.GetFont(FontFactory.HELVETICA, 12);
-                Font italicFont = FontFactory.GetFont(FontFactory.HELVETICA_OBLIQUE, 12);
                 Font boldFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12);
 
-                // Title
+                
                 Paragraph title = new Paragraph("Payment Receipt", titleFont);
                 title.Alignment = Element.ALIGN_CENTER;
                 document.Add(title);
 
-                // Add a line break
                 document.Add(new Paragraph("\n"));
 
-                // Customer Name
                 document.Add(new Paragraph($"Customer Name: {customerName}", boldFont));
 
-                // Amount Paid
                 document.Add(new Paragraph($"Amount Paid: JOD {amountPaid}", regularFont));
 
-                // Payment Date
-                document.Add(new Paragraph($"Payment Date: {paymentDate.ToString("MM/dd/yyyy")}", regularFont));
+                document.Add(new Paragraph($"Payment Date: {paymentDate.ToString("MM/dd/yyyy")}", regularFont));              
 
-                // Room Details
-                document.Add(new Paragraph($"Room Details: {roomDetails}", italicFont));
-
-                // Add another line break
                 document.Add(new Paragraph("\n"));
 
-                // Thank You Note
                 Paragraph thankYou = new Paragraph("Thank you for your payment!", regularFont);
                 thankYou.Alignment = Element.ALIGN_CENTER;
                 document.Add(thankYou);
 
-                // Close the document
                 document.Close();
 
-                // Return the generated PDF as a byte array
                 return memoryStream.ToArray();
             }
 
@@ -483,7 +458,7 @@ namespace HotelReservation.Controllers
             }
             else
             {
-                // Handle cases where neither ID is found
+               
                 id = null;
             }
             var user = _context.Userlogins.Where(x => x.Userloginid == id).SingleOrDefault();
@@ -524,9 +499,9 @@ namespace HotelReservation.Controllers
             var user = _context.Customers.Where(x => x.Customerid == id).SingleOrDefault();
 
             // Set default profile image
-            var defaultProfileImage = "default-profile-image.jpg"; // Adjust the path as necessary
+            var defaultProfileImage = "default-profile-image.jpg";
             ViewBag.Name = user?.Customername;
-            ViewBag.Image = user?.Profileimage ?? defaultProfileImage; // Use default image if profile image is null
+            ViewBag.Image = user?.Profileimage ?? defaultProfileImage; 
             ViewBag.Email = user?.Email;
 
             ViewBag.UserId = id;
@@ -541,9 +516,9 @@ namespace HotelReservation.Controllers
         public IActionResult Edit(int id)
         {
             var user = _context.Customers.SingleOrDefault(x => x.Customerid == id);
-            var defaultProfileImage = "default-profile-image.jpg"; // Adjust the path as necessary
+            var defaultProfileImage = "default-profile-image.jpg"; 
             ViewBag.Name = user?.Customername;
-            ViewBag.Image = user?.Profileimage ?? defaultProfileImage; // Use default image if profile image is null
+            ViewBag.Image = user?.Profileimage ?? defaultProfileImage; 
             ViewBag.Email = user?.Email;
 
             ViewBag.UserId = id;
@@ -564,10 +539,9 @@ namespace HotelReservation.Controllers
 
             if (sessionId == null || sessionId != editedCustomer.Customerid)
             {
-                return RedirectToAction("Forbidden", "Home"); // Or any error page you prefer
+                return RedirectToAction("Forbidden", "Home"); 
             }
 
-            // Fetch the existing customer from the database
             var user = _context.Customers.SingleOrDefault(x => x.Customerid == editedCustomer.Customerid);
             var login = _context.Userlogins.Where(x => x.Customerid == user.Customerid).FirstOrDefault();
 
@@ -576,23 +550,23 @@ namespace HotelReservation.Controllers
                 return NotFound();
             }
 
-            // Update the customer details
+           
             user.Customername = editedCustomer.Customername;
             user.Email = editedCustomer.Email;
             user.Password = editedCustomer.Password;
             user.Profileinfo = editedCustomer.Profileinfo;
-            user.ImageFile = editedCustomer.ImageFile; // Assuming the image upload is handled
+            user.ImageFile = editedCustomer.ImageFile; 
             ViewBag.Image = user.ImageFile;
 
-            // Update other fields if needed
+             
 
             login.Email = user.Email;
             login.Password = user.Password;
 
-            // Save the changes to the database
+           
             _context.SaveChanges();
 
-            // Redirect back to the profile page
+            
             return RedirectToAction("Profile", "Home");
         }
 
@@ -672,7 +646,7 @@ namespace HotelReservation.Controllers
             _context.Paymentevents.Add(payment);
 
             string eventDetails = $"Special ID: {specialId}, Price: {Todayspecials.Todayspecialprice:C}";
-            var pdfBytes = GeneratePaymentPdf(ViewBag.Name, (int)Todayspecials.Todayspecialprice, DateTime.Now, eventDetails);
+            var pdfBytes = GeneratePaymentPdf(ViewBag.Name, (int)Todayspecials.Todayspecialprice, DateTime.Now);
 
             SendEmailWithPdf(ViewBag.Email, pdfBytes, "PaymentReceipt.pdf");
 
@@ -685,13 +659,13 @@ namespace HotelReservation.Controllers
 
         public async Task<IActionResult> Logout()
         {
-            // Sign out the user
+           
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
-            // Optionally, you can clear the session
+           
             HttpContext.Session.Clear();
 
-            // Redirect to the login page or home page
+           
             return RedirectToAction("Login", "RegisterAndLogin");
         }
 
