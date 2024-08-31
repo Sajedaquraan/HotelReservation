@@ -19,6 +19,7 @@ public partial class Event
     public virtual IFormFile ImageFile { get; set; }
     public string? Description { get; set; }
 
+    public decimal Price { get; set; }
     public virtual Hotel? Hotel { get; set; }
 
     public virtual ICollection<Reservationevent> Reservationevents { get; set; } = new List<Reservationevent>();

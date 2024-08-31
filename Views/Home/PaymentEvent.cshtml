@@ -1,0 +1,71 @@
+﻿@model Bank
+@{
+    ViewBag.Title = "Payment";
+}
+@{
+    Layout = null;
+}
+
+
+<link rel="stylesheet" href="~/RegisterAndLogin/fonts/material-icon/css/material-design-iconic-font.min.css">
+<!-- Bootstrap CSS for modal -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+<!-- Main css -->
+<link rel="stylesheet" href="~/RegisterAndLogin/css/style.css">
+
+
+<br>
+<br />
+<br />
+
+
+
+<div class="container">
+  
+    <h2 class="text-center">Payment for Event Booking</h2>
+
+    <!-- Display error message if any -->
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger text-center">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Event Booking Details</h5>
+                    <p><strong>Event Price:</strong> JOD @ViewBag.EventPrice</p>
+
+                    <form asp-action="ProcessPaymentEvent" method="post">
+                        <input type="hidden" name="roomId" value="@ViewBag.specialId" />
+
+                        <!-- Bank Details Input -->
+                        <div class="form-group">
+                            <input type="text" class="form-control" asp-for="Cardnumber" placeholder="Card Number" required />
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" asp-for="Cardholdername" placeholder="Card Holder Name" required />
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" asp-for="Cvv" placeholder="CVV" required />
+                        </div>
+
+                        <input type="hidden" name="specialId" value="@ViewBag.SpecialId" />
+
+                        
+                            <button type="submit" class="btn btn-dark btn-block">Pay Now</button>
+                        
+                        
+                        <a href="@Url.Action("Index")" class="btn btn-dark btn-block">Back to Home</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

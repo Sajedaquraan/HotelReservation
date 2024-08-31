@@ -181,6 +181,9 @@ public partial class ModelContext : DbContext
                 .HasMaxLength(500)
                 .IsUnicode(false)
                 .HasColumnName("IMAGEPATH");
+            entity.Property(e => e.Price)
+                .HasColumnType("NUMBER")
+                .HasColumnName("PRICE");
 
             entity.HasOne(d => d.Hotel).WithMany(p => p.Events)
                 .HasForeignKey(d => d.Hotelid)

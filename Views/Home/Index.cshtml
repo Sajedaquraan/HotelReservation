@@ -354,6 +354,8 @@
         <!-- end container -->
     </div>
 
+
+
 <div id="TodaySpecial" class="gallery-main pad-top-100 pad-bottom-100">
     <div class="container">
         <div class="row">
@@ -365,38 +367,40 @@
                 </div>
                 <div class="special-box">
                     <div id="owl-demo">
-                            @foreach (var item in Model.Todayspecials)
-                            {
-                                <div class="item item-type-zoom">
-                                    <a href="#" class="item-hover">
-                                        <div class="item-info">
-                                            <div class="headline">
-                                                @item.Todayspecialname
-                                                <div class="dit-line">JOD @item.Todayspecialprice</div>
-                                                <div class="line"></div>
-                                                <div class="dit-line">@item.Todayspecialcontant</div>
-                                            </div>
+                        @foreach (var item in Model.Todayspecials)
+                        {
+                            <div class="item item-type-zoom">
+                                <div class="item-hover">
+                                    <div class="item-info">
+                                        <div class="headline">
+                                            @item.Todayspecialname
+                                            <div class="dit-line">JOD @item.Todayspecialprice</div>
+                                            <div class="line"></div>
+                                            <div class="dit-line">@item.Todayspecialcontant</div>
+                                            <div class="line"></div>
+                                            @if (isLoggedIn)
+                                            {
+                                                <a class="hvr-underline-from-center" href="@Url.Action("PaymentEvent", "Home", new { specialId = item.Todayspecialid })" id="add-testimonial-link">Booked it</a>
+                                            }
+                                            else
+                                            {
+                                                <a id="disabled-blog-link2" class="hvr-underline-from-center" href="#" style="cursor: not-allowed; color: gray;">Booked it</a>
+                                            }
                                         </div>
-                                    </a>
-                                    <div class="item-img">
-                                        <img src="@Url.Content("~/Images/"+item.Todayspecialimage)" asp-append-version="true" class="special-img" alt="Today's Special">
                                     </div>
                                 </div>
-                            }
+                                <div class="item-img">
+                                    <img src="@Url.Content("~/Images/" + item.Todayspecialimage)" asp-append-version="true" class="special-img" alt="Today's Special">
+                                </div>
+                            </div>
+                        }
                     </div>
                 </div>
-                <!-- end special-box -->
             </div>
-            <!-- end col -->
         </div>
-        <!-- end row -->
     </div>
-    <!-- end container -->
 </div>
-<!-- end special-menu -->
 
-
-  
 
     <div id="Hotel" class="about-main pad-top-100 pad-bottom-100" style="width:100%; max-width:100%;">
         <div class="container">
@@ -1018,6 +1022,22 @@
 
     </script>
 
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var disabledBlogLink = document.getElementById('disabled-blog-link2');
+
+            if (disabledBlogLink) {
+                disabledBlogLink.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    alert("You must log in to your account to Booked Event.");
+                });
+            }
+        });
+
+
+    </script>
 
 
 

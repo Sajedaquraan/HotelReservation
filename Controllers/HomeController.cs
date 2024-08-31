@@ -13,6 +13,7 @@ using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using System.Linq;
+using static iTextSharp.text.pdf.AcroFields;
 //using System.Web.Mvc;
 //using System.Web.Security; // For FormsAuthentication
 
@@ -33,7 +34,7 @@ namespace HotelReservation.Controllers
 
         public IActionResult Index()
         {
-            int? id;
+            int? id = null;
 
             if (HttpContext.Session.GetInt32("CustomerID") != null)
             {
@@ -43,11 +44,7 @@ namespace HotelReservation.Controllers
             {
                 id = HttpContext.Session.GetInt32("AdminID");
             }
-            else
-            {
-                // Handle cases where neither ID is found
-                id = null;
-            }
+
             var user = _context.Customers.Where(x => x.Customerid == id).SingleOrDefault();
 
             // Set default profile image
@@ -63,77 +60,58 @@ namespace HotelReservation.Controllers
                 .Select(p => p.Pageimage).FirstOrDefault();
             ViewBag.PageImage = pageImage;
 
-            var ContactEmail = _context.Pages
+            ViewBag.ContactEmail = _context.Pages
                 .Where(p => p.Pagename == "ContactEmail")
                 .Select(p => p.Pagecontent).FirstOrDefault();
-            ViewBag.ContactEmail = ContactEmail;
-
-            var ContactPhone = _context.Pages
+            ViewBag.ContactPhone = _context.Pages
                 .Where(p => p.Pagename == "ContactPhone")
                 .Select(p => p.Pagecontent).FirstOrDefault();
-            ViewBag.ContactPhone = ContactPhone;
-
-            var ContactLocation = _context.Pages
+            ViewBag.ContactLocation = _context.Pages
                 .Where(p => p.Pagename == "ContactLocation")
                 .Select(p => p.Pagecontent).FirstOrDefault();
-            ViewBag.ContactLocation = ContactLocation;
-
-            var ReservationPhone = _context.Pages
+            ViewBag.ReservationPhone = _context.Pages
                 .Where(p => p.Pagename == "ReservationPhone")
                 .Select(p => p.Pagecontent).FirstOrDefault();
-            ViewBag.ReservationPhone = ReservationPhone;
-
-
-            var ReservationEmail = _context.Pages
+            ViewBag.ReservationEmail = _context.Pages
                 .Where(p => p.Pagename == "ReservationEmail")
                 .Select(p => p.Pagecontent).FirstOrDefault();
-            ViewBag.ReservationEmail = ReservationEmail;
-
-            var FooterAbout = _context.Pages
+            ViewBag.FooterAbout = _context.Pages
                 .Where(p => p.Pagename == "FooterAbout")
                 .Select(p => p.Pagecontent).FirstOrDefault();
-            ViewBag.FooterAbout = FooterAbout;
-
-
-            var AboutImage = _context.Pages
+            ViewBag.AboutImage = _context.Pages
                 .Where(p => p.Pagename == "About")
                 .Select(p => p.Pageimage).FirstOrDefault();
-            ViewBag.AboutImage = AboutImage;
-
-            var AboutImage2 = _context.Pages
+            ViewBag.AboutImage2 = _context.Pages
                 .Where(p => p.Pagename == "About2")
                 .Select(p => p.Pageimage).FirstOrDefault();
-            ViewBag.AboutImage2 = AboutImage2;
-
-            var AboutContent = _context.Pages
+            ViewBag.AboutContent = _context.Pages
                 .Where(p => p.Pagename == "About")
                 .Select(p => p.Pagecontent).FirstOrDefault();
-            ViewBag.AboutContent = AboutContent;
-
-
-            var SecondName = _context.Pages
+            ViewBag.SecondName = _context.Pages
                 .Where(p => p.Pagename == "SecondName")
                 .Select(p => p.Pagecontent).FirstOrDefault();
-            ViewBag.SecondName = SecondName;
-
-
-            var headerText = _context.Pages
+            ViewBag.headerText = _context.Pages
                 .Where(p => p.Pagename == "headerText")
                 .Select(p => p.Pagecontent).FirstOrDefault();
-            ViewBag.headerText = headerText;
 
-            var Testimonial = _context.Testimonials.ToList();
-            var Todayspecial=_context.Todayspecials.ToList();
+            // Retrieve the user's existing reservations
+            var userReservations = _context.Reservationevents
+                                           .Where(r => r.Customerid == id)
+                                           .Select(r => r.Reservationid)
+                                           .ToList();
 
-            var contact = new Contact();
+            // Filter out today's specials that the user has already reserved
+            var todaysSpecials = _context.Todayspecials
+                                         .Where(s => !userReservations.Contains(s.Todayspecialid))
+                                         .ToList();
 
             var model = new HomeViewModel
             {
                 User = user,
                 Hotels = hotels,
-                Contact = contact,
+                Contact = new Contact(),
                 Testimonials = _context.Testimonials.ToList(),
-                Todayspecials = _context.Todayspecials.ToList(),
+                Todayspecials = todaysSpecials, // Use the filtered list
                 Gallery1 = _context.Pages.Where(x => x.Pagename == "Gallery1").Select(x => x.Pageimage).FirstOrDefault(),
                 Gallery2 = _context.Pages.Where(x => x.Pagename == "Gallery2").Select(x => x.Pageimage).FirstOrDefault(),
                 Gallery3 = _context.Pages.Where(x => x.Pagename == "Gallery3").Select(x => x.Pageimage).FirstOrDefault(),
@@ -146,27 +124,20 @@ namespace HotelReservation.Controllers
                 Gallery10 = _context.Pages.Where(x => x.Pagename == "Gallery10").Select(x => x.Pageimage).FirstOrDefault()
             };
 
-
-            
             return View(model);
         }
-
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index([Bind("Contactusid,Contactusname,Contactusemail,Contactusdescription")] Contact contact)
         {
             if (ModelState.IsValid)
-            {                
-
+            {
                 _context.Add(contact);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
-
-            //var model =  Tuple.Create<IEnumerable<Contact>>;
             return View(contact);
         }
 
@@ -448,23 +419,55 @@ namespace HotelReservation.Controllers
 
     public byte[] GeneratePaymentPdf(string customerName, decimal amountPaid, DateTime paymentDate, string roomDetails)
     {
-        using (var memoryStream = new MemoryStream())
-        {
-            Document document = new Document();
-            PdfWriter.GetInstance(document, memoryStream);
-            document.Open();
+            using (var memoryStream = new MemoryStream())
+            {
+                // Create a new document
+                Document document = new Document();
+                PdfWriter.GetInstance(document, memoryStream);
+                document.Open();
 
-            document.Add(new Paragraph("Payment Receipt"));
-            document.Add(new Paragraph($"Customer Name: {customerName}"));
-            document.Add(new Paragraph($"Amount Paid: ${amountPaid}"));
-            document.Add(new Paragraph($"Payment Date: {paymentDate.ToString("MM/dd/yyyy")}"));
-            document.Add(new Paragraph($"Room Details: {roomDetails}"));
-            document.Add(new Paragraph("Thank you for your payment!"));
+                // Define a font (e.g., Bold, 16pt size)
+                Font titleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 16);
+                Font regularFont = FontFactory.GetFont(FontFactory.HELVETICA, 12);
+                Font italicFont = FontFactory.GetFont(FontFactory.HELVETICA_OBLIQUE, 12);
+                Font boldFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12);
 
-            document.Close();
-            return memoryStream.ToArray();
+                // Title
+                Paragraph title = new Paragraph("Payment Receipt", titleFont);
+                title.Alignment = Element.ALIGN_CENTER;
+                document.Add(title);
+
+                // Add a line break
+                document.Add(new Paragraph("\n"));
+
+                // Customer Name
+                document.Add(new Paragraph($"Customer Name: {customerName}", boldFont));
+
+                // Amount Paid
+                document.Add(new Paragraph($"Amount Paid: JOD {amountPaid}", regularFont));
+
+                // Payment Date
+                document.Add(new Paragraph($"Payment Date: {paymentDate.ToString("MM/dd/yyyy")}", regularFont));
+
+                // Room Details
+                document.Add(new Paragraph($"Room Details: {roomDetails}", italicFont));
+
+                // Add another line break
+                document.Add(new Paragraph("\n"));
+
+                // Thank You Note
+                Paragraph thankYou = new Paragraph("Thank you for your payment!", regularFont);
+                thankYou.Alignment = Element.ALIGN_CENTER;
+                document.Add(thankYou);
+
+                // Close the document
+                document.Close();
+
+                // Return the generated PDF as a byte array
+                return memoryStream.ToArray();
+            }
+
         }
-    }
 
         public IActionResult Testimonials()
         {
@@ -592,6 +595,92 @@ namespace HotelReservation.Controllers
             // Redirect back to the profile page
             return RedirectToAction("Profile", "Home");
         }
+
+        [HttpGet]
+        public IActionResult PaymentEvent(int specialId)
+        {
+            var Todayspecials = _context.Todayspecials.FirstOrDefault(r => r.Todayspecialid == specialId);
+
+            var id1 = HttpContext.Session.GetInt32("CustomerID");
+            var user = _context.Customers.Where(x => x.Customerid == id1).SingleOrDefault();
+
+            var defaultProfileImage = "default-profile-image.jpg";
+            ViewBag.Name = user?.Customername;
+            ViewBag.Image = user?.Profileimage ?? defaultProfileImage;
+            ViewBag.Email = user?.Email;
+
+            ViewBag.specialId = specialId;
+            ViewBag.EventPrice = Todayspecials.Todayspecialprice;
+
+            return View("paymentEvent");
+        }
+
+        [HttpPost]
+        public IActionResult ProcessPaymentEvent(int specialId, int Bankid, string Cardnumber, string Cardholdername, string Cvv)
+        {
+            var bank = _context.Banks
+                .FirstOrDefault(b => b.Cardnumber == Cardnumber
+                                     && b.Cardholdername == Cardholdername
+                                     && b.Cvv == Cvv);
+
+            if (bank == null)
+            {
+                TempData["ErrorMessage"] = "The information of the card is not true. Please check your details and try again.";
+                return RedirectToAction("PaymentEvent", new { specialId = specialId });
+            }
+
+            var id = HttpContext.Session.GetInt32("CustomerID");
+            var user = _context.Customers.Where(x => x.Customerid == id).SingleOrDefault();
+            ViewBag.Name = user?.Customername;
+            ViewBag.Email = user?.Email;
+
+            if (id == null || ViewBag.Name == null || ViewBag.Email == null)
+            {
+                TempData["ErrorMessage"] = "Please log in to complete the booking.";
+                return RedirectToAction("PaymentEvent", new { specialId = specialId });
+            }
+
+            var Todayspecials = _context.Todayspecials.FirstOrDefault(r => r.Todayspecialid == specialId);
+            ViewBag.specialId = specialId;
+
+            if (bank.Balance < Todayspecials.Todayspecialprice)
+            {
+                TempData["ErrorMessage"] = "You do not have enough money to pay for this room.";
+                return RedirectToAction("PaymentEvent", new { specialId = specialId });
+            }
+
+            bank.Balance -= Todayspecials.Todayspecialprice;
+            _context.Banks.Update(bank);
+
+            var reservation = new Reservationevent
+            {
+                Eventid = specialId,
+                Reservationdate = DateTime.Now,
+                Paymentstatus = "Paid",
+                Customerid = id.Value
+            };
+            _context.Reservationevents.Add(reservation);
+            _context.SaveChanges();
+
+            var payment = new Paymentevent
+            {
+                Reservationid = reservation.Reservationid,
+                Amountpaid = (int)Todayspecials.Todayspecialprice,
+                Paymentdate = DateTime.Now,
+                Bankid = bank.Bankid
+            };
+            _context.Paymentevents.Add(payment);
+
+            string eventDetails = $"Special ID: {specialId}, Price: {Todayspecials.Todayspecialprice:C}";
+            var pdfBytes = GeneratePaymentPdf(ViewBag.Name, (int)Todayspecials.Todayspecialprice, DateTime.Now, eventDetails);
+
+            SendEmailWithPdf(ViewBag.Email, pdfBytes, "PaymentReceipt.pdf");
+
+            _context.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
 
 
         public async Task<IActionResult> Logout()
