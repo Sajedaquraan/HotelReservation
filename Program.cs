@@ -1,6 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using HotelReservation.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
 
 namespace HotelReservation
 {
@@ -14,6 +17,11 @@ namespace HotelReservation
             builder.Services.AddDbContext<ModelContext>(options => options.UseOracle(builder.Configuration.GetConnectionString("DefaultConnection")));
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                options.Cookie.SameSite = SameSiteMode.None;
+            });
+
             builder.Services.AddSession(options => 
                                         {
                                             options.IdleTimeout = TimeSpan.FromMinutes(60);
@@ -22,14 +30,26 @@ namespace HotelReservation
                                             //options.Cookie.Name = "MyCustomSessionCookie";
                                             //options.Cookie.Path = "/"; // Ensure this covers all paths
                                         });
-            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                    .AddCookie(options =>
-                    {
-                        options.LoginPath = "/Account/Login";
-                        options.LogoutPath = "/Account/Logout";
-                    });
-            builder.Services.AddScoped<ReportService>();
-            builder.Services.AddControllersWithViews();
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+            })
+             .AddCookie(options =>
+             {
+                 options.LoginPath = "/Account/Login";
+                 options.LogoutPath = "/Account/Logout";
+             })
+             .AddGoogle(GoogleDefaults.AuthenticationScheme, options =>
+             {
+                 options.ClientId = builder.Configuration.GetSection("GoogleKeys:ClientId").Value;
+                 options.ClientSecret = builder.Configuration.GetSection("GoogleKeys:ClientSecret").Value;
+
+
+             });
+
+
 
             var app = builder.Build();
 
@@ -46,8 +66,9 @@ namespace HotelReservation
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            
             app.UseAuthentication();
+            app.UseAuthorization();
             app.UseSession();
 
 

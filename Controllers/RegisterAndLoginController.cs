@@ -5,6 +5,11 @@ using System;
 using System.Net;
 using System.Net.Mail;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using System.Security.Claims;
+
 
 namespace HotelReservation.Controllers   
 {
@@ -310,5 +315,67 @@ namespace HotelReservation.Controllers
 
 
 
-    }
+        //[HttpGet("signin-google")]
+        //public IActionResult SignIn()
+        //{
+        //    var redirectUrl = Url.Action("GoogleResponse", "RegisterAndLogin");
+        //    var properties = new AuthenticationProperties { RedirectUri = redirectUrl };
+        //    return Challenge(properties, GoogleDefaults.AuthenticationScheme);
+        //}
+
+        //[HttpGet]
+        //public async Task<IActionResult> GoogleResponse()
+        //{
+        //    var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        //    var claims = result.Principal.Identities
+        //        .FirstOrDefault()?.Claims.Select(claim => new
+        //        {
+        //            claim.Type,
+        //            claim.Value
+        //        });
+
+        //    // Handle the user information (e.g., store in the database)
+
+        //    return RedirectToAction("Index", "Home");
+        //}
+
+        //[HttpPost("signout")]
+        //public async Task<IActionResult> SignOut()
+        //{
+        //    await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        //    return RedirectToAction("Index", "Home");
+        //}
+
+
+        public async Task Login1() 
+        {
+            await HttpContext.ChallengeAsync(GoogleDefaults.AuthenticationScheme,
+                new AuthenticationProperties
+
+                {
+                    RedirectUri = Url.Action("GoogleResponse1")
+                });
+
+        }
+
+        public async Task<ActionResult> GoogleResponse1() 
+        {
+            var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            var claims = result.Principal.Identities.FirstOrDefault().Claims.Select(Claims => new
+            {
+                Claims.Issuer,
+                Claims.OriginalIssuer,
+                Claims.Type,
+                Claims.Value
+            });
+
+            //return Json(claims);
+            return RedirectToAction("Index", "Home");
+        }
+
+
+
+
+}
 }

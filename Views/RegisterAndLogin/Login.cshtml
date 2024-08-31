@@ -89,6 +89,14 @@
 
     <div class="main">
 
+        <!-- Google Sign-In Button -->
+        <a asp-controller="RegisterAndLogin" asp-action="Login1">Sign in with Google</a>
+        <form asp-controller="Account" asp-action="SignOut" method="post">
+            <button type="submit">Sign Out</button>
+        </form>
+
+
+
         <section class="sign-in">
             <div class="container">
                 <div class="signin-content">
