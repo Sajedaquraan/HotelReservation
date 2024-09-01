@@ -24,6 +24,7 @@
 
     <!-- Main css -->
     <link rel="stylesheet" href="~/RegisterAndLogin/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <style>
         #forgot-password-content input[type="email"] {
@@ -64,10 +65,6 @@
                 border-color: #333;
             }
 
-
-        
-        
-
         .custom-alert {
             max-width: 400px;    
             text-align: center; 
@@ -80,6 +77,16 @@
             height: 100vh;
         }
 
+        .fab.fa-google {
+            font-size: 30px; /* Larger size for the Google icon */
+            color: #db4437; /* Google brand color */
+            transition: transform 0.2s; /* Smooth hover effect */
+        }
+
+            .fab.fa-google:hover {
+                transform: scale(1.1); /* Slightly enlarge on hover */
+            }
+
     </style>
 
 
@@ -87,16 +94,7 @@
 <body>
 
 
-    <div class="main">
-
-        <!-- Google Sign-In Button -->
-        <a asp-controller="RegisterAndLogin" asp-action="Login1">Sign in with Google</a>
-        <form asp-controller="Account" asp-action="SignOut" method="post">
-            <button type="submit">Sign Out</button>
-        </form>
-
-
-
+    <div class="main">    
         <section class="sign-in">
             <div class="container">
                 <div class="signin-content">
@@ -146,8 +144,16 @@
                                 <input type="submit" name="signin" id="signin" class="form-submit" value="Log in" />
                             </div>
                         </form>
-                       
+                        <br />
+                        <!-- Google Sign-In Button -->
+                        <div>
+                        <a asp-controller="RegisterAndLogin" asp-action="Login1">
+                            <i class="fab fa-google" ></i>
+                            </a>
+                        </div>
                     </div>
+                    
+
                 </div>
             </div>
         </section>

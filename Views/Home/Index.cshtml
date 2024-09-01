@@ -215,7 +215,7 @@
         var aboutImage2 = ViewBag.AboutImage2 as string;
         var aboutImageUrl2 = Url.Content($"~/images/{aboutImage2}");
 
-        var defaultImageUrl = Url.Content("~/images/default-profile-image.jpg"); // Ensure this path is correct
+        var defaultImageUrl = Url.Content("~/images/default-profile-image.jpg"); 
 
         var userName = ViewBag.Name as string;
         var userEmail = ViewBag.Email as string;
@@ -1060,15 +1060,27 @@
 
 
 
-
-
-
-
     <!-- ALL JS FILES -->
     <script src="~/HomePage/js/all.js"></script>
     <script src="~/HomePage/js/bootstrap.min.js"></script>
     <!-- ALL PLUGINS -->
     <script src="~/HomePage/js/custom.js"></script>
+
+
+
+
+@if (Context.User.Identity.IsAuthenticated)
+{
+    <h1>Welcome @User.Identity.Name</h1>
+
+    <br />
+    <a asp-controller="RegisterAndLogin" asp-action="Logout"> Logout </a>
+    
+}
+
+
+
+
 </body>
 
 </html>

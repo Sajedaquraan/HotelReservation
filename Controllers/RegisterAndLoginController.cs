@@ -358,24 +358,58 @@ namespace HotelReservation.Controllers
 
         }
 
-        public async Task<ActionResult> GoogleResponse1() 
+        public async Task<ActionResult> GoogleResponse1(int id)
         {
             var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-
-            var claims = result.Principal.Identities.FirstOrDefault().Claims.Select(Claims => new
+            if (result?.Principal == null)
             {
-                Claims.Issuer,
-                Claims.OriginalIssuer,
-                Claims.Type,
-                Claims.Value
-            });
+                return RedirectToAction("Login", "Account");
+            }
 
-            //return Json(claims);
+            var googleId = result.Principal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var emailClaim = result.Principal.FindFirst(ClaimTypes.Email)?.Value;
+            var nameClaim = result.Principal.FindFirst(ClaimTypes.Name)?.Value;
+            var profilePicture = result.Principal.FindFirst("picture")?.Value; 
+
+            if (emailClaim != null)
+            {
+                var existingUser = _context.Userlogins.FirstOrDefault(u => u.Email == emailClaim);
+
+                if (existingUser == null)
+                {
+                    
+                    var newUser = new Userlogin
+                    {
+                        //Customername = nameClaim,
+                        Email = emailClaim,
+                        Password = "1",
+                        //Profileimage = profilePicture 
+                        
+                    };
+                    _context.Userlogins.Add(newUser);
+
+
+                    await _context.SaveChangesAsync();
+                }
+
+                //HttpContext.Session.SetString("UserName", nameClaim);
+                HttpContext.Session.SetString("CustomerID", emailClaim);
+                //HttpContext.Session.SetString("UserProfileImage", profilePicture);
+            }
+
+            // Redirect to the home page
             return RedirectToAction("Index", "Home");
         }
 
 
 
+
+
+        public async Task<IActionResult> Logout() 
+        {
+            await HttpContext.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+        }
 
 }
 }
