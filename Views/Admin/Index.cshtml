@@ -115,7 +115,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach(var item in Model.Item3)
+                                @foreach (var item in Model.Item3.OrderByDescending(customer => customer.Contactusid).Take(5))
                                 {
                                     <tr>
                                         <th scope="row">                                            

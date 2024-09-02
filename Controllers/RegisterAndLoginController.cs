@@ -375,25 +375,25 @@ namespace HotelReservation.Controllers
             {
                 var existingUser = _context.Userlogins.FirstOrDefault(u => u.Email == emailClaim);
 
-                if (existingUser == null)
-                {
+                //if (existingUser == null)
+                //{
                     
-                    var newUser = new Userlogin
-                    {
-                        //Customername = nameClaim,
-                        Email = emailClaim,
-                        Password = "1",
-                        //Profileimage = profilePicture 
+                //    //var newUser = new Userlogin
+                //    //{
+                //    //    //Customername = nameClaim,
+                //    //    Email = emailClaim,
+                //    //    Password = "1",
+                //    //    //Profileimage = profilePicture 
                         
-                    };
-                    _context.Userlogins.Add(newUser);
+                //    //};
+                //    //_context.Userlogins.Add(newUser);
 
 
-                    await _context.SaveChangesAsync();
-                }
+                //    await _context.SaveChangesAsync();
+                //}
 
                 //HttpContext.Session.SetString("UserName", nameClaim);
-                HttpContext.Session.SetString("CustomerID", emailClaim);
+                //HttpContext.Session.SetString("CustomerID", emailClaim);
                 //HttpContext.Session.SetString("UserProfileImage", profilePicture);
             }
 

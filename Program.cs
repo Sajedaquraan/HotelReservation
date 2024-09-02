@@ -2,7 +2,6 @@ using Microsoft.EntityFrameworkCore;
 using HotelReservation.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 
 namespace HotelReservation
@@ -16,6 +15,7 @@ namespace HotelReservation
 
             builder.Services.AddDbContext<ModelContext>(options => options.UseOracle(builder.Configuration.GetConnectionString("DefaultConnection")));
             // Add services to the container.
+            builder.Services.AddScoped<ReportService>();
             builder.Services.AddControllersWithViews();
             builder.Services.ConfigureApplicationCookie(options =>
             {
