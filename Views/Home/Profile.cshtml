@@ -42,10 +42,10 @@
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link rel="stylesheet" href="~/Admin/assets/css/demo.css" />
 </head>
-<body>
+<body style="background-color:white;">
     <div class="wrapper">
         <!-- Sidebar -->
-        <div class="sidebar" data-background-color="dark">
+     @*    <div class="sidebar" data-background-color="dark">
             <div class="sidebar-logo">
                 <!-- Logo Header -->
                 <div class="logo-header" data-background-color="dark">
@@ -88,14 +88,14 @@
                     </ul>
                 </div>
             </div>
-        </div>
+        </div> *@
         <!-- End Sidebar -->
 
-        <div class="main-panel">
+       @*  <div class="main-panel"> *@
             <div class="main-header">
-                <div class="main-header-logo">
+                @* <div class="main-header-logo"> *@
                     <!-- Logo Header -->
-                    <div class="logo-header" data-background-color="dark">
+                   @*  <div class="logo-header" data-background-color="dark">
                         <a href="index.html" class="logo">
                             <img src="~/Admin/assets/img/kaiadmin/logo_light.svg"
                                  alt="navbar brand"
@@ -113,15 +113,15 @@
                         <button class="topbar-toggler more">
                             <i class="gg-more-vertical-alt"></i>
                         </button>
-                    </div>
+                    </div> *@
                     <!-- End Logo Header -->
-                </div>
+                @* </div> *@
                 <!-- Navbar Header -->
                 <nav class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom">
                     <div class="container-fluid">
                        
 
-                        <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
+                        <ul class="navbar-nav topbar-nav ms-md-auto align-items-center" >
 
                             <li style="padding-right:35px;">
                                 <a href="@Url.Action("Index","Home")">View Home Page</a>
@@ -169,13 +169,13 @@
             </div>
             </nav>
             <!-- End Navbar -->
-        </div>
+        @* </div> *@
 
 
 
-        <div class="container">
+        <div class="container" ">
             <div class="page-inner">
-                <div class="page-header">
+                @* <div class="page-header">
                     <h4 class="page-title">Dashboard</h4>
                     <ul class="breadcrumbs">
                         <li class="nav-home">
@@ -196,8 +196,8 @@
                             <a href="#">Profile Page</a>
                         </li>
                     </ul>
-                </div>
-                <div class="page-category">
+                </div> *@
+                <div class="page-category" style="margin-left:300px;">
                     <div class="profile-container">
                         <div class="profile-image">
                             <img src="@Url.Content("~/Images/" + ViewBag.Image)" asp-append-version="true" alt="Profile Image" id="profile-pic" width="250" height="250">
@@ -215,7 +215,7 @@
             </div>
         </div>
 
-        <footer class="footer">
+    @*     <footer class="footer">
             <div class="container-fluid d-flex justify-content-between">
                 <nav class="pull-left">
                     <ul class="nav">
@@ -241,7 +241,7 @@
                     <a target="_blank" href="https://themewagon.com/">ThemeWagon</a>.
                 </div>
             </div>
-        </footer>
+        </footer> *@
     </div>
     </div>
     <!--   Core JS Files   -->
